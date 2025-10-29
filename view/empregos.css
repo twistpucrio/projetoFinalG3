@@ -1,0 +1,52 @@
+
+:root{
+  --bg: #f6f2ff;
+  --surface: #ffffff;
+  --text: #1f1f23;
+  --muted: #6b7280;
+  --primary: #6d4ef6;
+  --border: #e6e6ef;
+  --shadow: 0 8px 20px rgba(17, 12, 46, .08);
+  --radius: 16px;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+}
+
+
+/* Layout */
+.layout{
+  display:grid;
+  grid-template-columns: 320px minmax(0,1fr);
+  gap: 1em;
+  padding: 10em;
+}
+
+/* Painel empregos*/
+.list-pane{display:flex; flex-direction:column; padding: 1em; background-color: #FFF9F9; border-radius: 1em;}
+.job-list{list-style:none; padding:0; margin:0; display:grid; gap:12px}
+
+.job-card{
+  background: #FFF9F9;
+  border:1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  min-height: 92px;
+  padding: 14px;
+}
+
+
+/* Painel detalhes */
+.detail{
+  background-color: #FFF9F9;
+  border-radius: 1em;
+  min-height: min(40em);
+  padding: 20px;
+}
+
