@@ -2,7 +2,7 @@ img.icon {
   height: 80px;
   width: 80px;
   margin: 10px;
-  float: right;   /* mantém seu estilo */
+  float: right; /* mantém alinhado à direita */
 }
 
 #logo {
@@ -14,16 +14,24 @@ img.icon {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px;
+  padding: 10px 20px; 
+  background-color: #FDF1FF; 
 }
 
 #icones-pequenos {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 5px;
-  width: 250px;
+  gap: 15px; 
+  padding: 5px 10px;
+  width: auto; 
 }
+
+#search-container {
+  text-align: center;
+  margin-left: 9%;
+  margin-bottom: 100px;
+}
+
 
 *{
    background-color: #FDF1FF; 
@@ -35,32 +43,40 @@ img.icon {
 }
 
 #search-input {
-  width: 900px;
-  height:60px;
-  padding: 8px;
-  border: 1px solid #6c41af;
-  border-radius: 20px;
-  font-size: 18px;
-  font-family: 'secundaria';
+    width: 900px;              
+    height: 60px;                     
+    padding: 0 25px;                  
+    border: 2px solid #6c41af;      
+    border-radius: 30px;               
+    font-size: 18px;                    
+    font-family: 'Segoe UI', 'Roboto', sans-serif;  
+    outline: none;                      
+    transition: all 0.3s ease;          
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.05); 
 }
 
+#search-input:focus {
+    border-color: #a781e0;             
+    box-shadow: 0 0 10px rgba(167,129,224,0.3); 
+}
 #search-button {
-  padding: 8px 12px;
-  border: none;
-  height: 50px;
-  width: 90px;
-  border-radius: 20px;
-  background-color: #6c41af;
-  color: white;
-  font-size: 20px;
-  cursor: pointer;
-  margin: 1%;
-  display:inline-block;
-  font-family: 'secundaria';
+    padding: 0 25px;           
+    height: 60px;                
+    border: none;                  
+    border-radius: 30px;            
+    background-color: #6c41af;      
+    color: #fff;                    
+    font-size: 20px;               
+    font-weight: bold;
+    cursor: pointer;           
+    transition: all 0.3s ease;     
 }
 
+/* ======== EFEITO AO PASSAR O MOUSE ======== */
 #search-button:hover {
-  background-color: #a781e0;
+    background-color: #a781e0;      /* muda a cor */
+    transform: translateY(-2px);    /* efeito de "levitar" */
+    box-shadow: 0 4px 12px rgba(108, 65, 175, 0.3); /* sombra suave */
 }
 div.secundaria{
     background-color: #b592ee;
@@ -98,93 +114,146 @@ div.caixas{
     align-items: center;
     margin-left: 26%;
 }
-
-p.legenda_post{
-    font-size:15pt;
+/* ======== LEGENDA ======== */
+p.legenda_post {
+    font-size: 15pt;
     text-align: center;
-    color:#6c41af;
-    background-color: #d1bef0;
+
+    color: #6c41af;
+    font-family: 'Segoe UI', 'Roboto', 'sans-serif';
+    line-height: 1.5;
+    margin: 15px auto;
+    max-width: 800px;
+    background: none; /* sem fundo */
 }
 
-.post h2{
-      background-color: #d1bef0;
-      color: #6c41af;
-      text-align: center;
-}
-
-img.post{
+/* ======== IMAGEM DO POST ======== */
+img.post {
     display: block;
-    align-items: center;
-    margin-left: 35%;
-    margin-top: 10px;
-    border-radius: 20px;
-    
-}
-div.post{
-    height:850px;
-    width:1000px;
+    margin: 30px auto;
+    max-width: 80%;
+    height: auto;
     border-radius: 10px;
-    border: #d1bef0 solid 5px;
-    background-color: #d1bef0;
-    align-items: center;
-    margin-left: 22%;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+
 }
-div.INSCREVA-SE{
+
+/* ======== BLOCO DO POST ======== */
+div.post {
+    background-color: #f8f3ff;
+    border: 3px solid #d1bef0;
+    border-radius: 10px;
+    width: 850px;          /* era 1000px */
+    max-width: 90%;
+    padding: 25px;         /* era 40px */
+    margin: 30px auto;     /* menos espaço vertical */
+    text-align: left;
+    font-family: 'Segoe UI', 'Roboto', 'sans-serif';
+    line-height: 1.6;
+    color: #4b2a82;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* ======== BOTÃO INSCREVA-SE ======== */
+div.INSCREVA-SE {
     background-color: #6c41af;
-    font-size: 20px;
+    border: none;
     border-radius: 10px;
-    border: #6c41af solid 5px;
-    font-family:'sans-serif';
-    display: block;
+    font-family: 'Segoe UI', 'Roboto', 'sans-serif';
+    display: flex;
+    justify-content: center;
     align-items: center;
-    text-align: center;
-    height:20px;
-    width:170px;
-    text-decoration: none;
-    padding:5px;
-    text-decoration: none;
-    margin-left: 40%;
+    width: 220px;
+    height: 50px;
+    margin: 30px auto;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 4px 10px rgba(108, 65, 175, 0.3);
 }
 
-a.inscreva-se{
+
+div.INSCREVA-SE a.inscreva-se {
+    display: block;
+    width: 100%;
+    height: 100%;
+    line-height: 50px;
+    text-align: center;
+    color: #fff; 
+    background: none;
+    font-weight: bold;
+    font-size: 18px;
+    text-decoration: none;
+    letter-spacing: 1px;
+}
+
+div.INSCREVA-SE:hover {
+    background-color: #8b62d4;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(108, 65, 175, 0.4);
+}
+
+/* ======== LINKS DE POSTS ======== */
+a.post_atual {
     text-decoration: none;
     background-color: #6c41af;
     color: #FDF1FF;
-}
-a.post_atual{
-    text-decoration: none;
-    background-color: #6c41af;
-    color: #FDF1FF;
+    padding: 10px 20px;
+    border-radius: 10px;
+    transition: 0.3s;
 }
 
-a.post_secundario{
+a.post_atual:hover {
+    background-color: #8b62d4;
+}
+
+a.post_secundario {
     text-decoration: none;
     background-color: #b592ee;
     color: #FDF1FF;
-}
-
-h1.index{
- color: #6c41af;   
- font-family: 'sans-serif';
- font-size:50pt;
- text-align: center;
-}
-
-div.explore{
-    background-color: #6c41af;
-    font-size: 30px;
+    padding: 10px 20px;
     border-radius: 10px;
-    border: #6c41af solid 5px;
-    font-family:'sans-serif';
-    display: block;
-    align-items: center;
+    transition: 0.3s;
+}
+
+a.post_secundario:hover {
+    background-color: #a77bee;
+}
+
+/* ======== TÍTULO PRINCIPAL ======== */
+h1.index {
+    color: #6c41af;
+    font-family: 'Segoe UI', 'sans-serif';
+    font-size: 50pt;
     text-align: center;
-    height:40px;
-    width:220px;
+    margin-top: 30px;
+}
+
+/* ======== BOTÃO EXPLORE ======== */
+div.explore {
+    background-color: #6c41af;
+    font-size: 28px;
+    border-radius: 10px;
+    border: none;
+    font-family: 'Segoe UI', 'sans-serif';
+    text-align: center;
+    width: 220px;
+    padding: 10px;
+    margin: 30px auto;
+    color: #FDF1FF;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+div.explore:hover {
+    background-color: #8b62d4;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(108, 65, 175, 0.3);
+}
+
+div.explore a {
     text-decoration: none;
-    padding:5px;
-    text-decoration: none;
-    margin-left: 42%;
+    background: none;
+    color: white;
 }
 
 h2.home{

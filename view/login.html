@@ -1,0 +1,42 @@
+ <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login</title>
+  <link rel="stylesheet" href="estilo.css" />
+</head>
+<body>
+  <div id="topbar">  
+    <a href="index.html"><img id="logo" class="logo" src="img/logo.png" alt="logo"></a>
+    <div id="icones-pequenos">
+      <a href="messages.html"><img id="message" class="icon" src="img/message.png" alt="mensagens"/></a>
+    </div>
+  </div>
+
+  <main style="max-width:480px;margin:40px auto;padding:24px;border-radius:12px;border:1px solid #d1bef0;background:#ffffff;">
+    <h1 style="text-align:center;margin-bottom:20px;">Entrar</h1>
+
+    <form class="form-login">
+      <label for="email">E-mail</label>
+      <input class="campo-info" type="email" id="email" name="email" required />
+
+      <label for="senha">Senha</label>
+      <input class="campo-info" type="password" id="senha" name="senha" required />
+
+      <button id="btn-entrar" type="submit" style="margin-top:14px;">Entrar</button>
+    </form>
+
+    <hr style="margin:24px 0;">
+
+    <p style="text-align:center;margin-bottom:10px;">Não tem conta?</p>
+    <div style="text-align:center;">
+      <!-- Leva para perfil.html com flag para exibir o formulário de cadastro -->
+      <a href="perfil.html?cadastro=1" class="botao-secundario" style="display:inline-block;padding:10px 18px;border-radius:10px;background:#6c41af;color:#fff;text-decoration:none;">Criar conta</a>
+    </div>
+  </main>
+
+  <script src="../controller/cadastro.js"></script>
+  <script src="../controller/script.js"></script>
+</body>
+</html>

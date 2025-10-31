@@ -1,18 +1,141 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="estilo.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>perfil</title>
+    <title>Perfil</title>
 </head>
 <body>
     <div id="topbar">  
-        <a href="index.html">  <img id="logo" class="logo" src="img/logo.png" alt="logo"><img></a>
+        <a href="index.html"><img id="logo" class="logo" src="img/logo.png" alt="logo"></a>
         <div id="icones-pequenos"> 
-            <a href="messages.html"> <img id="message" class="icon" src="img/message.png" alt="cart"/></a>
+            <a href="messages.html"><img id="message" class="icon" src="img/message.png" alt="mensagens"/></a>
         </div>
     </div>
- 
+
+    <div id="dados-container" style="max-width:720px;margin:20px auto;">
+        <!-- VISUALIZAÇÃO DO PERFIL (aparece quando estiver logado) -->
+        <div id="perfil-view" style="display:none;background:#ffffff;border:1px solid #d1bef0;border-radius:12px;padding:20px;">
+            <h1 style="margin-top:0;">Meu perfil</h1>
+
+            <!-- Foto do usuário -->
+            <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
+                <img id="avatar-view" alt="Foto do perfil" style="width:110px;height:110px;border-radius:50%;object-fit:cover;border:2px solid #d1bef0;display:none;">
+                <div id="sem-foto" style="color:#6c41af;display:none;">(sem foto)</div>
+            </div>
+
+            <ul id="lista-dados" style="line-height:1.9;"></ul>
+            <div style="display:flex;gap:10px;margin-top:12px;">
+              <button id="btn-editar" type="button">Editar</button>
+              <button id="btn-logout" type="button">Sair (logout)</button>
+            </div>
+        </div>
+
+        <!-- FORMULÁRIO DE CADASTRO (aparece com ?cadastro=1 ou quando não logado no fluxo de cadastro) -->
+        <form class="form-cadastro" id="form-cadastro" style="display:none;background:#ffffff;border:1px solid #d1bef0;border-radius:12px;padding:20px;">
+            <h1>Cadastro</h1>
+
+            <label for="nome">Nome completo:</label>
+            <input class="campo-info" type="text" id="nome" name="nome" placeholder="Digite aqui" required>
+
+            <label for="cpf">CPF:</label>
+            <input class="campo-info" type="text" id="cpf" name="cpf" placeholder="Digite aqui" required>
+
+            <label for="email">E-mail:</label>
+            <input class="campo-info" type="email" id="email" name="email" placeholder="Digite aqui" required>
+
+            <label for="cep">CEP:</label>
+            <input class="campo-info" type="text" id="cep" name="cep" placeholder="*****-***" required>
+
+            <label for="end">Endereço:</label>
+            <input class="campo-info" type="text" id="end" name="end" placeholder="Digite aqui" required>
+
+            <label for="comp">Complemento:</label>
+            <input class="campo-info" type="text" id="comp" name="comp" placeholder="Digite aqui" required>
+
+            <label for="profissao">Profissão:</label>
+            <input class="campo-info" type="text" id="profissao" name="profissao" placeholder="Digite aqui" required>
+
+            <label for="faculdade">Faculdade: </label>
+            <input class="campo-info" type="text" id="faculdade" name="faculdade" placeholder="Digite aqui" required>
+
+            <label for="skills">Skills:</label>
+            <input class="campo-info" type="text" id="skills" name="skills" placeholder="Ex.: Python, Excel, SQL" required>
+
+            <label for="interesses">Interesses:</label>
+            <input class="campo-info" type="text" id="interesses" name="interesses" placeholder="Ex.: Finanças, Dados" required>
+
+            <label for="trab">Trabalhos prévios:</label>
+            <input class="campo-info" type="text" id="trab" name="trab" placeholder="Digite aqui" required>
+
+            <!-- FOTO OBRIGATÓRIA (apenas no cadastro) -->
+            <label for="avatar">Foto de perfil (obrigatória):</label>
+            <input class="campo-info" type="file" id="avatar" name="avatar" accept="image/*" required>
+
+            <label for="senha">Senha:</label>
+            <input class="campo-info" type="password" id="senha" name="senha" placeholder="Digite aqui" required>
+
+            <label for="confirmar-senha">Confirmar senha:</label>
+            <input class="campo-info" type="password" id="confirmar-senha" name="confirmar-senha" placeholder="Digite aqui" required>
+
+            <button id="enviar-cadastro" type="submit" style="margin-top:14px;">Enviar</button>
+        </form>
+
+        <!-- FORMULÁRIO DE EDIÇÃO (aparece quando clica em Editar) -->
+        <form id="form-edicao" style="display:none;background:#ffffff;border:1px solid #d1bef0;border-radius:12px;padding:20px;">
+            <h1>Editar perfil</h1>
+
+            <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
+              <img id="avatar-preview" alt="Prévia do avatar" style="width:90px;height:90px;border-radius:50%;object-fit:cover;border:2px solid #d1bef0;display:none;">
+              <div style="flex:1">
+                <label for="avatar-editar">Trocar foto (opcional):</label>
+                <input class="campo-info" type="file" id="avatar-editar" name="avatar-editar" accept="image/*">
+                <small style="display:block;color:#6c41af;">Se você não selecionar uma imagem, a foto atual será mantida.</small>
+              </div>
+            </div>
+
+            <label for="nome-editar">Nome completo:</label>
+            <input class="campo-info" type="text" id="nome-editar" name="nome" required>
+
+            <label for="cpf-editar">CPF:</label>
+            <input class="campo-info" type="text" id="cpf-editar" name="cpf" required>
+
+            <label for="email-editar">E-mail:</label>
+            <input class="campo-info" type="email" id="email-editar" name="email" required>
+
+            <label for="cep-editar">CEP:</label>
+            <input class="campo-info" type="text" id="cep-editar" name="cep" required>
+
+            <label for="end-editar">Endereço:</label>
+            <input class="campo-info" type="text" id="end-editar" name="end" required>
+
+            <label for="comp-editar">Complemento:</label>
+            <input class="campo-info" type="text" id="comp-editar" name="comp" required>
+
+            <label for="profissao-editar">Profissão:</label>
+            <input class="campo-info" type="text" id="profissao-editar" name="profissao" required>
+
+            <label for="faculdade-editar">Faculdade: </label>
+            <input class="campo-info" type="text" id="faculdade-editar" name="faculdade" required>
+
+            <label for="skills-editar">Skills:</label>
+            <input class="campo-info" type="text" id="skills-editar" name="skills" required>
+
+            <label for="interesses-editar">Interesses:</label>
+            <input class="campo-info" type="text" id="interesses-editar" name="interesses" required>
+
+            <label for="trab-editar">Trabalhos prévios:</label>
+            <input class="campo-info" type="text" id="trab-editar" name="trab" required>
+
+            <div style="display:flex;gap:10px;margin-top:14px;">
+              <button id="btn-salvar-edicao" type="submit">Salvar</button>
+              <button id="btn-cancelar-edicao" type="button">Cancelar</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="../controller/cadastro.js"></script>
+    <script src="../controller/script.js"></script>
 </body>
 </html>

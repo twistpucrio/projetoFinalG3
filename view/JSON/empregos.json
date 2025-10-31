@@ -1,0 +1,60 @@
+{
+  "empregos": [
+    {
+      "id": 1,
+      "titulo": "Engenheira de Software Front-end",
+      "empresa": "Tech4Her",
+      "local": "Rio de Janeiro, RJ",
+      "salario": "R$ 9.000",
+      "descricao": "Desenvolvimento de interfaces em React focadas em acessibilidade e design responsivo. Ambiente colaborativo e inclusivo."
+    },
+    {
+      "id": 2,
+      "titulo": "Cientista de Dados Júnior",
+      "empresa": "DataMinds",
+      "local": "Remoto",
+      "salario": "R$ 8.000",
+      "descricao": "Trabalho com análise preditiva e visualização de dados em Python. Oportunidade para mulheres em início de carreira em STEM."
+    },
+    {
+      "id": 3,
+      "titulo": "Engenheira de QA",
+      "empresa": "Arise Labs",
+      "local": "São Paulo, SP",
+      "salario": "R$ 7.500",
+      "descricao": "Testes automatizados com Cypress e Jest. Equipe de tecnologia comprometida com equidade de gênero e inovação."
+    },
+    {
+      "id": 4,
+      "titulo": "Engenheira de Software Front-end",
+      "empresa": "Tech4Her",
+      "local": "Rio de Janeiro, RJ",
+      "salario": "R$ 9.000",
+      "descricao": "Desenvolvimento de interfaces em React focadas em acessibilidade e design responsivo. Ambiente colaborativo e inclusivo."
+    },
+    {
+      "id": 5,
+      "titulo": "Cientista de Dados Júnior",
+      "empresa": "DataMinds",
+      "local": "Remoto",
+      "salario": "R$ 8.000",
+      "descricao": "Trabalho com análise preditiva e visualização de dados em Python. Oportunidade para mulheres em início de carreira em STEM."
+    },
+    {
+      "id": 6,
+      "titulo": "Engenheira de Software Front-end",
+      "empresa": "Tech4Her",
+      "local": "Rio de Janeiro, RJ",
+      "salario": "R$ 9.000",
+      "descricao": "Desenvolvimento de interfaces em React focadas em acessibilidade e design responsivo. Ambiente colaborativo e inclusivo."
+    },
+    {
+      "id": 7,
+      "titulo": "Cientista de Dados Júnior",
+      "empresa": "DataMinds",
+      "local": "Remoto",
+      "salario": "R$ 8.000",
+      "descricao": "Trabalho com análise preditiva e visualização de dados em Python. Oportunidade para mulheres em início de carreira em STEM."
+    }
+  ]
+}
