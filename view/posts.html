@@ -30,9 +30,14 @@
         <div id="paginas" class="secundaria">
             <a class="post_secundario" href="empresas.html">EMPRESAS</a>
         </div>
-</div>
+    </div>
+
+    <!-- FEED DINÂMICO (posts criados pelos usuários) -->
+    <div id="feed-posts"></div>
+
+    <!-- CONTEÚDO FIXO QUE VOCÊ JÁ TINHA -->
     <div class="post">
-        <img class= "post" src="img/post_btg.png">
+        <img class= "post" src="img/post_btg.png" alt="BTG">
         <p class="legenda_post">
                 1. 💻 BTG Pactual – Programa Mulheres em Dados <br/> <br/>
 Local: Híbrido – São Paulo, SP <br/> <br/>
@@ -44,25 +49,27 @@ Local: Híbrido – São Paulo, SP <br/> <br/>
 1) Graduação em Engenharia, Computação, Estatística ou áreas correlatas <br/>
 2) Conhecimento intermediário em Python e Excel<br/>
 3) Inglês intermediário <br/>
-
-
         </p>
-          <div id="paginas" class="INSCREVA-SE">
+        <div id="paginas" class="INSCREVA-SE">
             <a target="_blank" class= "inscreva-se" href="https://www.btgpactual.com/">INSCREVA-SE</a>
         </div>
     </div>
 
-    <br/> <br/> <br/> <br/>
-<div class="post">
-    <img class="foto_perfil_post" src="">
-    <h2 class="post"> Maria Antonia Arrigoni</h2>
-    <br/><br/><br/>
-    <p class="legenda_post"> Gostaria de compartilhar que estou começando um novo capítulo como Desenvolvedora de Software no Tecgraf/PUC-Rio. Estou muito feliz e grata pela oportunidade de aprender com um time incrível, enfrentar desafios reais de engenharia e contribuir para soluções que geram impacto. Pretendo aprofundar meus conhecimentos em desenvolvimento web, boas práticas de engenharia e colaboração ágil, sempre com foco em qualidade e entrega de valor. Agradeço a todos que me apoiaram nessa caminhada — animada para o que vem pela frente!</p>
-    <br/><br/><br/>
-    <img class="post" src="img/tecgraf.png">
+    <br/><br/><br/><br/>
 
+    <div class="post">
+        <img class="foto_perfil_post" src="" alt="avatar do autor">
+        <h2 class="post"> Maria Antonia Arrigoni</h2>
+        <br/><br/><br/>
+        <p class="legenda_post">
+          Gostaria de compartilhar que estou começando um novo capítulo como Desenvolvedora de Software no Tecgraf/PUC-Rio...
+        </p>
+        <br/><br/><br/>
+        <img class="post" src="img/tecgraf.png" alt="Tecgraf">
+    </div>
 
-</div>
-<script src="../controller/script.js"></script>
+        <script src="../controller/postar.js"></script>
+
+    <script src="../controller/script.js"></script>
 </body>
 </html>
