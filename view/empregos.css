@@ -19,30 +19,72 @@ body{
   background: var(--bg);
 }
 
-
+  
 /* Layout */
 .layout{
   display:grid;
   grid-template-columns: 320px minmax(0,1fr);
   gap: 1em;
-  padding: 10em;
+  padding: 6em;
+  
 }
 
 /* Painel empregos*/
-.list-pane{display:flex; flex-direction:column; padding: 1em; background-color: #FFF9F9; border-radius: 1em;}
-.job-list{list-style:none; padding:0; margin:0; display:grid; gap:12px}
+.list-pane {
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+  background-color: #FFF9F9;
+  border-radius: 1em;
+  max-height: 50em; 
+  overflow-y: auto;  /* habilita rolagem vertical */
+}
 
-.job-card{
+
+
+.job-list{list-style:none; padding:0; margin:0; display:grid; gap:12px;background: #FFF9F9;}
+
+
+.job-card {
   background: #FFF9F9;
-  border:1px solid var(--border);
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   min-height: 92px;
   padding: 14px;
+  transition: all 0.25s ease;
+  cursor: pointer; 
+}
+
+.job-card:hover {
+  background: var(--surface);
+  border-color: var(--primary);
+  box-shadow: 0 4px 16px rgba(109, 78, 246, 0.25);
+  transform: translateY(-3px);
+}
+
+.job-card.selected {
+  background: var(--surface);
+  border-color: var(--primary);
+  box-shadow: 0 4px 18px rgba(109, 78, 246, 0.3);
+  transform: translateY(-2px);
 }
 
 
+.job-card.selected h3,
+.job-card.selected p {
+  color: black;
+}
+
+
+
+
 /* Painel detalhes */
+#job-detail{
+ background-color: #FFF9F9;
+
+}
+
 .detail{
   background-color: #FFF9F9;
   border-radius: 1em;
@@ -50,3 +92,8 @@ body{
   padding: 20px;
 }
 
+#txt-espera{
+  font-size: larger;
+  text-align: center;
+  background: #FFF9F9;
+}

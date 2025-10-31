@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="estilo.css">
     <link rel="stylesheet" href="empregos.css">
+    <script src="../controller/empregos.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>empregos</title>
@@ -38,19 +39,11 @@
   
   <main class="layout">
     <aside class="list-pane" >
-      <ul class="job-list" id="job-list">
-
-        <li class="job-card" aria-hidden="true"> Emprego 1 </br> Rio de Janeiro</li>
-        <li class="job-card" aria-hidden="true"> Emprego 2 </br> Rio de Janeiro</li>
-        <li class="job-card" aria-hidden="true"> Emprego 3 </br> Rio de Janeiro </li>
-        <li class="job-card" aria-hidden="true"> Emprego 4 </br> São Paulo </li>
-      </ul>
+      <ul class="job-list" id="job-list"></ul>
     </aside>
 
     <section class="detail" id="job-detail">
-        <h1>Seu emprego dos sonhos aqui</h1>
-        <p>Salário: 100 000 000 R$</p>
-        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quos ea reprehenderit a perspiciatis iure quam culpa illo nobis corporis! Necessitatibus temporibus deserunt molestias porro sunt consequuntur esse repudiandae eum fuga?</p>
+        <p id="txt-espera">Clique em um dos cards a esquerda para carregar suas informações</p>
     </section>
   </main>
   
