@@ -103,12 +103,22 @@ p.legenda_post{
     font-size:15pt;
     text-align: center;
     color:#6c41af;
-
+    background-color: #d1bef0;
 }
+
+.post h2{
+      background-color: #d1bef0;
+      color: #6c41af;
+      text-align: center;
+}
+
 img.post{
     display: block;
     align-items: center;
     margin-left: 35%;
+    margin-top: 10px;
+    border-radius: 20px;
+    
 }
 div.post{
     height:850px;

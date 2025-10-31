@@ -1,0 +1,57 @@
+{
+    "posts": [
+        {
+            "id": 1,
+            "img":"img/post_btg.png",
+            "empresa": "BTG Pactual – Programa Mulheres em Dados",
+            "tipo": " Programa de Desenvolvimento / Estágio",
+            "local": "Híbrido – São Paulo, SP",
+            "descricao": "O BTG Pactual está em busca de estudantes e recém-formadas que desejam transformar dados em decisões. O programa 'Mulheres em Dados' tem como objetivo formar novas líderes femininas na área de ciência de dados e analytics. Durante seis meses, as participantes passam por trilhas técnicas (Python, SQL, Power BI e Machine Learning) e recebem mentoria personalizada de executivas do banco.",
+            "requisitos": [
+                "Graduação em Engenharia, Computação, Estatística ou áreas correlatas",
+                "Conhecimento intermediário em Python e Excel",
+                "Inglês intermediário"
+            ]
+        },
+       {
+            "id": 2,
+            "img":"img/tecgraf.png",
+            "empresa": "Tecgraf/PUC-Rio– Desenvolvedora de Software Júnior",
+            "tipo": "Tempo integral",
+            "local": "Rio de Janeiro, RJ – Presencial",
+            "descricao": "O Instituto Tecgraf/PUC-Rio abre oportunidade para desenvolvedoras júnior interessadas em programação científica e visualização de dados. A vaga faz parte da iniciativa “Elas no Tecgraf”, que busca aumentar a representatividade feminina em equipes técnicas.",
+            "requisitos": [
+                "Graduação em Engenharia, Computação, Matemática ou Física",
+                "Conhecimento em C++, Python ou JavaScript",
+                "Capacidade de trabalho em equipe e autonomia para aprendizado contínuo"
+            ]
+        },
+       {
+            "id": 3,
+            "img":"img/google.png",
+            "empresa": "Google – Software Engineer Intern (Women in Tech Program)",
+            "tipo": "Estágio",
+            "local": "Remoto – Brasil",
+            "descricao": "O Google Women in Tech Program oferece oportunidades para estudantes de Computação que desejam iniciar a carreira em Engenharia de Software. As estagiárias participarão de projetos de impacto global, mentoria com engenheiras seniores e workshops sobre liderança técnica.",
+            "requisitos": [
+                "Graduação em andamento em Engenharia da Computação, Ciência da Computação ou áreas correlatas",
+                "Conhecimento em Java, C++ ou Python",
+                "Inglês intermediário"
+            ]
+        },
+        {
+            "id": 4,
+            "img":"img/apple.png",
+            "empresa": "Apple – Estágio em Desenvolvimento de Interface e Experiência do Usuário",
+            "tipo": "Estágio",
+            "local": "São Paulo – Escritório Apple Vila Olímpia",
+            "descricao": "O programa Apple Women in UX busca estudantes apaixonadas por design e tecnologia para atuar na criação de interfaces acessíveis e intuitivas. As estagiárias trabalharão em projetos de apps, produtos e experiências digitais, aplicando princípios de design inclusivo e inovação centrada no usuário.",
+            "requisitos": [
+                "Curso em Design, Computação, Engenharia ou áreas correlatas",
+                "Conhecimento básico de Figma, Swift ou React",
+                "Interesse em acessibilidade e diversidade em tecnologia"
+            ]
+        }
+
+    ]
+}
