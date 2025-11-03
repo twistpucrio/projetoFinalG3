@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="estilo.css">
     <link rel="stylesheet" href="empregos.css">
+    <script src="../controller/empresas.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>empresas</title>
 </head>
@@ -33,6 +34,17 @@
             <a class="post_atual"href="empresas.html">EMPRESAS</a>
         </div>
     </div>
+
+
+    <main class="layout">
+    <aside class="list-pane" >
+      <ul class="job-list" id="job-list"></ul>
+    </aside>
+
+    <section class="detail" id="job-detail">
+        <p id="txt-espera">Clique em um dos cards a esquerda para carregar suas informações</p>
+    </section>
+    </main>
     <script src="../controller/script.js"></script>
 </body>
 </html>
