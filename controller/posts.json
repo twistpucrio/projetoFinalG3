@@ -2,7 +2,7 @@
     "posts": [
         {
             "id": 1,
-            "img":"img/post_btg.png",
+            "img": "img/post_btg.png",
             "empresa": "BTG Pactual – Programa Mulheres em Dados",
             "tipo": " Programa de Desenvolvimento / Estágio",
             "local": "Híbrido – São Paulo, SP",
@@ -13,9 +13,9 @@
                 "Inglês intermediário"
             ]
         },
-       {
+        {
             "id": 2,
-            "img":"img/tecgraf.png",
+            "img": "img/tecgraf.png",
             "empresa": "Tecgraf/PUC-Rio– Desenvolvedora de Software Júnior",
             "tipo": "Tempo integral",
             "local": "Rio de Janeiro, RJ – Presencial",
@@ -26,9 +26,9 @@
                 "Capacidade de trabalho em equipe e autonomia para aprendizado contínuo"
             ]
         },
-       {
+        {
             "id": 3,
-            "img":"img/google.png",
+            "img": "img/google.png",
             "empresa": "Google – Software Engineer Intern (Women in Tech Program)",
             "tipo": "Estágio",
             "local": "Remoto – Brasil",
@@ -41,7 +41,7 @@
         },
         {
             "id": 4,
-            "img":"img/apple.png",
+            "img": "img/apple.png",
             "empresa": "Apple – Estágio em Desenvolvimento de Interface e Experiência do Usuário",
             "tipo": "Estágio",
             "local": "São Paulo – Escritório Apple Vila Olímpia",
@@ -51,7 +51,227 @@
                 "Conhecimento básico de Figma, Swift ou React",
                 "Interesse em acessibilidade e diversidade em tecnologia"
             ]
+        },
+        {
+            "id": 4,
+            "img": "img/apple.png",
+            "empresa": "Apple – Estágio em Desenvolvimento de Interface e Experiência do Usuário",
+            "tipo": "Estágio",
+            "local": "São Paulo – Escritório Apple Vila Olímpia",
+            "descricao": "O programa Apple Women in UX busca estudantes apaixonadas por design e tecnologia para atuar na criação de interfaces acessíveis e intuitivas. As estagiárias trabalharão em projetos de apps, produtos e experiências digitais, aplicando princípios de design inclusivo e inovação centrada no usuário.",
+            "requisitos": [
+                "Curso em Design, Computação, Engenharia ou áreas correlatas",
+                "Conhecimento básico de Figma, Swift ou React",
+                "Interesse em acessibilidade e diversidade em tecnologia"
+            ]
+        },
+        {
+            "id": 5,
+            "img": "img/itau.png",
+            "empresa": "Itaú Unibanco – Programa Elas na Tecnologia",
+            "tipo": "Trainee",
+            "local": "Híbrido – São Paulo, SP",
+            "descricao": "O Itaú Unibanco convida mulheres formadas entre 2021 e 2025 para o programa Elas na Tecnologia, voltado ao desenvolvimento de futuras líderes na área tech. O programa oferece trilhas de aprendizado em cloud, dados e cibersegurança, com mentoria de lideranças femininas e acompanhamento individualizado.",
+            "requisitos": [
+                "Curso superior completo em áreas STEM",
+                "Conhecimento básico em lógica de programação",
+                "Inglês intermediário"
+            ]
+        },
+        {
+            "id": 6,
+            "img": "img/nvidia.png",
+            "empresa": "NVIDIA – Engenheira de Machine Learning (Women in AI Program)",
+            "tipo": "Tempo integral",
+            "local": "Remoto – Brasil",
+            "descricao": "A NVIDIA busca engenheiras com interesse em IA aplicada a visão computacional e modelagem preditiva. As contratadas farão parte do Women in AI Program, uma iniciativa que conecta pesquisadoras e engenheiras de todo o mundo.",
+            "requisitos": [
+                "Formação em Computação, Engenharia ou áreas exatas",
+                "Experiência com Python, TensorFlow ou PyTorch",
+                "Domínio de conceitos de aprendizado profundo e redes neurais"
+            ]
+        },
+        {
+            "id": 7,
+            "img": "img/ibm.png",
+            "empresa": "IBM – Analista de Cibersegurança Júnior (Vaga Afirmativa)",
+            "tipo": "Tempo integral",
+            "local": "Híbrido – Rio de Janeiro, RJ",
+            "descricao": "A IBM Brasil busca mulheres para integrar seu time de Cybersecurity, atuando na proteção de sistemas críticos e dados corporativos. As contratadas terão acesso a treinamentos em segurança da informação, ética digital e engenharia social.",
+            "requisitos": [
+                "Formação técnica ou superior em Computação, Redes ou Engenharia",
+                "Noções de Linux, segurança de redes e criptografia",
+                "Inglês técnico"
+            ]
+        },
+        {
+            "id": 8,
+            "img": "img/microsoft.png",
+            "empresa": "Microsoft – Engenheira de Software Back-End",
+            "tipo": "Tempo integral",
+            "local": "Remoto – Brasil",
+            "descricao": "A Microsoft busca engenheiras para desenvolver soluções em nuvem utilizando tecnologias de ponta do Azure. Esta é uma vaga afirmativa para mulheres que desejam atuar em equipes globais, com trilhas de aprendizado em arquitetura de software e escalabilidade.",
+            "requisitos": [
+                "Experiência com C#, .NET, JavaScript ou Python",
+                "Noções de arquitetura em microserviços",
+                "Inglês avançado"
+            ]
+        },
+        {
+            "id": 9,
+            "img": "img/amazon.png",
+            "empresa": "Amazon – Programa Mulheres na Nuvem",
+            "tipo": "Programa de formação",
+            "local": "Remoto – Brasil",
+            "descricao": "O AWS Women Cloud Academy é um programa gratuito da Amazon voltado para estudantes e profissionais que desejam ingressar na área de computação em nuvem. Durante 12 semanas, as participantes terão acesso a aulas práticas, certificação AWS Cloud Practitioner e mentoria.",
+            "requisitos": [
+                "Mulheres com formação ou interesse em tecnologia",
+                "Conhecimentos básicos de programação",
+                "Disponibilidade de 6h semanais"
+            ]
+        },
+        {
+            "id": 10,
+            "img": "img/vale.png",
+            "empresa": "Vale – Estágio em Automação e Robótica",
+            "tipo": "Estágio",
+            "local": "Itabira, MG",
+            "descricao": "A Vale está em busca de estudantes mulheres de Engenharia ou Computação para o estágio em automação e robótica industrial. As selecionadas atuarão em projetos de digitalização de processos e manutenção preditiva com uso de IA.",
+            "requisitos": [
+                "Cursando Engenharia de Controle e Automação, Mecatrônica ou Computação",
+                "Conhecimento básico de Python e sensores IoT",
+                "Disponibilidade para estagiar 6h/dia"
+            ]
+        },
+        {
+            "id": 11,
+            "img": "img/xp.png",
+            "empresa": "XP Inc. – Cientista de Dados Júnior (Women in Data Program)",
+            "tipo": "Tempo integral",
+            "local": "Presencial – Rio de Janeiro, RJ",
+            "descricao": "O XP Women in Data Program é uma iniciativa exclusiva para mulheres que desejam ingressar ou crescer na área de Ciência de Dados e Inteligência Artificial. As contratadas farão parte de squads que desenvolvem modelos preditivos para produtos financeiros, com foco em personalização e análise de risco.",
+            "requisitos": [
+                "Formação em Engenharia, Computação, Matemática ou Estatística",
+                "Experiência com Python, SQL e bibliotecas como Pandas e Scikit-Learn",
+                "Interesse em finanças, estatística aplicada e storytelling com dados"
+            ]
+        },
+        {
+            "id": 12,
+            "img": "img/biontech.png",
+            "empresa": "BioNTech – Engenheira de Software em Bioinformática (Women in Science)",
+            "tipo": "Tempo integral",
+            "local": "Remoto – Global (time europeu)",
+            "descricao": "A BioNTech está recrutando engenheiras de software para atuar em projetos de bioinformática e análise genômica. A vaga faz parte do programa Women in Science, voltado à ampliação da participação feminina em pesquisa computacional biomédica.",
+            "requisitos": [
+                "Formação em Computação, Engenharia Biomédica, Biotecnologia ou correlatas",
+                "Conhecimento em Python, SQL e ferramentas de análise genômica (Biopython, Nextflow)",
+                "Inglês avançado"
+            ]
+        },
+        {
+            "id": 13,
+            "img": "img/nasa.png",
+            "empresa": "NASA (Brasil Office) – Estágio em Análise de Dados Espaciais",
+            "tipo": "Estágio",
+            "local": "Remoto – Brasil",
+            "descricao": "O programa Space Data for Women oferece oportunidade para estudantes de áreas STEM aplicarem seus conhecimentos em análise de dados orbitais, sensoriamento remoto e modelagem atmosférica. As selecionadas trabalharão com bases de dados de satélites (Landsat, Sentinel) e participarão de projetos sobre monitoramento climático e sustentabilidade planetária.",
+            "requisitos": [
+                "Estar cursando Engenharia, Computação, Geofísica ou áreas afins",
+                "Conhecimento básico em Python, R ou MATLAB",
+                "Inglês intermediário"
+            ]
+        },
+        {
+            "id": 14,
+            "img": "img/embraer.png",
+            "empresa": "Embraer – Programa Mulheres em Engenharia e Inovação",
+            "tipo": "Estágio",
+            "local": "São José dos Campos, SP",
+            "descricao": "O programa busca incentivar estudantes a se desenvolverem em engenharia aeronáutica, tecnologia e inovação. As participantes farão parte de projetos de automação, análise estrutural e desenvolvimento de sistemas embarcados, com acompanhamento de engenheiras mentoras.",
+            "requisitos": [
+                "Graduação em Engenharia (Aeronáutica, Computação, Mecânica, Elétrica ou correlatas)",
+                "Inglês intermediário",
+                "Interesse em sistemas complexos e inovação industrial"
+            ]
+        },
+        {
+            "id": 15,
+            "img": "img/petrobras.png",
+            "empresa": "Petrobras – Analista de Sistemas Júnior (Vaga para Mulheres)",
+            "tipo": "Tempo integral",
+            "local": "Rio de Janeiro, RJ",
+            "descricao": "A Petrobras convida mulheres formadas em tecnologia a se candidatarem à vaga de Analista de Sistemas Júnior, atuando na transformação digital da companhia. A profissional participará do desenvolvimento de plataformas de monitoramento e automação industrial, além de atuar em projetos de otimização de processos com IA.",
+            "requisitos": [
+                "Graduação completa em Computação, Engenharia de Software ou Sistemas de Informação",
+                "Conhecimento em Java, Python e bancos de dados relacionais",
+                "Noções de arquitetura de sistemas e APIs REST"
+            ]
+        },
+        {
+            "id": 16,
+            "img": "img/meta.png",
+            "empresa": "Meta (Facebook) – Front-End Developer (Women’s Tech Program LATAM)",
+            "tipo": "Tempo integral",
+            "local": "Remoto – América Latina",
+            "descricao": "O Women’s Tech Program LATAM da Meta oferece oportunidade para desenvolvedoras que desejam construir experiências digitais de impacto global. As profissionais integrarão squads que trabalham em produtos de larga escala (Instagram, WhatsApp e Facebook), com foco em acessibilidade e performance.",
+            "requisitos": [
+                "Experiência com JavaScript, React e TypeScript",
+                "Conhecimento em testes automatizados e APIs REST",
+                "Inglês avançado"
+            ]
+        },
+        {
+            "id": 17,
+            "img": "img/siemens.png",
+            "empresa": "Siemens – Engenheira de Automação Industrial (Programa Elas Inovam)",
+            "tipo": "Tempo integral",
+            "local": "São Paulo, SP",
+            "descricao": "A Siemens lança o Programa Elas Inovam, voltado a engenheiras interessadas em automação industrial, robótica e sistemas inteligentes. As contratadas participarão de projetos de integração de sistemas industriais e uso de IA para manutenção preditiva.",
+            "requisitos": [
+                "Formação em Engenharia de Automação, Elétrica ou Computação",
+                "Conhecimento em CLP, redes industriais e linguagens C/C++",
+                "Inglês técnico"
+            ]
+        },
+        {
+            "id": 18,
+            "img": "img/globant.png",
+            "empresa": "Globant – Desenvolvedora Full Stack (Women in Tech Initiative)",
+            "tipo": "Tempo integral",
+            "local": "Remoto – Brasil",
+            "descricao": "A Globant procura desenvolvedoras full stack para integrar squads internacionais que desenvolvem soluções digitais inovadoras para clientes como Disney, Google e Santander. A vaga faz parte da Women in Tech Initiative, que visa equilibrar a representatividade de gênero nas áreas técnicas da empresa.",
+            "requisitos": [
+                "Experiência com Node.js, React e TypeScript",
+                "Conhecimento em arquitetura de microserviços e bancos de dados NoSQL",
+                "Inglês intermediário a avançado"
+            ]
+        },
+        {
+            "id": 19,
+            "img": "img/dell.png",
+            "empresa": "Dell Technologies – Engenheira de Dados (Women Transforming Data)",
+            "tipo": "Tempo integral",
+            "local": "Híbrido – Porto Alegre, RS",
+            "descricao": "A Dell Technologies abre vaga afirmativa para engenheiras de dados que desejem atuar na criação e manutenção de pipelines de Big Data e soluções analíticas corporativas. O programa Women Transforming Data oferece acompanhamento técnico, mentoria internacional e certificações em cloud.",
+            "requisitos": [
+                "Experiência com Python, SQL, Spark e ETL",
+                "Conhecimento em AWS, Azure ou GCP",
+                "Inglês técnico"
+            ]
+        },
+        {
+            "id": 20,
+            "img": "img/ambev.png",
+            "empresa": "Ambev Tech – Desenvolvedora Mobile (Programa #ElaFazTech)",
+            "tipo": "Tempo integral",
+            "local": "Campinas, SP / Remoto",
+            "descricao": "A Ambev Tech busca desenvolvedoras mobile criativas e apaixonadas por inovação para integrar o programa #ElaFazTech, que promove o protagonismo feminino na tecnologia. As profissionais atuarão em aplicativos voltados à experiência de consumo e operações logísticas, participando do ciclo completo de desenvolvimento.",
+            "requisitos": [
+                "Experiência com Swift (iOS) ou Kotlin (Android)",
+                "Conhecimento em APIs REST e arquitetura MVVM",
+                "Interesse por design e usabilidade"
+            ]
         }
-
     ]
 }
