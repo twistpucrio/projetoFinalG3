@@ -444,3 +444,37 @@ a.botao-cadastro:hover {
             color: #fff;
             cursor: pointer;
         }
+
+/* Card do post */
+.post {
+  max-width: 640px;
+  margin: 0 auto 24px;
+  padding: 12px;
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.06);
+}
+
+/* Título dentro do post (como seu h2 também tem class="post") */
+.post h2.post {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* Legenda do post */
+.legenda_post {
+  margin: 8px 0 12px;
+  line-height: 1.5;
+}
+
+/* Imagem do post (como a <img> também usa class="post" no seu template atual) */
+img.post {
+  width: 300px;
+  height: auto;         /* mantém proporção */
+  display: block;
+  border-radius: 16px;
+  object-fit: cover;    /* corte elegante se você fixar altura */
+}
+
+/* Toolbar só quando existir */
+#post-toolbar { display: none; }
+#perfil-view + #post-toolbar { display: block; } /* exemplo, ajuste conforme seu HTML */
