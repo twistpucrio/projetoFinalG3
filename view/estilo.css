@@ -258,16 +258,16 @@ div.explore a {
 
 h2.home{
     text-align: center;
-    font-family:'sans-serif';
+    font-family:'Segoe UI', 'sans-serif';
     font-size: 30px;
-    color: #ce77dd;
+    color: #76007a;
     background-color:#dccff0 ;
 }
 p.home{
     text-align: center;
-    font-family:'sans-serif';
+    font-family:'Segoe UI', 'sans-serif';
     font-size: 20px;
-    color: #6c41af;
+    color: rgb(0, 0, 0);
     background-color:#dccff0 ;
 }
 div.caixa1{
@@ -280,12 +280,44 @@ div.caixa1{
     margin:35px;
 }
 
-div.caixas_home{
-    align-items: center;
-    display: block;
-    margin-left: 18%;
+.caixas_home {
+  display: flex;
+  justify-content: center;    
+  align-items: flex-start;    
+  gap: 60px;                  
+  margin: 60px auto;          
+  flex-wrap: nowrap;         
+  width: 100%;                
+  max-width: 1200px;
+ transition: transform 0.3s ease, box-shadow 0.3s ease;       
 }
 
+.caixa1:hover {
+  transform: translateY(-5px); 
+  box-shadow: 0 8px 15px rgba(0,0,0,0.15); 
+}
+.caixa1 {
+  background-color: #d9c8f7;
+  border-radius: 15px;
+  width: 300px;
+  height: 200px;
+  padding: 25px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+
+.caixa1 h2 {
+  color: #5a2ca0;
+  margin-bottom: 10px;
+}
+
+.caixa1 p {
+  color: #2b2b2b;
+  font-size: 15px;
+  line-height: 1.4;
+}
 
 
 .form-login {
