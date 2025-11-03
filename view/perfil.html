@@ -16,11 +16,44 @@
     </div>
 
     <div id="dados-container" style="max-width:720px;margin:20px auto;">
-        <!-- VISUALIZAÇÃO DO PERFIL (aparece quando estiver logado) -->
+        <!-- VISUALIZAÇÃO DO PERFIL -->
         <div id="perfil-view" style="display:none;background:#ffffff;border:1px solid #d1bef0;border-radius:12px;padding:20px;">
             <h1 style="margin-top:0;">Meu perfil</h1>
 
-            <!-- Foto do usuário -->
+            <!-- Toolbar de post (+) -->
+            <div id="post-toolbar" style="display:none; margin:6px 0 16px 0; background:none;">
+              <button id="btn-novo-post" type="button" 
+                      title="Criar post" 
+                      style="width:42px;height:42px;border:none;border-radius:50%;
+                             background:#6c41af;color:#fff;font-size:26px;line-height:42px;
+                             cursor:pointer;box-shadow:0 3px 8px rgba(108,65,175,.35)">+</button>
+              <small style="margin-left:8px;color:#6c41af;background:none;">Compartilhe um post com a comunidade</small>
+            </div>
+
+            <!-- Form de novo post (texto + imagem) -->
+            <form id="form-novo-post" style="display:none;background:#f8f3ff;border:1px dashed #d1bef0;border-radius:10px;padding:12px;margin-bottom:16px;">
+              <label for="texto-post" style="display:block;margin:6px 0 4px;background:none;color:#6c41af;">Mensagem</label>
+              <textarea id="texto-post" rows="4" placeholder="Escreva algo..." 
+                        style="width:100%;padding:10px;border:1px solid #d1bef0;border-radius:8px;
+                               font-family:inherit;resize:vertical;"></textarea>
+
+              <label for="imagem-post" style="display:block;margin:10px 0 6px;background:none;color:#6c41af;">Imagem do post</label>
+              <input id="imagem-post" type="file" accept="image/*" 
+                     style="display:block;margin-bottom:10px;">
+
+              <div style="display:flex;gap:10px;background:none;">
+                <button type="submit" 
+                        style="padding:10px 16px;border:none;border-radius:8px;background:#6c41af;color:#fff;cursor:pointer;">
+                  Publicar
+                </button>
+                <button type="button" onclick="document.getElementById('form-novo-post').style.display='none'"
+                        style="padding:10px 16px;border:1px solid #d1bef0;border-radius:8px;background:#fff;color:#6c41af;cursor:pointer;">
+                  Cancelar
+                </button>
+              </div>
+            </form>
+
+            <!-- Foto -->
             <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
                 <img id="avatar-view" alt="Foto do perfil" style="width:110px;height:110px;border-radius:50%;object-fit:cover;border:2px solid #d1bef0;display:none;">
                 <div id="sem-foto" style="color:#6c41af;display:none;">(sem foto)</div>
@@ -33,7 +66,7 @@
             </div>
         </div>
 
-        <!-- FORMULÁRIO DE CADASTRO (aparece com ?cadastro=1 ou quando não logado no fluxo de cadastro) -->
+        <!-- FORMULÁRIO DE CADASTRO (igual ao seu) -->
         <form class="form-cadastro" id="form-cadastro" style="display:none;background:#ffffff;border:1px solid #d1bef0;border-radius:12px;padding:20px;">
             <h1>Cadastro</h1>
 
@@ -70,7 +103,6 @@
             <label for="trab">Trabalhos prévios:</label>
             <input class="campo-info" type="text" id="trab" name="trab" placeholder="Digite aqui" required>
 
-            <!-- FOTO OBRIGATÓRIA (apenas no cadastro) -->
             <label for="avatar">Foto de perfil (obrigatória):</label>
             <input class="campo-info" type="file" id="avatar" name="avatar" accept="image/*" required>
 
@@ -83,7 +115,7 @@
             <button id="enviar-cadastro" type="submit" style="margin-top:14px;">Enviar</button>
         </form>
 
-        <!-- FORMULÁRIO DE EDIÇÃO (aparece quando clica em Editar) -->
+        <!-- FORMULÁRIO DE EDIÇÃO (igual ao seu) -->
         <form id="form-edicao" style="display:none;background:#ffffff;border:1px solid #d1bef0;border-radius:12px;padding:20px;">
             <h1>Editar perfil</h1>
 
@@ -137,6 +169,7 @@
     </div>
 
     <script src="../controller/cadastro.js"></script>
+    <script src="../controller/postar.js"></script>
     <script src="../controller/script.js"></script>
 </body>
 </html>
