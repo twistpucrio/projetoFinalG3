@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         ${post.requisitos.map((req, i) => `${i + 1}) ${req}`).join("<br>")}
                     </p>
                     <div class="inscreva-btn">
-                        <a target="_blank" class="inscreva-se" href="#">INSCREVA-SE</a>
+                        <a target="_blank" class="inscreva-se" href="${post.link}">INSCREVA-SE</a>
                     </div>
                 `;
 

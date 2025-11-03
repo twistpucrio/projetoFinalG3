@@ -1,0 +1,98 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap");
+
+:root{
+  --bg:#faf7ff;
+  --card:#f8f3ff;
+  --border:#d1bef0;
+  --text:#4b2a82;
+  --accent:#6c41af;
+  --accent-2:#8b62d4;
+  --white:#ffffff;
+  --shadow:0 6px 20px rgba(108,65,175,.20);
+  --radius:14px;
+}
+
+#posts-container{
+  width:min(900px,94%);
+  margin:28px auto;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:24px;
+}
+
+.post{
+  background:var(--card);
+  border:3px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:0 3px 10px rgba(0,0,0,.06);
+  padding:22px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.post-img{
+    align-self: center;
+    border-radius: 10%;
+    width: 40%;
+    height: auto;
+}
+
+.legenda_post{
+  margin:16px 0 0 0;
+  color:var(--text);
+  line-height:1.6;
+  font-size:16px;
+  text-align:left;
+}
+
+.legenda_post strong{
+  color:#3a1f6e;
+  font-weight:500;
+}
+
+.inscreva-btn{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin:20px 0 0 0;
+}
+
+.inscreva-se{
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:12px 22px;
+  border-radius:999px;
+  font-weight:800;
+  letter-spacing:.3px;
+  color:var(--white);
+  background:
+    radial-gradient(120% 140% at 10% 0%, rgba(255,255,255,.45), transparent 50%),
+    linear-gradient(90deg, var(--accent), var(--accent-2));
+  box-shadow:var(--shadow);
+  transform:translateY(0);
+  transition:transform .15s ease, filter .15s ease, box-shadow .2s ease;
+}
+
+.inscreva-se:hover{
+  filter:brightness(1.08);
+  transform:translateY(-1px);
+  box-shadow:0 10px 26px rgba(108,65,175,.28);
+}
+
+.inscreva-se:active{
+  transform:translateY(0);
+}
+
+.inscreva-se:focus-visible{
+  outline:3px solid rgba(139,98,212,.5);
+  outline-offset:3px;
+}
+
+@media (max-width:560px){
+  .post{padding:16px}
+  .legenda_post{font-size:15px}
+}

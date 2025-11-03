@@ -11,7 +11,8 @@
                 "Graduação em Engenharia, Computação, Estatística ou áreas correlatas",
                 "Conhecimento intermediário em Python e Excel",
                 "Inglês intermediário"
-            ]
+            ],
+            "link": "https://carreiras.btgpactual.com/vagas"
         },
         {
             "id": 2,
@@ -24,7 +25,8 @@
                 "Graduação em Engenharia, Computação, Matemática ou Física",
                 "Conhecimento em C++, Python ou JavaScript",
                 "Capacidade de trabalho em equipe e autonomia para aprendizado contínuo"
-            ]
+            ],
+            "link": "https://www.tecgraf.puc-rio.br/publicjobopeningindex"
         },
         {
             "id": 3,
@@ -37,7 +39,8 @@
                 "Graduação em andamento em Engenharia da Computação, Ciência da Computação ou áreas correlatas",
                 "Conhecimento em Java, C++ ou Python",
                 "Inglês intermediário"
-            ]
+            ],
+            "link": "https://www.google.com/about/careers/applications/locations/rio-de-janeiro/"
         },
         {
             "id": 4,
@@ -50,20 +53,8 @@
                 "Curso em Design, Computação, Engenharia ou áreas correlatas",
                 "Conhecimento básico de Figma, Swift ou React",
                 "Interesse em acessibilidade e diversidade em tecnologia"
-            ]
-        },
-        {
-            "id": 4,
-            "img": "img/apple.png",
-            "empresa": "Apple – Estágio em Desenvolvimento de Interface e Experiência do Usuário",
-            "tipo": "Estágio",
-            "local": "São Paulo – Escritório Apple Vila Olímpia",
-            "descricao": "O programa Apple Women in UX busca estudantes apaixonadas por design e tecnologia para atuar na criação de interfaces acessíveis e intuitivas. As estagiárias trabalharão em projetos de apps, produtos e experiências digitais, aplicando princípios de design inclusivo e inovação centrada no usuário.",
-            "requisitos": [
-                "Curso em Design, Computação, Engenharia ou áreas correlatas",
-                "Conhecimento básico de Figma, Swift ou React",
-                "Interesse em acessibilidade e diversidade em tecnologia"
-            ]
+            ],
+            "link": "https://www.apple.com/careers/br/"
         },
         {
             "id": 5,
@@ -76,7 +67,8 @@
                 "Curso superior completo em áreas STEM",
                 "Conhecimento básico em lógica de programação",
                 "Inglês intermediário"
-            ]
+            ],
+            "link": "https://carreiras.itau.com.br/busca-de-vagas"
         },
         {
             "id": 6,
@@ -89,7 +81,8 @@
                 "Formação em Computação, Engenharia ou áreas exatas",
                 "Experiência com Python, TensorFlow ou PyTorch",
                 "Domínio de conceitos de aprendizado profundo e redes neurais"
-            ]
+            ],
+            "link": "https://www.nvidia.com/pt-br/about-nvidia/careers/"
         },
         {
             "id": 7,
@@ -102,7 +95,8 @@
                 "Formação técnica ou superior em Computação, Redes ou Engenharia",
                 "Noções de Linux, segurança de redes e criptografia",
                 "Inglês técnico"
-            ]
+            ],
+            "link": "https://www.ibm.com/br-pt/careers/search"
         },
         {
             "id": 8,
@@ -115,7 +109,8 @@
                 "Experiência com C#, .NET, JavaScript ou Python",
                 "Noções de arquitetura em microserviços",
                 "Inglês avançado"
-            ]
+            ],
+            "link": "https://jobs.careers.microsoft.com/global/en/search"
         },
         {
             "id": 9,
@@ -128,7 +123,8 @@
                 "Mulheres com formação ou interesse em tecnologia",
                 "Conhecimentos básicos de programação",
                 "Disponibilidade de 6h semanais"
-            ]
+            ],
+            "link": "https://www.amazon.jobs/pt"
         },
         {
             "id": 10,
@@ -141,7 +137,8 @@
                 "Cursando Engenharia de Controle e Automação, Mecatrônica ou Computação",
                 "Conhecimento básico de Python e sensores IoT",
                 "Disponibilidade para estagiar 6h/dia"
-            ]
+            ],
+            "link": "https://vale.com/pt/oportunidades-de-carreiras"
         },
         {
             "id": 11,
@@ -154,7 +151,8 @@
                 "Formação em Engenharia, Computação, Matemática ou Estatística",
                 "Experiência com Python, SQL e bibliotecas como Pandas e Scikit-Learn",
                 "Interesse em finanças, estatística aplicada e storytelling com dados"
-            ]
+            ],
+            "link": "https://www.xpinc.com/carreiras/"
         },
         {
             "id": 12,
@@ -167,7 +165,8 @@
                 "Formação em Computação, Engenharia Biomédica, Biotecnologia ou correlatas",
                 "Conhecimento em Python, SQL e ferramentas de análise genômica (Biopython, Nextflow)",
                 "Inglês avançado"
-            ]
+            ],
+            "link": "https://www.biontech.com/int/en/home/careers.html"
         },
         {
             "id": 13,
@@ -180,7 +179,8 @@
                 "Estar cursando Engenharia, Computação, Geofísica ou áreas afins",
                 "Conhecimento básico em Python, R ou MATLAB",
                 "Inglês intermediário"
-            ]
+            ],
+            "link": "https://www.nasa.gov/careers/how-to-apply/"
         },
         {
             "id": 14,
@@ -193,7 +193,8 @@
                 "Graduação em Engenharia (Aeronáutica, Computação, Mecânica, Elétrica ou correlatas)",
                 "Inglês intermediário",
                 "Interesse em sistemas complexos e inovação industrial"
-            ]
+            ],
+            "link": "https://www.embraer.com/corporate-careers/pt/"
         },
         {
             "id": 15,
@@ -206,7 +207,8 @@
                 "Graduação completa em Computação, Engenharia de Software ou Sistemas de Informação",
                 "Conhecimento em Java, Python e bancos de dados relacionais",
                 "Noções de arquitetura de sistemas e APIs REST"
-            ]
+            ],
+            "link": "https://petrobras.com.br/quem-somos/carreiras"
         },
         {
             "id": 16,
@@ -219,7 +221,8 @@
                 "Experiência com JavaScript, React e TypeScript",
                 "Conhecimento em testes automatizados e APIs REST",
                 "Inglês avançado"
-            ]
+            ],
+            "link": "https://www.metacareers.com/"
         },
         {
             "id": 17,
@@ -232,7 +235,8 @@
                 "Formação em Engenharia de Automação, Elétrica ou Computação",
                 "Conhecimento em CLP, redes industriais e linguagens C/C++",
                 "Inglês técnico"
-            ]
+            ],
+            "link": "https://www.siemens.com/br/pt/empresa/carreira.html"
         },
         {
             "id": 18,
@@ -245,7 +249,8 @@
                 "Experiência com Node.js, React e TypeScript",
                 "Conhecimento em arquitetura de microserviços e bancos de dados NoSQL",
                 "Inglês intermediário a avançado"
-            ]
+            ],
+            "link": "https://www.globant.com/pt-br/careers"
         },
         {
             "id": 19,
@@ -258,7 +263,8 @@
                 "Experiência com Python, SQL, Spark e ETL",
                 "Conhecimento em AWS, Azure ou GCP",
                 "Inglês técnico"
-            ]
+            ],
+            "link": "https://jobs.dell.com/pt-br"
         },
         {
             "id": 20,
@@ -271,7 +277,8 @@
                 "Experiência com Swift (iOS) ou Kotlin (Android)",
                 "Conhecimento em APIs REST e arquitetura MVVM",
                 "Interesse por design e usabilidade"
-            ]
+            ],
+            "link": "https://www.ambev.com.br/carreiras"
         }
     ]
 }
