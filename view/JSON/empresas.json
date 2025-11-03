@@ -3,58 +3,58 @@
     {
       "id": 1,
       "titulo": "Empresa 1",
-      "empresa": "Tech4Her",
-      "local": "Rio de Janeiro, RJ",
-      "salario": "R$ 9.000",
+      "empresa": "Microsoft",
+      "local": "Rio de Janeiro, RJ e São Paulo",
+      "vagas": "10 vagas em Desenvolvimento",
       "descricao": "Desenvolvimento de interfaces em React focadas em acessibilidade e design responsivo. Ambiente colaborativo e inclusivo."
     },
     {
       "id": 2,
-      "titulo": "Cientista de Dados Júnior",
-      "empresa": "DataMinds",
+      "titulo": "Empresa 2",
+      "empresa": "Google",
       "local": "Remoto",
-      "salario": "R$ 8.000",
-      "descricao": "Trabalho com análise preditiva e visualização de dados em Python. Oportunidade para mulheres em início de carreira em STEM."
+      "vagas": "10 vagas em Desenvolvimento",
+      "descricao": "Análise preditiva e visualização de dados em Python/SQL. Cultura orientada a aprendizado e diversidade."
     },
     {
       "id": 3,
-      "titulo": "Engenheira de QA",
-      "empresa": "Arise Labs",
+      "titulo": "Empresa 3",
+      "empresa": "Amazon",
       "local": "São Paulo, SP",
-      "salario": "R$ 7.500",
-      "descricao": "Testes automatizados com Cypress e Jest. Equipe de tecnologia comprometida com equidade de gênero e inovação."
+      "vagas": "10 vagas em Desenvolvimento",
+      "descricao": "Qualidade de software com testes automatizados (Cypress/Jest) e foco em observabilidade."
     },
     {
       "id": 4,
-      "titulo": "Engenheira de Software Front-end",
-      "empresa": "Tech4Her",
+      "titulo": "Empresa 4",
+      "empresa": "Apple",
       "local": "Rio de Janeiro, RJ",
-      "salario": "R$ 9.000",
-      "descricao": "Desenvolvimento de interfaces em React focadas em acessibilidade e design responsivo. Ambiente colaborativo e inclusivo."
+      "vagas": "10 vagas em Desenvolvimento",
+      "descricao": "Front-end com React e TypeScript, ênfase em acessibilidade (WCAG) e performance."
     },
     {
       "id": 5,
-      "titulo": "Cientista de Dados Júnior",
-      "empresa": "DataMinds",
+      "titulo": "Empresa 5",
+      "empresa": "Meta",
       "local": "Remoto",
-      "salario": "R$ 8.000",
-      "descricao": "Trabalho com análise preditiva e visualização de dados em Python. Oportunidade para mulheres em início de carreira em STEM."
+      "vagas":"10 vagas em Desenvolvimento",
+      "descricao": "Modelagem de dados, ETL e dashboards. Oportunidade para início de carreira em STEM."
     },
     {
       "id": 6,
-      "titulo": "Engenheira de Software Front-end",
-      "empresa": "Tech4Her",
+      "titulo": "Empresa 6",
+      "empresa": "Netflix",
       "local": "Rio de Janeiro, RJ",
-      "salario": "R$ 9.000",
-      "descricao": "Desenvolvimento de interfaces em React focadas em acessibilidade e design responsivo. Ambiente colaborativo e inclusivo."
+      "vagas": "10 vagas em Desenvolvimento",
+      "descricao": "Desenvolvimento web com foco em UX, testes e entrega contínua."
     },
     {
       "id": 7,
-      "titulo": "Cientista de Dados Júnior",
-      "empresa": "DataMinds",
+      "titulo": "Empresa 7",
+      "empresa": "NVIDIA",
       "local": "Remoto",
-      "salario": "R$ 8.000",
-      "descricao": "Trabalho com análise preditiva e visualização de dados em Python. Oportunidade para mulheres em início de carreira em STEM."
+      "vagas": "10 vagas em Desenvolvimento",
+      "descricao": "Projetos com IA/ML e pipelines de dados. Ambiente de alta colaboração e inovação."
     }
   ]
 }

@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <h1>${emprego.titulo}</h1>
         <p><strong>Empresa:</strong> ${emprego.empresa}</p>
         <p><strong>Local:</strong> ${emprego.local}</p>
-        <p><strong>Salário:</strong> ${emprego.salario || 'Não informado'}</p>
+        <p><strong>vagas:</strong> ${emprego.vagas || 'Não informado'}</p>
         <hr style="margin: 1em 0; border: 0; border-top: 1px solid var(--border);">
         <p>${emprego.descricao || 'Descrição não disponível.'}</p>
       </div>
