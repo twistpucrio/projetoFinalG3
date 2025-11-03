@@ -8,10 +8,10 @@
 </head>
 <body>
     <div id="topbar">  
-        <a href="index.html">  <img id="logo" class="logo" src="img/logo.png" alt="logo"><img></a>
+        <a href="index.html"><img id="logo" class="logo" src="img/logo.png" alt="logo"></a>
         <div id="icones-pequenos"> 
-            <a href="perfil.html"> <img id="perfil" class="icon" src="img/perfil.png" alt="perfil"/> </a>
-            <a href="messages.html"> <img id="message" class="icon" src="img/message.png" alt="cart"/></a>
+            <a href="perfil.html"><img id="perfil" class="icon" src="img/perfil.png" alt="perfil"/></a>
+            <a href="messages.html"><img id="message" class="icon" src="img/message.png" alt="cart"/></a>
         </div>
     </div>
 
@@ -22,7 +22,7 @@
 
     <div class="caixas">  
         <div id="paginas" class="atual">
-            <a class= "post_atual" href="posts.html">POSTS</a>
+            <a class="post_atual" href="posts.html">POSTS</a>
         </div>
         <div id="paginas" class="secundaria">
             <a class="post_secundario" href="empregos.html">EMPREGOS</a>
@@ -30,6 +30,7 @@
         <div id="paginas" class="secundaria">
             <a class="post_secundario" href="empresas.html">EMPRESAS</a>
         </div>
+ 
     </div>
 
     <!-- FEED DINÂMICO (posts criados pelos usuários) -->
@@ -53,8 +54,13 @@ Local: Híbrido – São Paulo, SP <br/> <br/>
         <div id="paginas" class="INSCREVA-SE">
             <a target="_blank" class= "inscreva-se" href="https://www.btgpactual.com/">INSCREVA-SE</a>
         </div>
+ 
     </div>
+    
+    <!-- container onde os posts aparecem -->
+    <div id="posts-container"></div>
 
+ 
     <br/><br/><br/><br/>
 
     <div class="post">
@@ -67,6 +73,18 @@ Local: Híbrido – São Paulo, SP <br/> <br/>
         <br/><br/><br/>
         <img class="post" src="img/tecgraf.png" alt="Tecgraf">
     </div>
+=======
+    <!-- apenas o JS -->
+    <script src="../controller/posts.js"></script>
+    <br/> <br/> <br/> <br/>
+<div class="post">
+    <img class="foto_perfil_post" src="">
+    <h2 class="post"> Maria Antonia Arrigoni</h2>
+    <br/><br/><br/>
+    <p class="legenda_post"> Gostaria de compartilhar que estou começando um novo capítulo como Desenvolvedora de Software no Tecgraf/PUC-Rio. Estou muito feliz e grata pela oportunidade de aprender com um time incrível, enfrentar desafios reais de engenharia e contribuir para soluções que geram impacto. Pretendo aprofundar meus conhecimentos em desenvolvimento web, boas práticas de engenharia e colaboração ágil, sempre com foco em qualidade e entrega de valor. Agradeço a todos que me apoiaram nessa caminhada — animada para o que vem pela frente!</p>
+    <br/><br/><br/>
+    <img class="post" src="img/tecgraf.png">
+ main
 
         <script src="../controller/postar.js"></script>
 
