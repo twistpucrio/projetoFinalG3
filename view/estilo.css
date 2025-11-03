@@ -69,7 +69,8 @@ img.icon {
     font-size: 20px;               
     font-weight: bold;
     cursor: pointer;           
-    transition: all 0.3s ease;     
+    transition: all 0.3s ease;
+    font-family: 'Segoe UI', 'sans-serif';   
 }
 
 /* ======== EFEITO AO PASSAR O MOUSE ======== */
@@ -121,10 +122,12 @@ a.post_atual {
     padding: 10px 20px;
     border-radius: 10px;
     transition: 0.3s;
+    font-family: 'Segoe UI', 'sans-serif';
 }
 
 a.post_atual:hover {
     background-color: #8b62d4;
+    font-family: 'Segoe UI', 'sans-serif';
 }
 
 a.post_secundario {
@@ -134,6 +137,7 @@ a.post_secundario {
     padding: 10px 20px;
     border-radius: 10px;
     transition: 0.3s;
+    font-family: 'Segoe UI', 'sans-serif';
 }
 
 a.post_secundario:hover {
@@ -362,3 +366,81 @@ a.botao-cadastro:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(108, 65, 175, 0.3);
 }
+
+        #chat-container {
+            display: flex;
+            height: calc(100vh - 150px);
+            margin: 0 20px 20px 20px;
+        }
+
+        #conversations {
+            width: 30%;
+            border-right: 2px solid #ddd;
+            overflow-y: auto;
+        }
+
+        .conversation {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+        }
+
+        .conversation:hover {
+            background-color: #eee;
+        }
+
+        #chat-window {
+            width: 70%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 15px;
+        }
+
+        #messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .message {
+            margin: 10px 0;
+            padding: 10px 15px;
+            border-radius: 20px;
+            max-width: 70%;
+            clear: both;
+        }
+
+        .message.sent {
+            background-color: #6c41af;
+            color: white;
+            align-self: flex-end;
+        }
+
+        .message.received {
+            background-color: #e0d4f5;
+            align-self: flex-start;
+        }
+
+        #message-input-container {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        #message-input {
+            flex-grow: 1;
+            padding: 10px 15px;
+            border-radius: 25px;
+            border: 2px solid #6c41af;
+            outline: none;
+        }
+
+        #send-button {
+            padding: 10px 20px;
+            margin-left: 10px;
+            border: none;
+            border-radius: 25px;
+            background-color: #6c41af;
+            color: #fff;
+            cursor: pointer;
+        }
