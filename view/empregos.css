@@ -3,28 +3,103 @@
   display:grid;
   grid-template-columns: 320px minmax(0,1fr);
   gap: 1em;
-  padding: 10em;
+  padding: 6em;
+  
 }
 
 /* Painel empregos*/
-.list-pane{display:flex; flex-direction:column; padding: 1em; background-color: #FFF9F9; border-radius: 1em;}
-.job-list{list-style:none; padding:0; margin:0; display:grid; gap:12px}
-
-.job-card{
-  background: #FFF9F9;
-  border:1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  min-height: 92px;
-  padding: 14px;
+.list-pane {
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+  background-color: #FFF9F9;
+  border-radius: 1em;
+  max-height: 50em; 
+  overflow-y: auto;  /* habilita rolagem vertical */
 }
 
 
+.job-list{list-style:none; padding:0; margin:0; display:grid; gap:12px;background: #FFF9F9;}
+
+
+.job-card {
+  background: #FFF9F9;
+  border: 1px solid var #e6e6ef;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(17, 12, 46, .08);
+  min-height: 92px;
+  padding: 14px;
+  
+  cursor: pointer; 
+}
+
+.job-card:hover{
+  background: #ffffff;
+  box-shadow: 0 4px 16px rgba(109, 78, 246, 0.25);
+  transform: translateY(-3px);
+  transition: all 0.25s ease;
+}
+
+.job-card:hover,
+.job-card:hover h1,
+.job-card:hover h2,
+.job-card:hover h3,
+.job-card:hover strong,
+.job-card:hover p {
+  background: #ffffff;
+  transition: all 0.25s ease;
+}
+
+
+.job-card.selected {
+  background: #ffffff;
+  box-shadow: 0 4px 18px rgba(109, 78, 246, 0.3);
+  transform: translateY(-2px);
+}
+
+
+.job-card.selected h3,
+.job-card.selected p {
+  color: black;
+  background-color: #ffffff;
+}
+
+
+.job-card h1,
+.job-card h2,
+.job-card h3,
+.job-card strong,
+.job-card p {
+  background-color: #FFF9F9;
+}
+
 /* Painel detalhes */
+#job-detail{
+ background-color: #FFF9F9;
+
+}
+
 .detail{
   background-color: #FFF9F9;
   border-radius: 1em;
   min-height: min(40em);
   padding: 20px;
 }
+
+
+.detail h1,
+.detail h2,
+.detail h3,
+.detail strong,
+.detail p {
+  background-color: #FFF9F9;
+}
+
+
+#txt-espera{
+  font-size: larger;
+  text-align: center;
+  background: #FFF9F9;
+}
+
 

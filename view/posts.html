@@ -8,10 +8,10 @@
 </head>
 <body>
     <div id="topbar">  
-        <a href="index.html">  <img id="logo" class="logo" src="img/logo.png" alt="logo"><img></a>
+        <a href="index.html"><img id="logo" class="logo" src="img/logo.png" alt="logo"></a>
         <div id="icones-pequenos"> 
-            <a href="perfil.html"> <img id="perfil" class="icon" src="img/perfil.png" alt="perfil"/> </a>
-            <a href="messages.html"> <img id="message" class="icon" src="img/message.png" alt="cart"/></a>
+            <a href="perfil.html"><img id="perfil" class="icon" src="img/perfil.png" alt="perfil"/></a>
+            <a href="messages.html"><img id="message" class="icon" src="img/message.png" alt="cart"/></a>
         </div>
     </div>
 
@@ -22,7 +22,7 @@
 
     <div class="caixas">  
         <div id="paginas" class="atual">
-            <a class= "post_atual" href="posts.html">POSTS</a>
+            <a class="post_atual" href="posts.html">POSTS</a>
         </div>
         <div id="paginas" class="secundaria">
             <a class="post_secundario" href="empregos.html">EMPREGOS</a>
@@ -30,28 +30,13 @@
         <div id="paginas" class="secundaria">
             <a class="post_secundario" href="empresas.html">EMPRESAS</a>
         </div>
-</div>
-    <div class="post">
-        <img class= "post" src="img/post_btg.png">
-        <p class="legenda_post">
-                1. 💻 BTG Pactual – Programa Mulheres em Dados <br/> <br/>
-Local: Híbrido – São Paulo, SP <br/> <br/>
- Tipo: Programa de Desenvolvimento / Estágio <br/> <br/>
- Descrição:
- O BTG Pactual está em busca de estudantes e recém-formadas que desejam transformar dados em decisões. O programa “Mulheres em Dados” tem como objetivo formar novas líderes femininas na área de ciência de dados e analytics.
- Durante seis meses, as participantes passam por trilhas técnicas (Python, SQL, Power BI e Machine Learning) e recebem mentoria personalizada de executivas do banco. <br/> <br/>
- Requisitos: <br/><br/>
-1) Graduação em Engenharia, Computação, Estatística ou áreas correlatas <br/>
-2) Conhecimento intermediário em Python e Excel<br/>
-3) Inglês intermediário <br/>
-
-
-        </p>
-          <div id="paginas" class="INSCREVA-SE">
-            <a target="_blank" class= "inscreva-se" href="https://www.btgpactual.com/">INSCREVA-SE</a>
-        </div>
     </div>
+    
+    <!-- container onde os posts aparecem -->
+    <div id="posts-container"></div>
 
+    <!-- apenas o JS -->
+    <script src="../controller/posts.js"></script>
     <br/> <br/> <br/> <br/>
 <div class="post">
     <img class="foto_perfil_post" src="">
@@ -63,6 +48,6 @@ Local: Híbrido – São Paulo, SP <br/> <br/>
 
 
 </div>
-
+<script src="../controller/script.js"></script>
 </body>
 </html>
