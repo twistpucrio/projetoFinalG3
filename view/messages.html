@@ -1,42 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="estilo.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>messages</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="estilo.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mensagens</title>
 </head>
 <body>
-    <div id="topbar">  
-        <a href="index.html">  <img id="logo" class="logo" src="img/logo.png" alt="logo"><img></a>
-        <div id="icones-pequenos"> 
-            <a href="perfil.html"> <img id="perfil" class="icon" src="img/perfil.png" alt="perfil"/> </a>
-            <a href="messages.html"> <img id="message" class="icon" src="img/message.png" alt="cart"/></a>
-        </div>
+  <div id="topbar">
+    <a href="index.html"><img id="logo" class="logo" src="img/logo.png" alt="logo"></a>
+    <div id="icones-pequenos"> 
+      <a href="perfil.html"><img id="perfil" class="icon" src="img/perfil.png" alt="perfil"/></a>
+      <a href="messages.html"><img id="message" class="icon" src="img/message.png" alt="cart"/></a>
+    </div>
+  </div>
+
+  <div id="chat-container">
+    <!-- Lista de usuários -->
+    <div id="conversations">
+      <h3>Usuários</h3>
+      <div id="user-list"></div>
     </div>
 
-    <div id="search-container">
-        <input type="text" id="search-input" placeholder="Digite sua pesquisa..." />
-        <button id="search-button">Buscar</button>
-    </div>
-     <div id="chat-container">
-        <div id="conversations">
-            <div class="conversation">João</div>
-            <div class="conversation">Maria</div>
-            <div class="conversation">Pedro</div>
-        </div>
+    <!-- Janela de chat -->
+    <div id="chat-window">
+      <h3 id="chat-header">CHAT</h3>
+      <div id="messages"></div>
 
-        <div id="chat-window">
-            <div id="messages">
-                <div class="message received">Oi, tudo bem?</div>
-                <div class="message sent">Oi! Tudo ótimo, e você?</div>
-            </div>
-
-            <div id="message-input-container">
-                <input type="text" id="message-input" placeholder="Digite sua mensagem..." />
-                <button id="send-button">Enviar</button>
-            </div>
-        </div>
+      <div id="message-input-container">
+        <input type="text" id="message-input" placeholder="Digite sua mensagem...">
+        <button id="send-button">Enviar</button>
+      </div>
     </div>
+  </div>
+
+  <script src="messages.js"></script>
+  <script>
+    // ID do usuário logado
+    if (!localStorage.getItem('userId')) {
+      localStorage.setItem('userId', 'user1'); // Exemplo: João
+    }
+  </script>
 </body>
 </html>

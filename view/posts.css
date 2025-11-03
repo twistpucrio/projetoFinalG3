@@ -12,13 +12,13 @@
   --radius:14px;
 }
 
-#posts-container{
-  width:min(900px,94%);
-  margin:28px auto;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:24px;
+#posts-container {
+  width: min(900px, 94%);
+  margin: 28px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
 }
 
 .post{
@@ -96,3 +96,43 @@
   .post{padding:16px}
   .legenda_post{font-size:15px}
 }
+
+p.legenda_post {
+    font-size: 15pt;
+    text-align: center;
+
+    color: #6c41af;
+    font-family: 'Segoe UI', 'Roboto', 'sans-serif';
+    line-height: 1.5;
+    margin: 15px auto;
+    max-width: 800px;
+    background: none; /* sem fundo */
+}
+
+/* ======== IMAGEM DO POST ======== */
+img.post {
+    display: block;
+    margin: 30px auto;
+    max-width: 80%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+
+}
+
+/* ======== BLOCO DO POST ======== */
+div.post {
+    background-color: #f8f3ff;
+    border: 3px solid #d1bef0;
+    border-radius: 10px;
+    width: 850px;          /* era 1000px */
+    max-width: 90%;
+    padding: 25px;         /* era 40px */
+    margin: 30px auto;     /* menos espaço vertical */
+    text-align: left;
+    font-family: 'Segoe UI', 'Roboto', 'sans-serif';
+    line-height: 1.6;
+    color: #4b2a82;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
