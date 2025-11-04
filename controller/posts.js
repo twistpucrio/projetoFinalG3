@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 postDiv.innerHTML = `
                     <img class="post-img" src="${post.img}" alt="${post.empresa}">
                     <p class="legenda_post">
-                        <strong>${post.id}. 💻 ${post.empresa}</strong><br><br>
+                        <strong> ${post.empresa}</strong><br><br>
                         <strong>Local:</strong> ${post.local}<br><br>
                         <strong>Tipo:</strong> ${post.tipo}<br><br>
                         <strong>Descrição:</strong> ${post.descricao}<br><br>
