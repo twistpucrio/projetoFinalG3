@@ -179,19 +179,21 @@ function init() {
   if (feed) {
     const posts = getPosts();
     const tpl = (p) => `
-      <div class="post">
-        <div style="display:flex;align-items:center;gap:12px;margin:4px 8px 12px 8px;background:none;">
-          <img src="${p.autorAvatar || ""}" alt="avatar"
-               style="width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid #d1bef0;background:none;">
-          <div style="background:none;">
-            <h2 class="post" style="margin:0;background:none;">${p.autorNome || "Usuária"}</h2>
-            <small style="color:#6c41af;background:none;">${new Date(p.criadoEm).toLocaleString()}</small>
-          </div>
-        </div>
-        <p class="legenda_post">${(p.texto || "").replace(/\n/g, "<br>")}</p>
-        <img class="post" src="${p.imagem}" alt="imagem do post">
+  <article class="user-post">
+    <header class="user-post__header">
+      <img class="user-post__avatar" src="${p.autorAvatar || ""}" alt="avatar">
+      <div class="user-post__meta">
+        <h2 class="user-post__name">${p.autorNome || "Usuária"}</h2>
+        <small class="user-post__date">${new Date(p.criadoEm).toLocaleString()}</small>
       </div>
-    `;
+    </header>
+
+    <p class="user-post__caption">${(p.texto || "").replace(/\n/g, "<br>")}</p>
+
+    <img class="user-post__image" src="${p.imagem}" alt="imagem do post">
+  </article>
+`;
+
     feed.innerHTML = posts.length
       ? posts.map(tpl).join("")
       : `<div class="post"><p class="legenda_post">Ainda não há posts. Crie um no perfil com o botão <strong>+</strong>.</p></div>`;
