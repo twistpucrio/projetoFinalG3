@@ -82,10 +82,9 @@
 .detail{
   background-color: #FFF9F9;
   border-radius: 1em;
-  min-height: min(40em);
+  min-height: min(5em);
   padding: 20px;
 }
-
 
 .detail h1,
 .detail h2,
@@ -95,6 +94,10 @@
   background-color: #FFF9F9;
 }
 
+
+.detail-li{
+  background-color: #FFF9F9;
+}
 
 #txt-espera{
   font-size: larger;

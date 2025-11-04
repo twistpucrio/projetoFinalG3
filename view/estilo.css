@@ -70,7 +70,8 @@ img.icon {
     font-size: 20px;               
     font-weight: bold;
     cursor: pointer;           
-    transition: all 0.3s ease;     
+    transition: all 0.3s ease;
+    font-family: 'Segoe UI', 'sans-serif';   
 }
 
 /* ======== EFEITO AO PASSAR O MOUSE ======== */
@@ -122,10 +123,12 @@ a.post_atual {
     padding: 10px 20px;
     border-radius: 10px;
     transition: 0.3s;
+    font-family: 'Segoe UI', 'sans-serif';
 }
 
 a.post_atual:hover {
     background-color: #8b62d4;
+    font-family: 'Segoe UI', 'sans-serif';
 }
 
 a.post_secundario {
@@ -135,6 +138,7 @@ a.post_secundario {
     padding: 10px 20px;
     border-radius: 10px;
     transition: 0.3s;
+    font-family: 'Segoe UI', 'sans-serif';
 }
 
 a.post_secundario:hover {
@@ -364,6 +368,7 @@ a.botao-cadastro:hover {
   box-shadow: 0 6px 12px rgba(108, 65, 175, 0.3);
 }
 
+
 /* Avatar do header sempre redondo */
 #topbar a img#perfil{
   width: 80px;
@@ -387,3 +392,115 @@ a.botao-cadastro:hover {
 #topbar a img#perfil:hover{
   filter: brightness(1.03);
 }
+
+        #chat-container {
+            display: flex;
+            height: calc(100vh - 150px);
+            margin: 0 20px 20px 20px;
+        }
+
+        #conversations {
+            width: 30%;
+            border-right: 2px solid #ddd;
+            overflow-y: auto;
+        }
+
+        .conversation {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+        }
+
+        .conversation:hover {
+            background-color: #eee;
+        }
+
+        #chat-window {
+            width: 70%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 15px;
+        }
+
+        #messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .message {
+            margin: 10px 0;
+            padding: 10px 15px;
+            border-radius: 20px;
+            max-width: 70%;
+            clear: both;
+        }
+
+        .message.sent {
+            background-color: #6c41af;
+            color: white;
+            align-self: flex-end;
+        }
+
+        .message.received {
+            background-color: #e0d4f5;
+            align-self: flex-start;
+        }
+
+        #message-input-container {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        #message-input {
+            flex-grow: 1;
+            padding: 10px 15px;
+            border-radius: 25px;
+            border: 2px solid #6c41af;
+            outline: none;
+        }
+
+        #send-button {
+            padding: 10px 20px;
+            margin-left: 10px;
+            border: none;
+            border-radius: 25px;
+            background-color: #6c41af;
+            color: #fff;
+            cursor: pointer;
+        }
+
+/* Card do post */
+.post {
+  max-width: 640px;
+  margin: 0 auto 24px;
+  padding: 12px;
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.06);
+}
+
+/* Título dentro do post (como seu h2 também tem class="post") */
+.post h2.post {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* Legenda do post */
+.legenda_post {
+  margin: 8px 0 12px;
+  line-height: 1.5;
+}
+
+/* Imagem do post (como a <img> também usa class="post" no seu template atual) */
+img.post {
+  width: 300px;
+  height: auto;         /* mantém proporção */
+  display: block;
+  border-radius: 16px;
+  object-fit: cover;    /* corte elegante se você fixar altura */
+}
+
+/* Toolbar só quando existir */
+#post-toolbar { display: none; }
+#perfil-view + #post-toolbar { display: block; } /* exemplo, ajuste conforme seu HTML */
