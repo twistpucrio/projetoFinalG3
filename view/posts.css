@@ -136,3 +136,86 @@ div.post {
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
 }
 
+/* =========================
+   FEED DE USUÁRIOS (ISOLADO)
+   ========================= */
+#feed-posts{
+  width: min(900px, 94%);
+  margin: 28px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Card do post do usuário */
+#feed-posts .user-post{
+  background: var(--card);
+  border: 3px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 22px;
+}
+
+/* Cabeçalho: avatar + nome + data */
+#feed-posts .user-post__header{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 4px 8px 12px 8px;
+  background-color: #f8f3ff;
+}
+
+#feed-posts .user-post__avatar{
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border);
+  flex-shrink: 0;
+}
+
+#feed-posts .user-post__meta{
+  display: flex;
+  flex-direction: column;
+}
+
+#feed-posts .user-post__name{
+  margin: 0;
+  color: var(--text);
+  font: 800 18px/1.2 "Inter", system-ui, sans-serif;
+}
+
+#feed-posts .user-post__date{
+  color: var(--accent);
+  font-size: 13px;
+}
+
+/* Legenda do post do usuário */
+#feed-posts .user-post__caption{
+  margin: 12px 0 14px 0;
+  color: var(--text);
+  line-height: 1.6;
+  font-size: 16px;
+  text-align: left;
+}
+
+#feed-posts .user-post__caption strong{
+  color: #3a1f6e;
+  font-weight: 600;
+}
+
+/* Imagem do post do usuário */
+#feed-posts .user-post__image{
+  display: block;
+  margin: 14px auto 4px;
+  max-width: 50%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.10);
+}
+
+/* Responsivo */
+@media (max-width:560px){
+  #feed-posts .user-post{ padding: 16px; }
+  #feed-posts .user-post__caption{ font-size: 15px; }
+}
