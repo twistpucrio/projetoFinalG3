@@ -5,6 +5,7 @@ img.icon {
   float: right; /* mantém alinhado à direita */
 }
 
+
 #logo {
   height: 150px;
   width: 150px;
@@ -365,6 +366,31 @@ a.botao-cadastro:hover {
   background-color: #8b62d4;
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(108, 65, 175, 0.3);
+}
+
+
+/* Avatar do header sempre redondo */
+#topbar a img#perfil{
+  width: 80px;
+  height: 80px;
+  border-radius: 50% !important;
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
+  display: block;
+  box-shadow: 0 2px 8px rgba(0,0,0,.12);
+  margin: 10px;
+  float: right;
+}
+
+/* Se existir alguma regra genérica que “achata” a classe .icon, neutraliza aqui */
+#topbar img.icon{
+  max-width: none;
+  height: auto;
+}
+
+/* (Opcional) animaçãozinha ao hover */
+#topbar a img#perfil:hover{
+  filter: brightness(1.03);
 }
 
         #chat-container {
