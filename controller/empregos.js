@@ -92,6 +92,20 @@ document.addEventListener('DOMContentLoaded', () => {
       listaRequisitos = `<p>${emprego.requisitos || 'Descrição não disponível.'}</p>`;
     }
 
+ 
+  detalhe.innerHTML = `
+    <div class="detail">
+      <h1>${emprego.titulo}</h1>
+      <p><strong>Empresa:</strong> ${emprego.empresa}</p>
+      <p><strong>Local:</strong> ${emprego.local}</p>
+      <p><strong>Salário:</strong> ${emprego.salario || 'Não informado'}</p>
+      <hr style="margin: 1em 0; border: 0; border-top: 1px solid var(--border);">
+      <p>${emprego.descricao || 'Descrição não disponível.'}</p>
+      <strong>Requisitos:</strong>
+      ${listaRequisitos}
+      <div class="imagem-detalhe">
+        <img class="emprego" src="${emprego.img || 'view\img\logo.png'}" alt="Imagem do emprego" style="width:25em; height:25em; border-radius:10px; margin-top:1em;">
+ 
     detalhe.innerHTML = `
       <div class="detail">
         <h1>${emprego.titulo}</h1>
@@ -107,6 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
                alt="Imagem do emprego" 
                style="width:25em; height:25em; border-radius:10px; margin-top:1em;">
         </div>
+ 
       </div>
     `;
   }

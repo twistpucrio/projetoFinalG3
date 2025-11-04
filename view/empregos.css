@@ -19,7 +19,7 @@
 }
 
 
-.job-list{list-style:none; padding:0; margin:0; display:grid; gap:12px;background: #FFF9F9;}
+.job-list{list-style:none; padding:0; margin:0; display:grid; gap:12px;background: #FFF9F9;font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";}
 
 
 .job-card {
@@ -29,7 +29,7 @@
   box-shadow: 0 8px 20px rgba(17, 12, 46, .08);
   min-height: 92px;
   padding: 14px;
-  
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
   cursor: pointer; 
 }
 
@@ -38,6 +38,7 @@
   box-shadow: 0 4px 16px rgba(109, 78, 246, 0.25);
   transform: translateY(-3px);
   transition: all 0.25s ease;
+
 }
 
 .job-card:hover,
@@ -48,6 +49,7 @@
 .job-card:hover p {
   background: #ffffff;
   transition: all 0.25s ease;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
 }
 
 
@@ -55,6 +57,7 @@
   background: #ffffff;
   box-shadow: 0 4px 18px rgba(109, 78, 246, 0.3);
   transform: translateY(-2px);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
 }
 
 
@@ -62,6 +65,7 @@
 .job-card.selected p {
   color: black;
   background-color: #ffffff;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
 }
 
 
@@ -76,6 +80,7 @@
 /* Painel detalhes */
 #job-detail{
  background-color: #FFF9F9;
+ font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
 
 }
 
@@ -103,6 +108,14 @@
   font-size: larger;
   text-align: center;
   background: #FFF9F9;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
 }
 
 
+img.emprego{
+  margin-left: 35%;
+}
+div.detail{
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  color:#6c41af;
+}
