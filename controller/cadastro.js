@@ -29,6 +29,54 @@ window.addEventListener("DOMContentLoaded", () => {
       r.readAsDataURL(file);
     });
 
+  // ========= Helpers de imagem (compressão p/ caber no localStorage) =========
+  const carregarImagem = (src) =>
+    new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = reject;
+      img.src = src;
+    });
+
+  const dataURLBytes = (dataURL) => {
+    if (!dataURL) return 0;
+    const base64 = dataURL.split(",")[1] || "";
+    return Math.floor((base64.length * 3) / 4);
+  };
+
+  /**
+   * Redimensiona/comprime a imagem para ~<= targetBytes.
+   * Padrões pensados para avatar (512x512 e ~180KB).
+   */
+  async function comprimirImagem(
+    file,
+    maxW = 512,
+    maxH = 512,
+    qualities = [0.8, 0.6, 0.5, 0.4],
+    targetBytes = 180 * 1024
+  ) {
+    const raw = await lerArquivoComoDataURL(file);
+    const img = await carregarImagem(raw);
+
+    const ratio = Math.min(maxW / img.width, maxH / img.height, 1);
+    const w = Math.round(img.width * ratio);
+    const h = Math.round(img.height * ratio);
+
+    const canvas = document.createElement("canvas");
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, w, h);
+
+    let out = raw, last = raw;
+    for (const q of qualities) {
+      out = canvas.toDataURL("image/jpeg", q);
+      last = out;
+      if (dataURLBytes(out) <= targetBytes) break;
+    }
+    return last;
+  }
+
   // ========= Header / atalhos =========
   const usuario = getUsuarioAtual();
 
@@ -60,18 +108,15 @@ window.addEventListener("DOMContentLoaded", () => {
   const avatarPreview      = $("#avatar-preview");
 
   // >>>> CAMPOS ESCONDIDOS NA VISUALIZAÇÃO DO PERFIL <<<<
-  // (continuam salvos e aparecem na EDIÇÃO)
   const HIDDEN_KEYS_IN_VIEW = new Set(["cpf", "cep", "end", "comp"]);
 
   function renderPerfil(u) {
     if (!perfilView) return;
 
-    // Decide o que mostrar
     hide(formCadastro);
     hide(formEdicao);
     show(perfilView);
 
-    // Foto
     if (u?.avatar) {
       if (avatarView) {
         avatarView.src = u.avatar;
@@ -83,15 +128,10 @@ window.addEventListener("DOMContentLoaded", () => {
       show(semFoto);
     }
 
-    // Dados (ocultando cpf, cep, end, comp)
     if (listaDados) {
       const labels = {
         nome: "Nome completo",
-        // cpf: "CPF",                 // oculto
         email: "E-mail",
-        // cep: "CEP",                 // oculto
-        // end: "Endereço",            // oculto
-        // comp: "Complemento",        // oculto
         profissao: "Profissão",
         faculdade: "Faculdade",
         skills: "Skills",
@@ -99,14 +139,10 @@ window.addEventListener("DOMContentLoaded", () => {
         trab: "Trabalhos prévios"
       };
 
-      const ordem = [
-        "nome","email",
-        // "cep","end","comp","cpf",   // removidos da visualização
-        "profissao","faculdade","skills","interesses","trab"
-      ];
+      const ordem = ["nome","email","profissao","faculdade","skills","interesses","trab"];
 
       listaDados.innerHTML = ordem
-        .filter((k) => !HIDDEN_KEYS_IN_VIEW.has(k)) // redundante, mas explícito
+        .filter((k) => !HIDDEN_KEYS_IN_VIEW.has(k))
         .filter((k) => u?.[k] !== undefined && u[k] !== "")
         .map((k) => `<li><strong>${labels[k]}:</strong> ${u[k]}</li>`)
         .join("");
@@ -154,7 +190,6 @@ window.addEventListener("DOMContentLoaded", () => {
     if (usuario) {
       renderPerfil(usuario);
     } else {
-      // sem login -> só mostra cadastro se ?cadastro=1
       if (querCadastro) {
         hide(perfilView);
         hide(formEdicao);
@@ -162,7 +197,7 @@ window.addEventListener("DOMContentLoaded", () => {
       } else {
         hide(perfilView);
         hide(formEdicao);
-        hide(formCadastro); // fallback
+        hide(formCadastro);
       }
     }
   }
@@ -178,7 +213,7 @@ window.addEventListener("DOMContentLoaded", () => {
   // ========= Entrar na Edição =========
   if (btnEditar) {
     btnEditar.addEventListener("click", () => {
-      if (!getUsuarioAtual()) return; // segurança
+      if (!getUsuarioAtual()) return;
       hide(perfilView);
       hide(formCadastro);
       show(formEdicao);
@@ -191,10 +226,7 @@ window.addEventListener("DOMContentLoaded", () => {
     btnCancelarEdicao.addEventListener("click", () => {
       const u = getUsuarioAtual();
       if (u) renderPerfil(u);
-      else {
-        hide(formEdicao);
-        show(formCadastro);
-      }
+      else { hide(formEdicao); show(formCadastro); }
     });
   }
 
@@ -219,7 +251,7 @@ window.addEventListener("DOMContentLoaded", () => {
           skills: $("#skills-editar")?.value?.trim() || "",
           interesses: $("#interesses-editar")?.value?.trim() || "",
           trab: $("#trab-editar")?.value?.trim() || "",
-          avatar: uAtual.avatar || null // mantém a atual por padrão
+          avatar: uAtual.avatar || null
         };
 
         if (!novo.nome || !novo.email) {
@@ -238,7 +270,7 @@ window.addEventListener("DOMContentLoaded", () => {
           return;
         }
 
-        // Troca de avatar (opcional)
+        // Troca de avatar (opcional) — agora comprimindo
         const fileNovo = inputAvatarEditar?.files?.[0];
         if (fileNovo) {
           if (!fileNovo.type.startsWith("image/")) {
@@ -250,9 +282,9 @@ window.addEventListener("DOMContentLoaded", () => {
             return;
           }
           try {
-            novo.avatar = await lerArquivoComoDataURL(fileNovo);
+            novo.avatar = await comprimirImagem(fileNovo, 512, 512, [0.8, 0.6, 0.5, 0.4], 180 * 1024);
           } catch {
-            alert("Não foi possível ler a nova imagem. Tente novamente.");
+            alert("Não foi possível processar a nova imagem. Tente novamente.");
             return;
           }
         }
@@ -263,7 +295,7 @@ window.addEventListener("DOMContentLoaded", () => {
         if (usuariosIdx !== -1) {
           usuarios[usuariosIdx] = { ...usuarios[usuariosIdx], ...novo };
         } else {
-          usuarios.push(novo); // fallback raro
+          usuarios.push(novo);
           usuariosIdx = usuarios.length - 1;
         }
 
@@ -274,7 +306,11 @@ window.addEventListener("DOMContentLoaded", () => {
         alert("Perfil atualizado com sucesso!");
       } catch (err) {
         console.error("Erro ao salvar edição:", err);
-        alert("Ocorreu um erro ao salvar. Tente novamente.");
+        if (err?.name === "QuotaExceededError") {
+          alert("Armazenamento local cheio. Apague alguns posts/fotos ou limpe o cache e tente novamente.");
+        } else {
+          alert("Ocorreu um erro ao salvar. Tente novamente.");
+        }
       }
     });
   }
@@ -313,7 +349,14 @@ window.addEventListener("DOMContentLoaded", () => {
           return;
         }
 
-        const dataUrl = await lerArquivoComoDataURL(fileAvatar);
+        // === COMPRIME o avatar antes de salvar ===
+        let dataUrl;
+        try {
+          dataUrl = await comprimirImagem(fileAvatar, 512, 512, [0.8, 0.6, 0.5, 0.4], 180 * 1024);
+        } catch {
+          alert("Não foi possível processar a imagem do avatar. Tente outra imagem.");
+          return;
+        }
         dados.avatar = dataUrl;
 
         delete dados["confirmar-senha"]; // não persistimos confirmação
@@ -331,7 +374,11 @@ window.addEventListener("DOMContentLoaded", () => {
         location.href = "perfil.html";
       } catch (err) {
         console.error("Erro no cadastro:", err);
-        alert("Ocorreu um erro ao cadastrar. Tente novamente.");
+        if (err?.name === "QuotaExceededError") {
+          alert("Seu armazenamento local ficou cheio. Apague alguns posts/fotos ou limpe o cache e tente novamente.");
+        } else {
+          alert("Ocorreu um erro ao cadastrar. Tente novamente.");
+        }
       }
     });
   }
@@ -369,5 +416,3 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   }
 });
-
-
