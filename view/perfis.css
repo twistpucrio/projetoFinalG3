@@ -1,0 +1,245 @@
+/* ===========================
+   PERFIL – visual “cards/pills”
+   Paleta: lilás / rosa claro
+   =========================== */
+
+:root{
+  --bg: #FDF1FF;
+  --purple: #6c41af;
+  --purple-700:#4e2c8a;
+  --lavender:#f3d5ff;
+  --lavender-2:#f8e7ff;
+  --pill-shadow: 0 8px 20px rgba(108,65,175,.18);
+  --radius-pill: 999px;
+  --radius-card: 26px;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  background: var(--bg);
+  color:#2a2440;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+/* Topbar leve e “clean” */
+ 
+
+/* ====== Cartão principal do perfil ====== */
+#dados-container{
+  max-width: 980px !important;
+  margin: 28px auto !important;
+  padding: 0 14px;
+}
+
+#perfil-view{
+  background: transparent !important;
+  border: 0 !important;
+  padding: 0 !important;
+}
+
+/* Título */
+#perfil-view > h1{
+  margin: 0 0 18px 0;
+  font-weight: 800;
+  color: var(--purple);
+}
+
+/* Barra “crie um post” (+) como chip */
+#post-toolbar{
+  display:flex !important;
+  align-items:center;
+  gap:12px;
+  margin: 6px 0 18px 0 !important;
+  background: transparent !important;
+}
+#btn-novo-post{
+  width:48px;height:48px;
+  border:none;
+  border-radius:50%;
+  background: var(--purple);
+  color:#fff;
+  font-size:28px;
+  line-height:48px;
+  cursor:pointer;
+  box-shadow: var(--pill-shadow);
+  transition: transform .08s ease;
+}
+#btn-novo-post:hover{ transform: translateY(-1px); }
+#post-toolbar small{
+  color: var(--purple);
+  font-weight:600;
+}
+
+/* Header em “pill” (avatar + moldura) */
+#perfil-header{
+  display:none; /* (apenas caso queira criar um wrapper no HTML futuramente) */
+}
+
+/* Avatar exibido */
+#avatar-view{
+  display:block !important;
+  width: 104px !important;
+  height: 104px !important;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #fff;
+  box-shadow: var(--pill-shadow);
+  background:#fff;
+  margin: 8px 0 14px 8px;
+}
+#sem-foto{ color:var(--purple) }
+
+/* ====== Lista de dados como grade de “pills” ====== */
+#lista-dados{
+  list-style:none;
+  padding: 0;
+  margin: 0;
+
+  display:grid;
+  grid-template-columns: repeat(2,minmax(260px,1fr));
+  gap: 22px;
+}
+
+/* Item base (pill) */
+#lista-dados > li{
+  background: var(--lavender);
+  border: 2px solid #efccff;
+  border-radius: var(--radius-pill);
+  padding: 18px 22px;
+  box-shadow: var(--pill-shadow);
+  line-height: 1.35;
+  min-height: 80px;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+/* Label (o <strong>) vira título do “pill” */
+#lista-dados > li > strong{
+  display:block;
+  font-weight:800;
+  text-transform: none;
+  letter-spacing:.2px;
+  color: var(--purple);
+  margin-bottom: 4px;
+}
+
+/* Valor (texto após o <strong>) */
+#lista-dados > li{
+  font-weight:600;
+}
+
+/* Nome e E-mail ocupam a largura toda como um “header card */
+#lista-dados > li:first-child{
+  grid-column: 1 / -1;
+  background: #fff;
+  border-radius: var(--radius-card);
+  border: 3px solid #efccff;
+  padding: 18px 26px;
+}
+#lista-dados > li:nth-child(2){
+  grid-column: 1 / -1;
+  background: #fff;
+  border-radius: var(--radius-card);
+  border: 3px solid #efccff;
+  padding: 16px 26px;
+  margin-top: -10px;          /* aproxima do 1º para parecer um bloco único */
+}
+
+/* Restante em formato “pills” menores */
+#lista-dados > li:nth-child(n+3){
+  background: var(--lavender);
+  border-radius: var(--radius-pill);
+}
+
+/* Responsivo */
+@media (max-width: 720px){
+  #lista-dados{ grid-template-columns: 1fr; }
+  #avatar-view{ margin-left: 0; }
+}
+
+/* Botões “Editar / Sair” em pill */
+#btn-editar, #btn-logout, #btn-salvar-edicao, #btn-cancelar-edicao, #enviar-cadastro{
+  border:0;
+  padding: 10px 18px;
+  border-radius: var(--radius-pill);
+  background: var(--purple);
+  color:#fff;
+  font-weight:700;
+  box-shadow: var(--pill-shadow);
+  cursor:pointer;
+}
+#btn-logout{ background:#ffffff; color:var(--purple); border:2px solid #e6d2ff; }
+#btn-logout:hover{ background:#f9f5ff }
+#btn-editar:hover, #btn-salvar-edicao:hover, #enviar-cadastro:hover{
+  background: var(--purple-700);
+}
+
+/* ====== Formulário “Novo Post” – look lilás ====== */
+#form-novo-post{
+  border:2px dashed #e2c9ff !important;
+  background: var(--lavender-2) !important;
+  border-radius: 18px !important;
+}
+#form-novo-post label{ color: var(--purple); font-weight:700 }
+#form-novo-post textarea{
+  border:2px solid #e2c9ff !important;
+  border-radius: 14px !important;
+}
+#form-novo-post input[type="file"]{
+  background:#fff;
+  border:2px solid #e2c9ff;
+  border-radius: 10px;
+  padding:8px;
+}
+
+/* ====== FORMULÁRIOS (cadastro/edição) – coerência visual ====== */
+.form-cadastro, #form-edicao{
+  background:#fff !important;
+  border: 2px solid #e6d2ff !important;
+  border-radius: 22px !important;
+  box-shadow: var(--pill-shadow);
+}
+.form-cadastro h1, #form-edicao h1{ color: var(--purple); }
+.campo-info{
+  width:100%;
+  border:2px solid #e2c9ff;
+  border-radius: 14px;
+  padding:10px 12px;
+  outline: none;
+}
+.campo-info:focus{
+  border-color:#c9a7ff;
+  box-shadow: 0 0 0 4px rgba(201,167,255,.18);
+}
+
+/* ====== FEED (posts.html) – imagem e legenda ====== */
+.post{
+  background:#fff;
+  border: 2px solid #e6d2ff;
+  border-radius: 22px;
+  box-shadow: var(--pill-shadow);
+}
+.post img.post{
+  width:100%;
+  height:auto;
+  border-radius: 0 0 22px 22px;
+  display:block;
+}
+.legenda_post{
+  margin: 0 18px 14px 18px;
+  font-weight:600;
+  color:#3a2f60;
+}
+
+/* ====== Acessibilidade de foco ====== */
+a, button, input, textarea{ transition: box-shadow .12s ease, transform .06s ease }
+a:focus-visible, button:focus-visible, .campo-info:focus-visible, textarea:focus-visible{
+  outline:none;
+  box-shadow: 0 0 0 4px rgba(108,65,175,.25);
+}
+
+/* ====== Pequenos ajustes utilitários ====== */
+small, label{ background:none }
