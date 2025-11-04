@@ -3,6 +3,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const detalhe = document.getElementById('job-detail');
   let empregos = []; // variável global para armazenar as vagas carregadas
 
+  // Se não existir a UL/section esperada, não segue
+  if (!lista || !detalhe) return;
+
   // Carrega JSON de empregos
   fetch('../view/JSON/empregos.json')
     .then(res => {
@@ -15,13 +18,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Verifica se há um ID na URL ao carregar
       const params = new URLSearchParams(window.location.search);
-      const id = params.get("id");
+      const id = params.get('id');
       if (id) {
         const empregoSelecionado = empregos.find(e => e.id == id);
         if (empregoSelecionado) {
           // Seleciona automaticamente o card correspondente
-          const cards = document.querySelectorAll(".job-card");
-          const card = Array.from(cards).find(c => c.querySelector("h3").textContent === empregoSelecionado.titulo);
+          const cards = document.querySelectorAll('.job-card');
+          const card = Array.from(cards).find(
+            c => c.querySelector('h3')?.textContent === empregoSelecionado.titulo
+          );
           if (card) selecionarCard(card, empregoSelecionado);
         }
       }
@@ -53,9 +58,9 @@ document.addEventListener('DOMContentLoaded', () => {
         selecionarCard(li, emprego);
 
         // Atualiza o parâmetro "id" na URL sem recarregar a página
-        const url = new URL(window.location);
-        url.searchParams.set("id", emprego.id);
-        window.history.pushState({}, "", url);
+        const url = new URL(window.location.href);
+        url.searchParams.set('id', emprego.id);
+        window.history.pushState({}, '', url);
       });
 
       lista.appendChild(li);
@@ -92,20 +97,6 @@ document.addEventListener('DOMContentLoaded', () => {
       listaRequisitos = `<p>${emprego.requisitos || 'Descrição não disponível.'}</p>`;
     }
 
- 
-  detalhe.innerHTML = `
-    <div class="detail">
-      <h1>${emprego.titulo}</h1>
-      <p><strong>Empresa:</strong> ${emprego.empresa}</p>
-      <p><strong>Local:</strong> ${emprego.local}</p>
-      <p><strong>Salário:</strong> ${emprego.salario || 'Não informado'}</p>
-      <hr style="margin: 1em 0; border: 0; border-top: 1px solid var(--border);">
-      <p>${emprego.descricao || 'Descrição não disponível.'}</p>
-      <strong>Requisitos:</strong>
-      ${listaRequisitos}
-      <div class="imagem-detalhe">
-        <img class="emprego" src="${emprego.img || 'view\img\logo.png'}" alt="Imagem do emprego" style="width:25em; height:25em; border-radius:10px; margin-top:1em;">
- 
     detalhe.innerHTML = `
       <div class="detail">
         <h1>${emprego.titulo}</h1>
@@ -117,11 +108,11 @@ document.addEventListener('DOMContentLoaded', () => {
         <strong>Requisitos:</strong>
         ${listaRequisitos}
         <div class="imagem-detalhe">
-          <img src="${emprego.img || 'view/img/logo.png'}" 
-               alt="Imagem do emprego" 
+          <img class="emprego"
+               src="${emprego.img || 'view/img/logo.png'}"
+               alt="Imagem do emprego"
                style="width:25em; height:25em; border-radius:10px; margin-top:1em;">
         </div>
- 
       </div>
     `;
   }
