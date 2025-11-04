@@ -478,3 +478,7 @@ img.post {
 /* Toolbar só quando existir */
 #post-toolbar { display: none; }
 #perfil-view + #post-toolbar { display: block; } /* exemplo, ajuste conforme seu HTML */
+
+
+ 
+
