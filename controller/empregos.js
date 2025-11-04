@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <strong>Requisitos:</strong>
       ${listaRequisitos}
       <div class="imagem-detalhe">
-        <img src="${emprego.img || 'view\img\logo.png'}" alt="Imagem do emprego" style="width:25em; height:25em; border-radius:10px; margin-top:1em;">
+        <img class="emprego" src="${emprego.img || 'view\img\logo.png'}" alt="Imagem do emprego" style="width:25em; height:25em; border-radius:10px; margin-top:1em;">
       </div>
     </div>
   `;
