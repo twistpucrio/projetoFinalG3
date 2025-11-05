@@ -394,83 +394,302 @@ a.botao-cadastro:hover {
   filter: brightness(1.03);
 }
 
-        #chat-container {
-            display: flex;
-            height: calc(100vh - 150px);
-            margin: 0 20px 20px 20px;
-        }
+/* ====== ÁREA DE MENSAGENS ====== */
+#chat-container {
+  display: flex;
+  height: 80vh;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
 
-        #conversations {
-            width: 30%;
-            border-right: 2px solid #ddd;
-            overflow-y: auto;
-        }
+/* ====== LISTA DE USUÁRIOS ====== */
+#conversations {
+  width: 30%;
+  background-color: var(--card);
+  padding: 10px;
+  overflow-y: auto;
+}
 
-        .conversation {
-            padding: 15px;
-            border-bottom: 1px solid #ddd;
-            cursor: pointer;
-        }
+.user {
+  padding: 10px;
+  margin: 5px;
+  background: var(--white);
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  transition: background 0.2s;
+}
+.user:hover {
+  background: var(--accent-2);
+  color: white;
+}
 
-        .conversation:hover {
-            background-color: #eee;
-        }
 
-        #chat-window {
-            width: 70%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 15px;
-        }
+/* ====== JANELA DO CHAT ====== */
+#chat-window {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #faf7ff; /* fundo lilás clarinho */
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: 1px solid #e1cfff;
+  box-shadow: 0 4px 15px rgba(108, 65, 175, 0.1);
+  transition: all 0.3s ease;
+}
 
-        #messages {
-            flex-grow: 1;
-            overflow-y: auto;
-            padding-right: 10px;
-        }
+/* ====== CABEÇALHO ====== */
+#chat-header {
+  font-family: 'Segoe UI', 'sans-serif';
+  background: none; 
+  font-weight: 700;
+  text-align: center;
+  padding: 15px;
+  font-size: 16px;
+  color: #4b2a82;
+  border-bottom: 1px solid #e0d0f7; 
+}
 
-        .message {
-            margin: 10px 0;
-            padding: 10px 15px;
-            border-radius: 20px;
-            max-width: 70%;
-            clear: both;
-        }
 
-        .message.sent {
-            background-color: #6c41af;
-            color: white;
-            align-self: flex-end;
-        }
+/* ====== ÁREA DE MENSAGENS ====== */
+#messages {
+  font-family: 'Segoe UI', 'sans-serif';
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  scrollbar-width: thin;
+  scrollbar-color: #c6acee #faf7ff;
+}
 
-        .message.received {
-            background-color: #e0d4f5;
-            align-self: flex-start;
-        }
+#messages::-webkit-scrollbar {
+  width: 8px;
+}
+#messages::-webkit-scrollbar-thumb {
+  background: #c6acee;
+  border-radius: 10px;
+}
 
-        #message-input-container {
-            display: flex;
-            margin-top: 10px;
-        }
+/* ====== MENSAGENS ====== */
+.message {
+  font-family: 'Segoe UI', 'sans-serif';
+  padding: 10px 14px;
+  border-radius: 18px;
+  max-width: 70%;
+  word-wrap: break-word;
+  font-size: 14px;
+  line-height: 1.4;
+  animation: fadeIn 0.3s ease;
+}
 
-        #message-input {
-            flex-grow: 1;
-            padding: 10px 15px;
-            border-radius: 25px;
-            border: 2px solid #6c41af;
-            outline: none;
-        }
+/* Mensagem enviada (você) */
+.message.sent {
+  font-family: 'Segoe UI', 'sans-serif';
+  background: linear-gradient(135deg, #7c4dff, #9d71ff);
+  color: white;
+  align-self: flex-end;
+  border-bottom-right-radius: 6px;
+  box-shadow: 0 2px 6px rgba(124, 77, 255, 0.3);
+}
 
-        #send-button {
-            padding: 10px 20px;
-            margin-left: 10px;
-            border: none;
-            border-radius: 25px;
-            background-color: #6c41af;
-            color: #fff;
-            cursor: pointer;
-        }
+/* Mensagem recebida */
+.message.received {
+  font-family: 'Segoe UI', 'sans-serif';
+  background: #ffffff;
+  border: 1px solid #e2d5f9;
+  color: #4b2a82;
+  align-self: flex-start;
+  border-bottom-left-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+}
+
+/* ====== INPUT E BOTÃO ENVIAR ====== */
+#message-input-container {
+  font-family: 'Segoe UI', 'sans-serif';
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  border-top: 1px solid #e1cfff;
+  background: #f6f0ff;
+  border-radius: 0 0 20px 20px;
+}
+
+#message-input {
+  font-family: 'Segoe UI', 'sans-serif';
+  flex: 1;
+  padding: 12px 15px;
+  font-size: 14px;
+  border-radius: 25px;
+  border: 1px solid #d7c3f5;
+  outline: none;
+  background: white;
+  color: #4b2a82;
+  transition: 0.2s;
+}
+
+#message-input:focus {
+  border-color: #7c4dff;
+  box-shadow: 0 0 0 3px rgba(108, 65, 175, 0.15);
+}
+
+/* ====== BOTÃO ENVIAR ====== */
+#send-button {
+  font-family: 'Segoe UI', 'sans-serif';
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #7c4dff, #9d71ff);
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0 3px 8px rgba(108, 65, 175, 0.25);
+}
+
+#send-button:hover {
+  background: linear-gradient(135deg, #6a39e8, #8e5ffb);
+  transform: translateY(-2px);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.message {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px; /* espaço entre avatar e bolha */
+  max-width: 80%;
+}
+
+.message.received {
+  flex-direction: row;
+}
+
+.message.sent {
+  flex-direction: row-reverse;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0; /* não encolhe */
+}
+
+.message-content {
+  display: flex;
+  flex-direction: column;
+  background: #fff; /* bolha padrão */
+  border-radius: 20px;
+  padding: 10px 14px;
+  position: relative;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.message.sent .message-content {
+  background: linear-gradient(135deg, #7b4eff, #a076ff);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(124, 77, 255, 0.35);
+}
+
+.timestamp {
+  font-size: 11px;
+  color: #a59ad4;
+  margin-top: 4px;
+  align-self: flex-end;
+}
+
+/* Triângulo da bolha */
+.message.sent .message-content::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: -6px;
+  width: 12px;
+  height: 12px;
+  background: linear-gradient(135deg, #7b4eff, #a076ff);
+  clip-path: polygon(0 0, 100% 100%, 100% 0);
+}
+
+.message.received .message-content::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: -6px;
+  width: 12px;
+  height: 12px;
+  background: #fff;
+  border-left: 1px solid #e3d9f7;
+  border-bottom: 1px solid #e3d9f7;
+  clip-path: polygon(0 100%, 100% 100%, 0 0);
+}
+
+
+
+/* ====== LISTA DE USUÁRIOS ====== */
+#conversations {
+  font-family: 'Inter', sans-serif; /* fonte da lista inteira */
+  font-size: 14px;
+  color: #4b2a82;
+}
+
+#user-list .user-item {
+  padding: 8px 10px;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: background 0.2s;
+}
+
+#user-list .user-item:hover {
+  background: #f0eaff; /* cor de hover lilás clarinho */
+}
+
+#user-list .user-item[data-email=""] {
+  font-weight: normal;
+}
+
+#user-list .user-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: background 0.2s;
+}
+
+#user-list .user-item:hover {
+  background: #f0eaff;
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.user-name {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: #4b2a82;
+}
+
+
 
 /* Card do post */
 .post {
