@@ -1,0 +1,403 @@
+ <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="estilo.css">
+  <link rel="stylesheet" href="empregos.css">
+  <script src="../controller/empresas.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>empresas — reviews</title>
+  <style>
+    :root { --gap: 12px; --radius: 14px; }
+    .wrap { max-width: 1000px; margin: 24px auto; padding: 0 16px; }
+    .toolbar { display:flex; gap: var(--gap); align-items:center; justify-content:space-between; margin: 16px 0 8px; }
+    .btn { border: none; padding: 10px 14px; border-radius: var(--radius); background: #111; color: #fff; cursor: pointer; font-weight: 600; }
+    .btn.secondary { background:#ececec; color:#111; }
+    .hint { font-size: .9rem; color:#666; }
+    .reviews-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--gap); }
+    .card { border: 1px solid #e7e7e7; border-radius: var(--radius); padding: 14px; background: #fff; }
+    .card h3 { margin: 0 0 6px; font-size: 1.05rem; }
+    .meta { font-size: .88rem; color:#555; display:flex; flex-wrap:wrap; gap: 8px; }
+    .meta span { background:#f6f6f6; border-radius: 999px; padding: 3px 8px; }
+    .card p { margin: 10px 0 0; line-height: 1.45; }
+    .empty { text-align:center; color:#777; padding: 28px 0; }
+    .filters { display:flex; gap:10px; flex-wrap:wrap; margin: 12px 0 18px; }
+    .filters input { max-width: 260px; }
+
+    dialog::backdrop { background: rgba(0,0,0,.45); }
+    dialog { width: min(720px, 92vw); border: none; border-radius: 16px; padding: 0; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,.25); }
+    .dlg-head { padding: 16px 18px; background:#111; color:#fff; display:flex; align-items:center; justify-content:space-between; }
+    .dlg-body { padding: 18px; display: grid; gap: 12px; }
+    .row { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
+    .row-3 { display: grid; gap: 12px; grid-template-columns: 1fr 1fr 1fr; }
+    label { font-weight: 600; font-size: .92rem; }
+    input, textarea, select { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 10px; font: inherit; background: #fff; }
+    textarea { min-height: 120px; resize: vertical; }
+    .dlg-foot { padding: 14px 18px; display:flex; justify-content:flex-end; gap: 10px; border-top: 1px solid #eee; }
+
+    /* === COMENTÁRIOS: estilos === */
+    .card-actions { display:flex; align-items:center; justify-content:flex-end; gap: 8px; margin-top: 10px; }
+    .icon-btn { position: relative; border: 1px solid #e7e7e7; background:#fff; border-radius: 999px; padding: 6px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; }
+    .icon-btn img.icon { width: 22px; height: 22px; display:block; }
+    .bubble { position:absolute; top:-6px; right:-6px; font-size: 11px; background:#111; color:#fff; border-radius:999px; padding: 2px 6px; line-height:1; }
+    .comments { margin-top: 10px; border-top: 1px dashed #e5e5e5; padding-top: 10px; display:none; }
+    .comments.open { display:block; }
+    .comment { background:#fafafa; border:1px solid #eee; border-radius: 10px; padding: 8px 10px; margin-top: 8px; }
+    .comment-meta { font-size: 12px; color:#666; margin-bottom: 4px; }
+    .toggle-comments { background:none; border:none; color:#444; cursor:pointer; font-size: .92rem; padding: 0; text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div id="topbar">  
+    <a href="index.html"><img id="logo" class="logo" src="img/logo.png" alt="logo"></a>
+    <div id="icones-pequenos"> 
+      <a href="perfil.html"><img id="perfil" class="icon" src="img/perfil.png" alt="perfil"/></a>
+      <a href="messages.html"><img id="message" class="icon" src="img/message.png" alt="cart"/></a>
+    </div>
+  </div>
+
+  <div id="search-container">
+    <input type="text" id="search-input" placeholder="Digite sua pesquisa..." />
+    <button id="search-button">Buscar</button>
+  </div>
+
+  <div class="caixas">
+    <div id="paginas" class="secundaria"><a class="post_secundario" href="posts.html">POSTS</a></div>
+    <div id="paginas" class="secundaria"><a class="post_secundario" href="empregos.html">EMPREGOS</a></div>
+    <div id="paginas" class="atual"><a class="post_atual" href="review.html">REVIEW</a></div>
+  </div>
+
+  <div class="wrap">
+    <div class="toolbar">
+      <div>
+        <h2 style="margin:0;">Reviews anônimos</h2>
+        <div class="hint">Os reviews são anônimos e ficam salvos no seu navegador (localStorage). Para compartilhar entre navegadores/dispositivos, precisamos conectar um backend simples.</div>
+      </div>
+      <button id="btn-open" class="btn">Escrever review</button>
+    </div>
+
+    <div class="filters">
+      <input id="f-empresa" type="text" placeholder="Filtrar por empresa..." />
+      <select id="f-area">
+        <option value="">Todas as áreas</option>
+        <option>Administração</option><option>Comercial/Vendas</option><option>Operações</option>
+        <option>Tecnologia</option><option>Financeiro</option><option>RH</option><option>Marketing</option><option>Jurídico</option>
+      </select>
+      <button id="btn-clear-filter" class="btn secondary">Limpar filtros</button>
+    </div>
+
+    <div id="reviews-list" class="reviews-grid"></div>
+    <div id="empty" class="empty" style="display:none;">Nenhum review ainda. Seja o primeiro! 🎉</div>
+  </div>
+
+  <!-- Modal: novo review -->
+  <dialog id="dlg">
+    <form id="review-form" method="dialog">
+      <div class="dlg-head">
+        <strong>Novo review (anônimo)</strong>
+        <button id="btn-close" type="button" class="btn secondary">Fechar</button>
+      </div>
+
+      <div class="dlg-body">
+        <div class="row">
+          <div>
+            <label for="empresa">Empresa *</label>
+            <input id="empresa" name="empresa" type="text" placeholder="Ex.: ACME S.A." required />
+          </div>
+          <div>
+            <label for="dataReview">Data do review *</label>
+            <input id="dataReview" name="dataReview" type="date" required />
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label for="inicio">Quando trabalhou lá (início) *</label>
+            <input id="inicio" name="inicio" type="month" required />
+          </div>
+          <div>
+            <label for="fim">Quando trabalhou lá (fim) *</label>
+            <input id="fim" name="fim" type="month" required />
+          </div>
+        </div>
+
+        <div class="row-3">
+          <div>
+            <label for="tempo">Quanto tempo trabalhou? *</label>
+            <input id="tempo" name="tempo" type="text" placeholder="Ex.: 6 meses, 2 anos" required />
+          </div>
+          <div>
+            <label for="area">Em que área trabalhou? *</label>
+            <input id="area" name="area" type="text" list="areas" placeholder="Ex.: Tecnologia" required />
+            <datalist id="areas">
+              <option value="Tecnologia"></option><option value="Operações"></option><option value="Financeiro"></option>
+              <option value="Marketing"></option><option value="Comercial/Vendas"></option><option value="RH"></option>
+              <option value="Jurídico"></option><option value="Administração"></option>
+            </datalist>
+          </div>
+          <div>
+            <label for="contrato">Tipo de vínculo</label>
+            <select id="contrato" name="contrato">
+              <option value="">Não informar</option><option>Estágio</option><option>CLT</option><option>PJ</option><option>Temporário</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label for="texto">Insira seu review *</label>
+          <textarea id="texto" name="texto" placeholder="Fale sobre cultura, liderança, carga de trabalho, salário/benefícios, pontos positivos e a melhorar..." required></textarea>
+        </div>
+      </div>
+
+      <div class="dlg-foot">
+        <button type="reset" class="btn secondary">Limpar</button>
+        <button id="btn-save" type="submit" class="btn">Publicar review</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- === COMENTÁRIOS: modal para comentar um review existente === -->
+  <dialog id="dlg-comment">
+    <form id="comment-form" method="dialog">
+      <div class="dlg-head">
+        <strong>Comentar review (anônimo)</strong>
+        <button id="btn-close-comment" type="button" class="btn secondary">Fechar</button>
+      </div>
+      <div class="dlg-body">
+        <div id="comment-review-info" class="hint"></div>
+        <label for="comment-text">Seu comentário *</label>
+        <textarea id="comment-text" placeholder="Responda de forma respeitosa e útil..." required></textarea>
+        <input type="hidden" id="comment-review-id" />
+        <div id="comment-existing"></div>
+      </div>
+      <div class="dlg-foot">
+        <button type="reset" class="btn secondary">Limpar</button>
+        <button id="btn-save-comment" type="submit" class="btn">Publicar comentário</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script>
+    // ------ Storage helpers ------
+    const LS_KEY = "reviews_v1";
+
+    function loadReviews() {
+      try { return JSON.parse(localStorage.getItem(LS_KEY) || "[]"); }
+      catch { return []; }
+    }
+    function saveReviews(arr) {
+      localStorage.setItem(LS_KEY, JSON.stringify(arr));
+    }
+    function uid() { return Math.random().toString(36).slice(2) + Date.now().toString(36); }
+
+    // ------ DOM refs ------
+    const dlg = document.getElementById("dlg");
+    const btnOpen = document.getElementById("btn-open");
+    const btnClose = document.getElementById("btn-close");
+    const form = document.getElementById("review-form");
+    const listEl = document.getElementById("reviews-list");
+    const emptyEl = document.getElementById("empty");
+    const fEmpresa = document.getElementById("f-empresa");
+    const fArea = document.getElementById("f-area");
+    const btnClearFilter = document.getElementById("btn-clear-filter");
+
+    // === COMENTÁRIOS: refs
+    const dlgComment = document.getElementById("dlg-comment");
+    const btnCloseComment = document.getElementById("btn-close-comment");
+    const commentForm = document.getElementById("comment-form");
+    const commentText = document.getElementById("comment-text");
+    const commentReviewId = document.getElementById("comment-review-id");
+    const commentReviewInfo = document.getElementById("comment-review-info");
+    const commentExisting = document.getElementById("comment-existing");
+
+    // Prefill today's date
+    const dataReview = document.getElementById("dataReview");
+    if (dataReview && !dataReview.value) {
+      const today = new Date();
+      dataReview.value = today.toISOString().slice(0,10);
+    }
+
+    function escapeHtml(str) {
+      if (typeof str !== "string") return str ?? "";
+      return str
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    // ------ Render ------
+    function render(reviews) {
+      const qEmpresa = (fEmpresa.value || "").trim().toLowerCase();
+      const qArea = (fArea.value || "").trim().toLowerCase();
+
+      const data = reviews
+        .filter(r => qEmpresa ? r.empresa.toLowerCase().includes(qEmpresa) : true)
+        .filter(r => qArea ? (r.area||"").toLowerCase() === qArea : true)
+        .sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+      listEl.innerHTML = "";
+      if (data.length === 0) {
+        emptyEl.style.display = "block";
+        return;
+      } else {
+        emptyEl.style.display = "none";
+      }
+
+      for (const r of data) {
+        const card = document.createElement("div");
+        card.className = "card";
+        const periodo = `${r.inicio?.slice(0,7)} — ${r.fim?.slice(0,7)}`;
+        const dataFmt = r.dataReview ? new Date(r.dataReview).toLocaleDateString() : "-";
+        const comments = Array.isArray(r.comments) ? r.comments : [];
+
+        card.innerHTML = `
+          <h3>${escapeHtml(r.empresa)}</h3>
+          <div class="meta">
+            <span>${escapeHtml(r.area || "Área não informada")}</span>
+            <span>Tempo: ${escapeHtml(r.tempo || "-")}</span>
+            <span>Período: ${escapeHtml(periodo)}</span>
+            <span>Review: ${escapeHtml(dataFmt)}</span>
+            ${r.contrato ? `<span>${escapeHtml(r.contrato)}</span>` : ""}
+          </div>
+          <p>${escapeHtml(r.texto)}</p>
+
+          <div class="card-actions">
+            <button class="toggle-comments" data-id="${r.id}" type="button">
+              ${comments.length ? `Ver comentários (${comments.length})` : "Sem comentários — abrir"}
+            </button>
+            <button class="icon-btn comment-btn" data-id="${r.id}" title="Comentar">
+              <img class="icon" src="img/message.png" alt="comentário"/>
+              ${comments.length ? `<span class="bubble">${comments.length}</span>` : ""}
+            </button>
+          </div>
+
+          <div class="comments" id="c-${r.id}">
+            ${comments.map(c => `
+              <div class="comment">
+                <div class="comment-meta">${new Date(c.createdAt).toLocaleString()}</div>
+                <p>${escapeHtml(c.text)}</p>
+              </div>
+            `).join("")}
+          </div>
+        `;
+
+        listEl.appendChild(card);
+      }
+
+      // bind botões após pintar
+      listEl.querySelectorAll(".comment-btn").forEach(btn => {
+        btn.addEventListener("click", () => openCommentModal(btn.dataset.id));
+      });
+      listEl.querySelectorAll(".toggle-comments").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const el = document.getElementById("c-" + btn.dataset.id);
+          if (!el) return;
+          el.classList.toggle("open");
+          btn.textContent = el.classList.contains("open") ? "Ocultar comentários" : (el.querySelectorAll(".comment").length ? `Ver comentários (${el.querySelectorAll(".comment").length})` : "Sem comentários — abrir");
+        });
+      });
+    }
+
+    // ------ Comentários: lógica ------
+    function openCommentModal(reviewId) {
+      const all = loadReviews();
+      const r = all.find(x => x.id === reviewId);
+      if (!r) return;
+
+      commentReviewId.value = r.id;
+      commentText.value = "";
+      commentReviewInfo.textContent = `Comentando review de ${r.empresa} (${r.area || "Área não informada"})`;
+      commentExisting.innerHTML = (r.comments && r.comments.length)
+        ? `<div class="hint"><strong>Comentários existentes:</strong></div>` + r.comments.map(c => `
+            <div class="comment">
+              <div class="comment-meta">${new Date(c.createdAt).toLocaleString()}</div>
+              <p>${escapeHtml(c.text)}</p>
+            </div>
+          `).join("")
+        : `<div class="hint">Ainda não há comentários neste review.</div>`;
+
+      dlgComment.showModal();
+    }
+
+    btnOpen.addEventListener("click", () => dlg.showModal());
+    btnClose.addEventListener("click", () => dlg.close());
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const fd = new FormData(form);
+      const empresa = (fd.get("empresa") || "").toString().trim();
+      const dataReview = (fd.get("dataReview") || "").toString();
+      const inicio = (fd.get("inicio") || "").toString();
+      const fim = (fd.get("fim") || "").toString();
+      const tempo = (fd.get("tempo") || "").toString().trim();
+      const area = (fd.get("area") || "").toString().trim();
+      const contrato = (fd.get("contrato") || "").toString();
+      const texto = (fd.get("texto") || "").toString().trim();
+
+      if (!empresa || !dataReview || !inicio || !fim || !tempo || !area || !texto) {
+        alert("Preencha todos os campos obrigatórios (*)");
+        return;
+      }
+
+      const all = loadReviews();
+      all.push({
+        id: uid(),
+        empresa, dataReview, inicio, fim, tempo, area, contrato, texto,
+        createdAt: Date.now(),
+        comments: [] // === COMENTÁRIOS: inicia vazio
+      });
+      saveReviews(all);
+
+      form.reset();
+      document.getElementById("dataReview").value = new Date().toISOString().slice(0,10);
+      dlg.close();
+      render(loadReviews());
+    });
+
+    // === COMENTÁRIOS: salvar comentário
+    btnCloseComment.addEventListener("click", () => dlgComment.close());
+    commentForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const id = commentReviewId.value;
+      const text = (commentText.value || "").trim();
+      if (!id || !text) { alert("Escreva um comentário."); return; }
+
+      const all = loadReviews();
+      const idx = all.findIndex(r => r.id === id);
+      if (idx === -1) return;
+
+      if (!Array.isArray(all[idx].comments)) all[idx].comments = [];
+      all[idx].comments.push({ id: uid(), text, createdAt: Date.now() });
+      saveReviews(all);
+
+      dlgComment.close();
+      render(loadReviews());
+      // abre a seção de comentários deste card para feedback visual
+      const section = document.getElementById("c-" + id);
+      if (section) section.classList.add("open");
+    });
+
+    fEmpresa.addEventListener("input", () => render(loadReviews()));
+    fArea.addEventListener("change", () => render(loadReviews()));
+    btnClearFilter.addEventListener("click", () => { fEmpresa.value = ""; fArea.value = ""; render(loadReviews()); });
+
+    // Primeira renderização
+    render(loadReviews());
+
+    // Integra com a busca geral (opcional)
+    const searchInput = document.getElementById("search-input");
+    const searchButton = document.getElementById("search-button");
+    if (searchButton && searchInput) {
+      searchButton.addEventListener("click", () => {
+        fEmpresa.value = searchInput.value || "";
+        render(loadReviews());
+      });
+    }
+  </script>
+
+  <script src="../controller/script.js"></script>
+  <script src="../controller/fotoPerfil.js"></script>
+</body>
+</html>
