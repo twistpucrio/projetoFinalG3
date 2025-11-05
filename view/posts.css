@@ -214,6 +214,132 @@ div.post {
   box-shadow: 0 4px 12px rgba(0,0,0,.10);
 }
 
+
+/* ======== BOTÕES DE AÇÃO DO POST ======== */
+.post-acoes {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 12px;
+  margin: 10px 0 15px 0;
+}
+
+.post-acoes button {
+  background: none;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--accent);
+  cursor: pointer;
+  transition: transform 0.15s ease, color 0.2s ease;
+}
+
+.post-acoes button:hover {
+  transform: scale(1.05);
+  color: var(--accent-2);
+}
+
+/* ======== LIKE ======== */
+.btn-like {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 16px;
+  color:  white;
+  transition: color 0.2s ease, transform 0.15s ease;
+}
+
+.btn-like:hover {
+  color: var(--accent-2); /* tom mais forte no hover */
+  transform: scale(1.05);
+}
+
+.btn-like.liked {
+  color: #e63946; /* ❤️ vermelho quando curtido */
+  transform: scale(1.1);
+}
+
+.btn-like .like-count {
+  font-weight: 700;
+}
+
+/* ======== BOTÃO DE COMENTÁRIOS ======== */
+.btn-toggle-comments {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.btn-toggle-comments:hover {
+  color: var(--accent-2);
+}
+
+/* ======== ANIMAÇÃO DE MOSTRAR/ESCONDER COMENTÁRIOS ======== */
+.comentarios {
+  overflow: hidden;
+  transition: all 0.25s ease;
+  background-color: #f8f3ff;
+}
+
+.comentarios h4{
+  background-color: #f8f3ff;
+}
+
+.comentarios-list {
+  margin-bottom: 8px;
+}
+
+.comentario {
+  background-color: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 10px;
+  margin-bottom: 6px;
+}
+
+.comentario strong {
+  color: var(--accent);
+  background-color: white;
+
+}
+
+/* ======== INPUT DE NOVO COMENTÁRIO ======== */
+.novo-comentario {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.novo-comentario input {
+  flex: 1;
+  padding: 8px 10px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  outline: none;
+  font-size: 14px;
+}
+
+.novo-comentario input:focus {
+  border-color: var(--accent);
+}
+
+.novo-comentario .btn-comentar {
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  border: none;
+  border-radius: 999px;
+  padding: 8px 16px;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter 0.2s ease;
+}
+
+.novo-comentario .btn-comentar:hover {
+  filter: brightness(1.1);
+}
+
+
+
+
 /* Responsivo */
 @media (max-width:560px){
   #feed-posts .user-post{ padding: 16px; }
