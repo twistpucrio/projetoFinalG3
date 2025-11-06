@@ -177,225 +177,264 @@
     </form>
   </dialog>
 
+
+
   <script>
-    // ------ Storage helpers ------
-    const LS_KEY = "reviews_v1";
+  // ------ Storage helpers ------
+  const LS_KEY = "reviews_v1";
+  const uid = () => Math.random().toString(36).slice(2) + Date.now().toString(36);
 
-    function loadReviews() {
-      try { return JSON.parse(localStorage.getItem(LS_KEY) || "[]"); }
-      catch { return []; }
-    }
-    function saveReviews(arr) {
-      localStorage.setItem(LS_KEY, JSON.stringify(arr));
-    }
-    function uid() { return Math.random().toString(36).slice(2) + Date.now().toString(36); }
+  const loadReviews = () => JSON.parse(localStorage.getItem(LS_KEY) || "[]");
+  const saveReviews = arr => localStorage.setItem(LS_KEY, JSON.stringify(arr));
 
-    // ------ DOM refs ------
-    const dlg = document.getElementById("dlg");
-    const btnOpen = document.getElementById("btn-open");
-    const btnClose = document.getElementById("btn-close");
-    const form = document.getElementById("review-form");
-    const listEl = document.getElementById("reviews-list");
-    const emptyEl = document.getElementById("empty");
-    const fEmpresa = document.getElementById("f-empresa");
-    const fArea = document.getElementById("f-area");
-    const btnClearFilter = document.getElementById("btn-clear-filter");
+  // ------ DOM refs ------
+  const dlg = document.getElementById("dlg");
+  const btnOpen = document.getElementById("btn-open");
+  const btnClose = document.getElementById("btn-close");
+  const form = document.getElementById("review-form");
+  const listEl = document.getElementById("reviews-list");
+  const emptyEl = document.getElementById("empty");
+  const fEmpresa = document.getElementById("f-empresa");
+  const fArea = document.getElementById("f-area");
+  const btnClearFilter = document.getElementById("btn-clear-filter");
 
-    // === COMENTÁRIOS: refs
-    const dlgComment = document.getElementById("dlg-comment");
-    const btnCloseComment = document.getElementById("btn-close-comment");
-    const commentForm = document.getElementById("comment-form");
-    const commentText = document.getElementById("comment-text");
-    const commentReviewId = document.getElementById("comment-review-id");
-    const commentReviewInfo = document.getElementById("comment-review-info");
-    const commentExisting = document.getElementById("comment-existing");
+  // === COMENTÁRIOS: refs
+  const dlgComment = document.getElementById("dlg-comment");
+  const btnCloseComment = document.getElementById("btn-close-comment");
+  const commentForm = document.getElementById("comment-form");
+  const commentText = document.getElementById("comment-text");
+  const commentReviewId = document.getElementById("comment-review-id");
+  const commentReviewInfo = document.getElementById("comment-review-info");
+  const commentExisting = document.getElementById("comment-existing");
 
-    // Prefill today's date
-    const dataReview = document.getElementById("dataReview");
-    if (dataReview && !dataReview.value) {
-      const today = new Date();
-      dataReview.value = today.toISOString().slice(0,10);
-    }
+  const today = new Date().toISOString().slice(0,10);
+  const dataReview = document.getElementById("dataReview");
+  if (dataReview && !dataReview.value) dataReview.value = today;
 
-    function escapeHtml(str) {
-      if (typeof str !== "string") return str ?? "";
-      return str
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-    }
+  const escapeHtml = str =>
+    typeof str === "string"
+      ? str.replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
+           .replaceAll('"',"&quot;").replaceAll("'","&#039;")
+      : str ?? "";
 
-    // ------ Render ------
-    function render(reviews) {
-      const qEmpresa = (fEmpresa.value || "").trim().toLowerCase();
-      const qArea = (fArea.value || "").trim().toLowerCase();
+  // ------ Render ------
+  function render(reviews) {
+    const qEmpresa = fEmpresa.value.trim().toLowerCase();
+    const qArea = fArea.value.trim().toLowerCase();
 
-      const data = reviews
-        .filter(r => qEmpresa ? r.empresa.toLowerCase().includes(qEmpresa) : true)
-        .filter(r => qArea ? (r.area||"").toLowerCase() === qArea : true)
-        .sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
+    const data = reviews
+      .filter(r => qEmpresa ? r.empresa.toLowerCase().includes(qEmpresa) : true)
+      .filter(r => qArea ? (r.area||"").toLowerCase() === qArea : true)
+      .sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
 
-      listEl.innerHTML = "";
-      if (data.length === 0) {
-        emptyEl.style.display = "block";
-        return;
-      } else {
-        emptyEl.style.display = "none";
-      }
+    listEl.innerHTML = "";
+    if (!data.length) { emptyEl.style.display = "block"; return; }
+    emptyEl.style.display = "none";
 
-      for (const r of data) {
-        const card = document.createElement("div");
-        card.className = "card";
-        const periodo = `${r.inicio?.slice(0,7)} — ${r.fim?.slice(0,7)}`;
-        const dataFmt = r.dataReview ? new Date(r.dataReview).toLocaleDateString() : "-";
-        const comments = Array.isArray(r.comments) ? r.comments : [];
+    for (const r of data) {
+      const periodo = `${r.inicio?.slice(0,7)} — ${r.fim?.slice(0,7)}`;
+      const dataFmt = r.dataReview ? new Date(r.dataReview).toLocaleDateString() : "-";
+      const comments = Array.isArray(r.comments) ? r.comments : [];
+      const likes = Array.isArray(r.likes) ? r.likes.length : 0;
 
-        card.innerHTML = `
-          <h3>${escapeHtml(r.empresa)}</h3>
-          <div class="meta">
-            <span>${escapeHtml(r.area || "Área não informada")}</span>
-            <span>Tempo: ${escapeHtml(r.tempo || "-")}</span>
-            <span>Período: ${escapeHtml(periodo)}</span>
-            <span>Review: ${escapeHtml(dataFmt)}</span>
-            ${r.contrato ? `<span>${escapeHtml(r.contrato)}</span>` : ""}
-          </div>
-          <p>${escapeHtml(r.texto)}</p>
+      const card = document.createElement("div");
+      card.className = "card";
+      card.dataset.id = r.id;
+      card.innerHTML = `
+        <h3>${escapeHtml(r.empresa)}</h3>
+        <div class="meta">
+          <span>${escapeHtml(r.area || "Área não informada")}</span>
+          <span>Tempo: ${escapeHtml(r.tempo || "-")}</span>
+          <span>Período: ${escapeHtml(periodo)}</span>
+          <span>Review: ${escapeHtml(dataFmt)}</span>
+          ${r.contrato ? `<span>${escapeHtml(r.contrato)}</span>` : ""}
+        </div>
+        <p>${escapeHtml(r.texto)}</p>
 
-          <div class="card-actions">
-            <button class="toggle-comments" data-id="${r.id}" type="button">
-              ${comments.length ? `Ver comentários (${comments.length})` : "Sem comentários — abrir"}
-            </button>
-            <button class="icon-btn comment-btn" data-id="${r.id}" title="Comentar">
-              <img class="icon" src="img/message.png" alt="comentário"/>
-              ${comments.length ? `<span class="bubble">${comments.length}</span>` : ""}
-            </button>
-          </div>
+        <div class="card-actions">
+          <button class="icon-btn like-btn" data-id="${r.id}">
+            <span class="heart">${r.liked ? "❤️" : "🤍"}</span>
+            <span class="like-count">${likes}</span>
+          </button>
+          <button class="toggle-comments" data-id="${r.id}" type="button">
+            ${comments.length ? `Ver comentários (${comments.length})` : "Sem comentários — abrir"}
+          </button>
+          <button class="icon-btn comment-btn" data-id="${r.id}" title="Comentar">
+            <img class="icon" src="img/message.png" alt="comentário"/>
+            ${comments.length ? `<span class="bubble">${comments.length}</span>` : ""}
+          </button>
+        </div>
 
-          <div class="comments" id="c-${r.id}">
-            ${comments.map(c => `
-              <div class="comment">
-                <div class="comment-meta">${new Date(c.createdAt).toLocaleString()}</div>
-                <p>${escapeHtml(c.text)}</p>
-              </div>
-            `).join("")}
-          </div>
-        `;
-
-        listEl.appendChild(card);
-      }
-
-      // bind botões após pintar
-      listEl.querySelectorAll(".comment-btn").forEach(btn => {
-        btn.addEventListener("click", () => openCommentModal(btn.dataset.id));
-      });
-      listEl.querySelectorAll(".toggle-comments").forEach(btn => {
-        btn.addEventListener("click", () => {
-          const el = document.getElementById("c-" + btn.dataset.id);
-          if (!el) return;
-          el.classList.toggle("open");
-          btn.textContent = el.classList.contains("open") ? "Ocultar comentários" : (el.querySelectorAll(".comment").length ? `Ver comentários (${el.querySelectorAll(".comment").length})` : "Sem comentários — abrir");
-        });
-      });
-    }
-
-    // ------ Comentários: lógica ------
-    function openCommentModal(reviewId) {
-      const all = loadReviews();
-      const r = all.find(x => x.id === reviewId);
-      if (!r) return;
-
-      commentReviewId.value = r.id;
-      commentText.value = "";
-      commentReviewInfo.textContent = `Comentando review de ${r.empresa} (${r.area || "Área não informada"})`;
-      commentExisting.innerHTML = (r.comments && r.comments.length)
-        ? `<div class="hint"><strong>Comentários existentes:</strong></div>` + r.comments.map(c => `
-            <div class="comment">
+        <div class="comments" id="c-${r.id}">
+          ${comments.map(c => `
+            <div class="comment" data-cid="${c.id}">
               <div class="comment-meta">${new Date(c.createdAt).toLocaleString()}</div>
               <p>${escapeHtml(c.text)}</p>
+              <button class="icon-btn comment-like" title="Curtir comentário">
+                <span class="heart">${c.liked ? "❤️" : "🤍"}</span>
+                <span class="like-count">${Array.isArray(c.likes) ? c.likes.length : 0}</span>
+              </button>
             </div>
-          `).join("")
-        : `<div class="hint">Ainda não há comentários neste review.</div>`;
-
-      dlgComment.showModal();
+          `).join("")}
+        </div>
+      `;
+      listEl.appendChild(card);
     }
 
-    btnOpen.addEventListener("click", () => dlg.showModal());
-    btnClose.addEventListener("click", () => dlg.close());
+    bindEvents();
+  }
 
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const fd = new FormData(form);
-      const empresa = (fd.get("empresa") || "").toString().trim();
-      const dataReview = (fd.get("dataReview") || "").toString();
-      const inicio = (fd.get("inicio") || "").toString();
-      const fim = (fd.get("fim") || "").toString();
-      const tempo = (fd.get("tempo") || "").toString().trim();
-      const area = (fd.get("area") || "").toString().trim();
-      const contrato = (fd.get("contrato") || "").toString();
-      const texto = (fd.get("texto") || "").toString().trim();
-
-      if (!empresa || !dataReview || !inicio || !fim || !tempo || !area || !texto) {
-        alert("Preencha todos os campos obrigatórios (*)");
-        return;
-      }
-
-      const all = loadReviews();
-      all.push({
-        id: uid(),
-        empresa, dataReview, inicio, fim, tempo, area, contrato, texto,
-        createdAt: Date.now(),
-        comments: [] // === COMENTÁRIOS: inicia vazio
-      });
-      saveReviews(all);
-
-      form.reset();
-      document.getElementById("dataReview").value = new Date().toISOString().slice(0,10);
-      dlg.close();
-      render(loadReviews());
+  // ------ Eventos ------
+  function bindEvents() {
+    document.querySelectorAll(".like-btn").forEach(btn => {
+      btn.onclick = () => toggleLike(btn.dataset.id);
     });
-
-    // === COMENTÁRIOS: salvar comentário
-    btnCloseComment.addEventListener("click", () => dlgComment.close());
-    commentForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const id = commentReviewId.value;
-      const text = (commentText.value || "").trim();
-      if (!id || !text) { alert("Escreva um comentário."); return; }
-
-      const all = loadReviews();
-      const idx = all.findIndex(r => r.id === id);
-      if (idx === -1) return;
-
-      if (!Array.isArray(all[idx].comments)) all[idx].comments = [];
-      all[idx].comments.push({ id: uid(), text, createdAt: Date.now() });
-      saveReviews(all);
-
-      dlgComment.close();
-      render(loadReviews());
-      // abre a seção de comentários deste card para feedback visual
-      const section = document.getElementById("c-" + id);
-      if (section) section.classList.add("open");
+    document.querySelectorAll(".comment-like").forEach(btn => {
+      btn.onclick = e => {
+        const cid = btn.closest(".comment").dataset.cid;
+        const rid = btn.closest(".card").dataset.id;
+        toggleCommentLike(rid, cid);
+        e.stopPropagation();
+      };
     });
+    document.querySelectorAll(".comment-btn").forEach(btn => {
+      btn.onclick = () => openCommentModal(btn.dataset.id);
+    });
+    document.querySelectorAll(".toggle-comments").forEach(btn => {
+      btn.onclick = () => {
+        const el = document.getElementById("c-" + btn.dataset.id);
+        if (!el) return;
+        el.classList.toggle("open");
+        btn.textContent = el.classList.contains("open")
+          ? "Ocultar comentários"
+          : (el.querySelectorAll(".comment").length
+              ? `Ver comentários (${el.querySelectorAll(".comment").length})`
+              : "Sem comentários — abrir");
+      };
+    });
+  }
 
-    fEmpresa.addEventListener("input", () => render(loadReviews()));
-    fArea.addEventListener("change", () => render(loadReviews()));
-    btnClearFilter.addEventListener("click", () => { fEmpresa.value = ""; fArea.value = ""; render(loadReviews()); });
+  // ------ Likes (review) ------
+  function toggleLike(id) {
+    const all = loadReviews();
+    const r = all.find(x => x.id === id);
+    if (!r) return;
+    if (!Array.isArray(r.likes)) r.likes = [];
+    r.liked = !r.liked;
+    if (r.liked) r.likes.push("1");
+    else r.likes.pop();
+    saveReviews(all);
 
-    // Primeira renderização
+    const btn = document.querySelector(`.like-btn[data-id="${id}"]`);
+    if (btn) {
+      btn.querySelector(".heart").textContent = r.liked ? "❤️" : "🤍";
+      btn.querySelector(".like-count").textContent = r.likes.length;
+    }
+  }
+
+  // ------ Likes (comentário) ------
+  function toggleCommentLike(rid, cid) {
+    const all = loadReviews();
+    const r = all.find(x => x.id === rid);
+    if (!r || !Array.isArray(r.comments)) return;
+    const c = r.comments.find(cc => cc.id === cid);
+    if (!c) return;
+
+    if (!Array.isArray(c.likes)) c.likes = [];
+    c.liked = !c.liked;
+    if (c.liked) c.likes.push("1");
+    else c.likes.pop();
+    saveReviews(all);
+
+    const btn = document.querySelector(`.comment[data-cid="${cid}"] .comment-like`);
+    if (btn) {
+      btn.querySelector(".heart").textContent = c.liked ? "❤️" : "🤍";
+      btn.querySelector(".like-count").textContent = c.likes.length;
+    }
+  }
+
+  // ------ Comentários ------
+  function openCommentModal(reviewId) {
+    const all = loadReviews();
+    const r = all.find(x => x.id === reviewId);
+    if (!r) return;
+
+    commentReviewId.value = r.id;
+    commentText.value = "";
+    commentReviewInfo.textContent = `Comentando review de ${r.empresa} (${r.area || "Área não informada"})`;
+    commentExisting.innerHTML = (r.comments && r.comments.length)
+      ? `<div class="hint"><strong>Comentários existentes:</strong></div>` + r.comments.map(c => `
+          <div class="comment">
+            <div class="comment-meta">${new Date(c.createdAt).toLocaleString()}</div>
+            <p>${escapeHtml(c.text)}</p>
+          </div>
+        `).join("")
+      : `<div class="hint">Ainda não há comentários neste review.</div>`;
+    dlgComment.showModal();
+  }
+
+  // ------ Submits ------
+  btnOpen.onclick = () => dlg.showModal();
+  btnClose.onclick = () => dlg.close();
+  btnCloseComment.onclick = () => dlgComment.close();
+
+  form.onsubmit = e => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    const empresa = fd.get("empresa")?.trim();
+    const dataReview = fd.get("dataReview");
+    const inicio = fd.get("inicio");
+    const fim = fd.get("fim");
+    const tempo = fd.get("tempo")?.trim();
+    const area = fd.get("area")?.trim();
+    const contrato = fd.get("contrato");
+    const texto = fd.get("texto")?.trim();
+
+    if (!empresa || !dataReview || !inicio || !fim || !tempo || !area || !texto) {
+      alert("Preencha todos os campos obrigatórios (*)");
+      return;
+    }
+
+    const all = loadReviews();
+    all.push({
+      id: uid(),
+      empresa, dataReview, inicio, fim, tempo, area, contrato, texto,
+      createdAt: Date.now(),
+      comments: [],
+      likes: [],
+      liked: false
+    });
+    saveReviews(all);
+    form.reset();
+    document.getElementById("dataReview").value = today;
+    dlg.close();
     render(loadReviews());
+  };
 
-    // Integra com a busca geral (opcional)
-    const searchInput = document.getElementById("search-input");
-    const searchButton = document.getElementById("search-button");
-    if (searchButton && searchInput) {
-      searchButton.addEventListener("click", () => {
-        fEmpresa.value = searchInput.value || "";
-        render(loadReviews());
-      });
-    }
-  </script>
+  commentForm.onsubmit = e => {
+    e.preventDefault();
+    const id = commentReviewId.value;
+    const text = commentText.value.trim();
+    if (!id || !text) return alert("Escreva um comentário.");
+
+    const all = loadReviews();
+    const r = all.find(x => x.id === id);
+    if (!r) return;
+
+    if (!Array.isArray(r.comments)) r.comments = [];
+    r.comments.push({ id: uid(), text, createdAt: Date.now(), likes: [], liked: false });
+    saveReviews(all);
+
+    dlgComment.close();
+    render(loadReviews());
+    document.getElementById("c-" + id)?.classList.add("open");
+  };
+
+  fEmpresa.oninput = fArea.onchange = () => render(loadReviews());
+  btnClearFilter.onclick = () => { fEmpresa.value = ""; fArea.value = ""; render(loadReviews()); };
+
+  render(loadReviews());
+</script>
 
   <script src="../controller/script.js"></script>
   <script src="../controller/fotoPerfil.js"></script>
