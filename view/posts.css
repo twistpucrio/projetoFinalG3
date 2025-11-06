@@ -241,26 +241,50 @@ div.post {
 
 /* ======== LIKE ======== */
 .btn-like {
-  display: flex;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 16px;
-  color:  white;
-  transition: color 0.2s ease, transform 0.15s ease;
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 
-.btn-like:hover {
-  color: var(--accent-2); /* tom mais forte no hover */
-  transform: scale(1.05);
+.btn-like-comentario{
+  color: black;
+  background: none;
+  background-color: white;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+  top: 100px;
+  transition: transform 0.2s ease, color 0.2s ease;
+
 }
 
-.btn-like.liked {
-  color: #e63946; /* ❤️ vermelho quando curtido */
+
+.btn-like:hover,
+.btn-like-comentario:hover {
   transform: scale(1.1);
 }
 
-.btn-like .like-count {
-  font-weight: 700;
+.btn-like.liked,
+.btn-like-comentario.liked {
+  color: #ff4d6d; /* vermelho ao curtir */
+}
+
+.btn-like .heart-icon {
+  pointer-events: none;
+}
+
+.btn-like-comentario .heart-icon{
+  background-color: white;
+}
+
+.like-count{
+  background-color: white;
 }
 
 /* ======== BOTÃO DE COMENTÁRIOS ======== */
