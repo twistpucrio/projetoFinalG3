@@ -124,6 +124,11 @@ body{
   letter-spacing:.2px;
   color: var(--purple);
   margin-bottom: 4px;
+  background-color: inherit;
+}
+
+.fundoBranco{
+  background-color: #fff;
 }
 
 /* Valor (texto após o <strong>) */
