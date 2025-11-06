@@ -12,7 +12,7 @@
     .wrap { max-width: 1000px; margin: 24px auto; padding: 0 16px; }
     .toolbar { display:flex; gap: var(--gap); align-items:center; justify-content:space-between; margin: 16px 0 8px; }
     .btn { border: none; padding: 10px 14px; border-radius: var(--radius); background: #111; color: #fff; cursor: pointer; font-weight: 600; }
-    .btn.secondary { background:#ececec; color:#111; }
+    .btn.secondary { background:#ececec; color:#4b2a82 ; }
     .hint { font-size: .9rem; color:#666; }
     .reviews-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--gap); }
     .card { border: 1px solid #e7e7e7; border-radius: var(--radius); padding: 14px; background: #fff; }
@@ -23,10 +23,14 @@
     .empty { text-align:center; color:#777; padding: 28px 0; }
     .filters { display:flex; gap:10px; flex-wrap:wrap; margin: 12px 0 18px; }
     .filters input { max-width: 260px; }
+    .novoReview{background-color: inherit;}
+    .btn-save{background-color: #4b2a82; color:#e5e5e5; border-radius: 10px;}
+    .btn-open{ background-color: #4b2a82; color:white; border-radius: 10px;}
+    .ra{color: #4b2a82;}
 
     dialog::backdrop { background: rgba(0,0,0,.45); }
     dialog { width: min(720px, 92vw); border: none; border-radius: 16px; padding: 0; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,.25); }
-    .dlg-head { padding: 16px 18px; background:#111; color:#fff; display:flex; align-items:center; justify-content:space-between; }
+    .dlg-head { padding: 16px 18px; background-color:#4b2a82; color:#fff; display:flex; align-items:center; justify-content:space-between; }
     .dlg-body { padding: 18px; display: grid; gap: 12px; }
     .row { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
     .row-3 { display: grid; gap: 12px; grid-template-columns: 1fr 1fr 1fr; }
@@ -70,10 +74,10 @@
   <div class="wrap">
     <div class="toolbar">
       <div>
-        <h2 style="margin:0;">Reviews anônimos</h2>
+        <h2 class="ra" style="margin:0;">Reviews anônimos</h2>
         <div class="hint">Os reviews são anônimos e ficam salvos no seu navegador (localStorage). Para compartilhar entre navegadores/dispositivos, precisamos conectar um backend simples.</div>
       </div>
-      <button id="btn-open" class="btn">Escrever review</button>
+      <button id= "btn-open" class="btn-open" class="btn">Escrever review</button>
     </div>
 
     <div class="filters">
@@ -94,7 +98,7 @@
   <dialog id="dlg">
     <form id="review-form" method="dialog">
       <div class="dlg-head">
-        <strong>Novo review (anônimo)</strong>
+        <strong class="novoReview">Novo review (anônimo)</strong>
         <button id="btn-close" type="button" class="btn secondary">Fechar</button>
       </div>
 
@@ -151,7 +155,7 @@
 
       <div class="dlg-foot">
         <button type="reset" class="btn secondary">Limpar</button>
-        <button id="btn-save" type="submit" class="btn">Publicar review</button>
+        <button class="btn-save" type="submit" class="btn">Publicar review</button>
       </div>
     </form>
   </dialog>
@@ -160,7 +164,7 @@
   <dialog id="dlg-comment">
     <form id="comment-form" method="dialog">
       <div class="dlg-head">
-        <strong>Comentar review (anônimo)</strong>
+        <strong id="comment">Comentar review (anônimo)</strong>
         <button id="btn-close-comment" type="button" class="btn secondary">Fechar</button>
       </div>
       <div class="dlg-body">
