@@ -1,283 +1,200 @@
-/* controller/cadastro.js */
+ /* ../controller/cadastro.js */
 "use strict";
 
-window.addEventListener("DOMContentLoaded", () => {
-  // ========= Utils =========
-  const $ = (sel, root = document) => root.querySelector(sel);
-  const show = (el) => { if (el) el.style.display = "block"; };
-  const hide = (el) => { if (el) el.style.display = "none"; };
+/**
+ * Tudo dentro de um IIFE para não vazar variáveis globais e não quebrar postar.js.
+ * Só exportamos no window o que realmente precisa: refreshHeaderAvatar.
+ */
+(() => {
+  /* ========= Utils locais (NÃO globais) ========= */
+  const $$ = (sel, root = document) => root.querySelector(sel);
+  const MAX_AVATAR_BYTES = 180 * 1024; // ~180KB
 
-  const MAX_AVATAR_MB = 2;
-  const MAX_AVATAR_BYTES = MAX_AVATAR_MB * 1024 * 1024;
-  const regexCEP = /^\d{5}-\d{3}$/;
-
-  const getUsuarios = () => JSON.parse(localStorage.getItem("usuarios") || "[]");
+  const getUsuarios = () => {
+    try { return JSON.parse(localStorage.getItem("usuarios") || "[]"); } catch { return []; }
+  };
   const setUsuarios = (arr) => localStorage.setItem("usuarios", JSON.stringify(arr));
-  const getUsuarioAtual = () => JSON.parse(localStorage.getItem("usuarioAtual") || "null");
-  const setUsuarioAtual = (u) => localStorage.setItem("usuarioAtual", JSON.stringify(u));
-  const clearUsuarioAtual = () => localStorage.removeItem("usuarioAtual");
 
-  const isPerfil = /perfil\.html$/i.test(location.pathname);
-  const url = new URL(location.href);
-  const querCadastro = url.searchParams.get("cadastro") === "1";
+  const getUsuarioAtual = () => {
+    try { return JSON.parse(localStorage.getItem("usuarioAtual") || "null"); } catch { return null; }
+  };
+  const setUsuarioAtual = (u) => localStorage.setItem("usuarioAtual", JSON.stringify(u));
 
   const lerArquivoComoDataURL = (file) =>
     new Promise((resolve, reject) => {
       const r = new FileReader();
       r.onload = () => resolve(r.result);
-      r.onerror = () => reject(r.error);
+      r.onerror = reject;
       r.readAsDataURL(file);
     });
 
-  // ========= Helpers de imagem =========
-  const carregarImagem = (src) =>
-    new Promise((resolve, reject) => {
-      const img = new Image();
-      img.onload = () => resolve(img);
-      img.onerror = reject;
-      img.src = src;
-    });
-
-  const dataURLBytes = (dataURL) => {
-    if (!dataURL) return 0;
-    const base64 = dataURL.split(",")[1] || "";
-    return Math.floor((base64.length * 3) / 4);
-  };
-
-  async function comprimirImagem(
-    file,
-    maxW = 512,
-    maxH = 512,
-    qualities = [0.8, 0.6, 0.5, 0.4],
-    targetBytes = 180 * 1024
-  ) {
-    const raw = await lerArquivoComoDataURL(file);
-    const img = await carregarImagem(raw);
+  // Redimensiona e tenta comprimir para próximo do targetBytes
+  async function comprimirImagem(file, maxW = 512, maxH = 512, qualidades = [0.8, 0.6, 0.5], targetBytes = MAX_AVATAR_BYTES) {
+    const dataURL = await lerArquivoComoDataURL(file);
+    const img = new Image();
+    img.src = dataURL;
+    await new Promise((res, rej) => { img.onload = res; img.onerror = rej; });
 
     const ratio = Math.min(maxW / img.width, maxH / img.height, 1);
-    const w = Math.round(img.width * ratio);
-    const h = Math.round(img.height * ratio);
+    const nw = Math.round(img.width * ratio);
+    const nh = Math.round(img.height * ratio);
 
     const canvas = document.createElement("canvas");
-    canvas.width = w;
-    canvas.height = h;
+    canvas.width = nw;
+    canvas.height = nh;
     const ctx = canvas.getContext("2d");
-    ctx.drawImage(img, 0, 0, w, h);
+    ctx.drawImage(img, 0, 0, nw, nh);
 
-    let out = raw, last = raw;
-    for (const q of qualities) {
-      out = canvas.toDataURL("image/jpeg", q);
-      last = out;
-      if (dataURLBytes(out) <= targetBytes) break;
+    for (const q of qualidades) {
+      const out = canvas.toDataURL("image/jpeg", q);
+      const bytes = Math.ceil((out.length * 3) / 4);
+      if (bytes <= targetBytes) return out;
     }
-    return last;
+    return canvas.toDataURL("image/jpeg", qualidades[qualidades.length - 1]);
   }
 
-  // ========= Header / atalhos =========
-  const usuario = getUsuarioAtual();
-  const bemVindo = $("#bem-vindo");
-  if (usuario?.nome && bemVindo) {
-    const primeiro = usuario.nome.split(" ")[0];
-    bemVindo.textContent = `Olá, ${primeiro}!`;
-  }
-
-  const perfilImg = $("#perfil");
-  if (perfilImg?.parentElement) {
-    perfilImg.parentElement.setAttribute("href", usuario ? "perfil.html" : "login.html");
-  }
-
-  // ========= Telas do perfil =========
-  const perfilView = $("#perfil-view");
-  const listaDados = $("#lista-dados");
-  const avatarView = $("#avatar-view");
-  const semFoto = $("#sem-foto");
-
-  const formCadastro = $("#form-cadastro");
-  const inputAvatarCadastro = $("#avatar");
-
-  const formEdicao = $("#form-edicao");
-  const btnEditar = $("#btn-editar");
-  const btnLogout = $("#btn-logout");
-  const btnCancelarEdicao = $("#btn-cancelar-edicao");
-  const inputAvatarEditar = $("#avatar-editar");
-  const avatarPreview = $("#avatar-preview");
-
-  const HIDDEN_KEYS_IN_VIEW = new Set(["cpf", "cep", "end", "comp"]);
-
-  function renderPerfil(u) {
-    if (!perfilView) return;
-    hide(formCadastro);
-    hide(formEdicao);
-    show(perfilView);
-
-    if (u?.avatar) {
-      if (avatarView) {
-        avatarView.src = u.avatar;
-        show(avatarView);
-      }
-      hide(semFoto);
+  /* ========= Atualização do avatar no header (exportado) ========= */
+  function refreshHeaderAvatar() {
+    const icone = document.getElementById("perfil"); // <img id="perfil" class="icon"...> no topbar
+    if (!icone) return;
+    const u = getUsuarioAtual();
+    if (u && typeof u.avatar === "string" && u.avatar.startsWith("data:image/")) {
+      icone.src = u.avatar;
     } else {
-      if (avatarView) hide(avatarView);
-      show(semFoto);
-    }
-
-    if (listaDados) {
-      const labels = {
-        nome: "Nome completo",
-        email: "E-mail",
-        profissao: "Profissão",
-        faculdade: "Faculdade",
-        skills: "Skills",
-        interesses: "Interesses",
-        trab: "Trabalhos prévios"
-      };
-      const ordem = ["nome","email","profissao","faculdade","skills","interesses","trab"];
-
-      listaDados.innerHTML = ordem
-        .filter((k) => !HIDDEN_KEYS_IN_VIEW.has(k))
-        .filter((k) => u?.[k] !== undefined && u[k] !== "")
-        .map((k) => `<li><strong>${labels[k]}:</strong> ${u[k]}</li>`)
-        .join("");
+      icone.src = "img/perfil.png"; // fallback
     }
   }
+  // Exporta APENAS isso
+  window.refreshHeaderAvatar = refreshHeaderAvatar;
 
-  function preencherFormEdicao(u) {
-    if (!formEdicao) return;
-    const m = {
-      "#nome-editar": u?.nome || "",
-      "#cpf-editar": u?.cpf || "",
-      "#email-editar": u?.email || "",
-      "#cep-editar": u?.cep || "",
-      "#end-editar": u?.end || "",
-      "#comp-editar": u?.comp || "",
-      "#profissao-editar": u?.profissao || "",
-      "#faculdade-editar": u?.faculdade || "",
-      "#skills-editar": u?.skills || "",
-      "#interesses-editar": u?.interesses || "",
-      "#trab-editar": u?.trab || ""
-    };
-    Object.entries(m).forEach(([sel, val]) => {
-      const el = $(sel);
-      if (el) el.value = val;
-    });
+  /* ========= Cadastro ========= */
+  document.addEventListener("DOMContentLoaded", () => {
+    const formCadastro = $$("#form-cadastro");
+    if (formCadastro) {
+      formCadastro.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        try {
+          const fd = new FormData(formCadastro);
+          const dados = Object.fromEntries(fd.entries());
+          const fileAvatar = fd.get("avatar");
 
-    if (avatarPreview) {
-      if (u?.avatar) {
-        avatarPreview.src = u.avatar;
-        show(avatarPreview);
-      } else {
-        hide(avatarPreview);
-      }
+          if (!(fileAvatar instanceof File) || fileAvatar.size === 0) {
+            alert("Selecione uma foto de perfil válida.");
+            return;
+          }
+
+          const avatarDataURL = await comprimirImagem(
+            fileAvatar,
+            512, 512,
+            [0.8, 0.6, 0.5],
+            MAX_AVATAR_BYTES
+          );
+
+          const usuarios = getUsuarios();
+          if (usuarios.some((u) => u.email === dados.email)) {
+            alert("Usuário já existe com este e-mail.");
+            return;
+          }
+
+          const user = {
+            nome: dados.nome || "",
+            cpf: dados.cpf || "",
+            email: dados.email || "",
+            cep: dados.cep || "",
+            end: dados.end || "",
+            comp: dados.comp || "",
+            profissao: dados.profissao || "",
+            faculdade: dados.faculdade || "",
+            skills: dados.skills || "",
+            interesses: dados.interesses || "",
+            trab: dados.trab || "",
+            senha: dados.senha || "",
+            avatar: avatarDataURL,
+          };
+
+          usuarios.push(user);
+          setUsuarios(usuarios);
+          setUsuarioAtual(user);
+          sessionStorage.setItem("usuarioAtual", JSON.stringify(user));
+
+          // Se estamos na página de perfil, apenas deixa a navegação natural;
+          // se a sua navegação depende, pode manter o redirect:
+          try { if (!location.pathname.endsWith("perfil.html")) location.href = "perfil.html"; } catch {}
+        } catch (err) {
+          console.error("Erro no cadastro:", err);
+          alert("Não foi possível concluir o cadastro.");
+        }
+      });
     }
-  }
 
-  // ========= Guarda de rota =========
-  if (isPerfil) {
-    if (!usuario && !querCadastro) {
-      location.href = "login.html";
-      return;
+    /* ========= Edição ========= */
+    const formEdicao = $$("#form-edicao");
+    const inputAvatarEditar = $$("#avatar-editar");
+    const avatarPreview = $$("#avatar-preview");
+
+    if (inputAvatarEditar) {
+      inputAvatarEditar.addEventListener("change", async (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        const previewDataURL = await lerArquivoComoDataURL(file);
+        if (avatarPreview) {
+          avatarPreview.src = previewDataURL;
+          avatarPreview.style.display = "block";
+        }
+      });
     }
-    if (usuario) renderPerfil(usuario);
-    else if (querCadastro) {
-      hide(perfilView); hide(formEdicao); show(formCadastro);
-    }
-  }
 
-  // ========= Logout =========
-  if (btnLogout) {
-    btnLogout.addEventListener("click", () => {
-      clearUsuarioAtual();
-      sessionStorage.removeItem("usuarioAtual"); // 🔹 LIMPA A SESSÃO TAMBÉM
-      location.href = "index.html";
-    });
-  }
+    if (formEdicao) {
+      formEdicao.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const u = getUsuarioAtual() || {};
+        if (!u) return;
 
-  // ========= Entrar em edição =========
-  if (btnEditar) {
-    btnEditar.addEventListener("click", () => {
-      if (!getUsuarioAtual()) return;
-      hide(perfilView); hide(formCadastro); show(formEdicao);
-      preencherFormEdicao(getUsuarioAtual());
-    });
-  }
+        // campos texto
+        const getVal = (id) => (document.getElementById(id)?.value || "");
+        u.nome       = getVal("nome-editar");
+        u.cpf        = getVal("cpf-editar");
+        u.email      = getVal("email-editar");
+        u.cep        = getVal("cep-editar");
+        u.end        = getVal("end-editar");
+        u.comp       = getVal("comp-editar");
+        u.profissao  = getVal("profissao-editar");
+        u.faculdade  = getVal("faculdade-editar");
+        u.skills     = getVal("skills-editar");
+        u.interesses = getVal("interesses-editar");
+        u.trab       = getVal("trab-editar");
 
-  // ========= Cancelar edição =========
-  if (btnCancelarEdicao) {
-    btnCancelarEdicao.addEventListener("click", () => {
-      const u = getUsuarioAtual();
-      if (u) renderPerfil(u);
-      else { hide(formEdicao); show(formCadastro); }
-    });
-  }
-
-  // ========= Salvar edição =========
-  if (formEdicao) {
-    formEdicao.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      // ... (essa parte permanece igual)
-    });
-  }
-
-  // ========= Cadastro =========
-  if (formCadastro) {
-    formCadastro.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      try {
-        const fd = new FormData(formCadastro);
-        const dados = Object.fromEntries(fd.entries());
-        const fileAvatar = fd.get("avatar");
-
-        // ... (validações iguais)
-
-        const usuarios = getUsuarios();
-        if (usuarios.some((u) => u.email === dados.email)) {
-          alert("Usuário já existe!");
-          return;
+        // foto opcional
+        const file = inputAvatarEditar?.files?.[0] || null;
+        if (file instanceof File && file.size > 0) {
+          u.avatar = await comprimirImagem(file, 512, 512, [0.8, 0.6, 0.5], MAX_AVATAR_BYTES);
         }
 
-        usuarios.push(dados);
-        setUsuarios(usuarios);
-        setUsuarioAtual(dados);
-        sessionStorage.setItem("usuarioAtual", JSON.stringify(dados)); // 🔹 NOVO: salva na sessão
-
-        location.href = "perfil.html";
-      } catch (err) {
-        console.error("Erro no cadastro:", err);
-      }
-    });
-  }
-
-  // ========= Login =========
-  const formLogin = $(".form-login");
-  if (formLogin) {
-    formLogin.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const fd = new FormData(formLogin);
-      const { email = "", senha = "" } = Object.fromEntries(fd.entries());
-
-      const usuarios = getUsuarios();
-      const u = usuarios.find((x) => x.email === email && x.senha === senha);
-      if (u) {
+        // persiste atual
         setUsuarioAtual(u);
-        sessionStorage.setItem("usuarioAtual", JSON.stringify(u)); // 🔹 NOVO: salva na sessão
-        location.href = "perfil.html";
-      } else {
-        alert("Email ou senha incorretos!");
-      }
-    });
-  }
 
-  // ========= Fallback visual =========
-  if (isPerfil) {
-    const algumVisivel =
-      (perfilView && getComputedStyle(perfilView).display !== "none") ||
-      (formCadastro && getComputedStyle(formCadastro).display !== "none") ||
-      (formEdicao && getComputedStyle(formEdicao).display !== "none");
+        // persiste na lista
+        const usuarios = getUsuarios();
+        const idx = usuarios.findIndex((x) => x.email === u.email);
+        if (idx !== -1) {
+          usuarios[idx] = u;
+          setUsuarios(usuarios);
+        }
 
-    if (!algumVisivel) {
-      if (usuario) renderPerfil(usuario);
-      else if (querCadastro) { hide(perfilView); hide(formEdicao); show(formCadastro); }
-      else { location.href = "login.html"; }
+        // Atualiza ícone header e devolve para a view
+        refreshHeaderAvatar();
+
+        const perfilView = $$("#perfil-view");
+        if (perfilView && formEdicao) {
+          formEdicao.style.display = "none";
+          perfilView.style.display = "block";
+        }
+
+        if (window.renderPerfil) window.renderPerfil(u);
+      });
     }
-  }
-});
+
+    // Ajusta o avatar do header em qualquer página que carregar esse script
+    refreshHeaderAvatar();
+  });
+})();
