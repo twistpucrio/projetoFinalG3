@@ -7,6 +7,20 @@ const _getUsuarioAtual = () => {
 };
 const _setUsuarioAtual = (u) => localStorage.setItem("usuarioAtual", JSON.stringify(u));
 
+// logo no começo de fotoPerfil.js, antes do DOMContentLoaded:
+window.refreshHeaderAvatar = function () {
+  const headerAvatar = document.getElementById("perfil");
+  const u = _getUsuarioAtual();
+  if (!headerAvatar) return;
+
+  if (u?.avatar && typeof u.avatar === "string") {
+    headerAvatar.src = u.avatar;
+  } else {
+    headerAvatar.src = "img/perfil.png";
+  }
+};
+
+
 document.addEventListener("DOMContentLoaded", () => {
   const perfilView   = document.getElementById("perfil-view");
   const formCadastro = document.getElementById("form-cadastro");
