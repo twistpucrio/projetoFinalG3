@@ -23,9 +23,118 @@ function getPostsPath() {
   return "view/posts.html";
 }
 
+/* ========= Criar novo post ========= */
+function criarNovoPost({ texto, imagemDataURL }) {
+  const user = getUsuarioAtual();
+  if (!user) {
+    alert("Faça login/cadastre-se para postar.");
+    return null;
+  }
+
+  const posts = getPosts();
+
+  const novoPost = {
+    id: Date.now(),
+    texto: texto.trim(),
+    imagem: imagemDataURL || "",
+    autorNome: user.nome || "Usuária",
+    autorAvatar: user.avatar || "",
+    autorEmail: user.email || "",
+    criadoEm: new Date().toISOString(),
+    likes: 0,
+    likedBy: [],
+    comentarios: []
+  };
+
+  // adiciona no início
+  posts.unshift(novoPost);
+  setPosts(posts);
+  return posts;
+}
+
+/* ========= Setup de novo post (toolbar do perfil) ========= */
+function setupNovoPost() {
+  const toolbar = $("#post-toolbar");
+  const form = $("#form-novo-post");
+  const btnNovoPost = $("#btn-novo-post");
+  const textarea = $("#texto-post");
+  const inputImagem = $("#imagem-post");
+
+  const user = getUsuarioAtual();
+
+  // se não tiver toolbar ou form nessa página, sai
+  if (!toolbar || !form) return;
+
+  if (user) {
+    show(toolbar);
+  } else {
+    hide(toolbar);
+    hide(form);
+    return;
+  }
+
+  if (btnNovoPost) {
+    btnNovoPost.onclick = () => {
+      if (getComputedStyle(form).display === "none") {
+        show(form);
+      } else {
+        hide(form);
+      }
+    };
+  }
+
+  if (form) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const texto = (textarea?.value || "").trim();
+      if (!texto) {
+        alert("Escreva alguma coisa para postar.");
+        return;
+      }
+
+      const file = inputImagem?.files?.[0] || null;
+
+      const depoisDeCriar = (postsAtualizados) => {
+        if (!postsAtualizados) return;
+        // limpa formulário
+        if (textarea) textarea.value = "";
+        if (inputImagem) inputImagem.value = "";
+        hide(form);
+        // re-renderiza feed se existir na página
+        const feedEl = $("#feed-posts");
+        if (feedEl) renderFeed(feedEl);
+      };
+
+      // se não tiver imagem, cria direto
+      if (!file) {
+        const postsAtualizados = criarNovoPost({ texto, imagemDataURL: "" });
+        depoisDeCriar(postsAtualizados);
+        return;
+      }
+
+      // se tiver imagem, ler como dataURL
+      const reader = new FileReader();
+      reader.onload = () => {
+        const dataURL = reader.result;
+        const postsAtualizados = criarNovoPost({ texto, imagemDataURL: dataURL });
+        depoisDeCriar(postsAtualizados);
+      };
+      reader.onerror = () => {
+        alert("Erro ao ler a imagem. Tente novamente.");
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+}
+
 /* ========= Init ========= */
 function init() {
   console.log("[postar.js] iniciado");
+
+  // configura toolbar/form de novo post (perfil.html)
+  setupNovoPost();
+
+  // renderiza feed dinâmico (posts.html e também se tiver feed no perfil)
   const feed = $("#feed-posts");
   if (feed) renderFeed(feed);
 }
@@ -56,7 +165,10 @@ function renderFeed(feed) {
       </header>
 
       <p class="user-post__caption">${(p.texto || "").replace(/\n/g, "<br>")}</p>
-      <img class="user-post__image" src="${p.imagem}" alt="imagem do post">
+      ${p.imagem
+        ? `<img class="user-post__image" src="${p.imagem}" alt="imagem do post">`
+        : ""
+      }
 
       <div class="post-acoes">
         <button class="btn-like ${liked ? "liked" : ""}" aria-label="Curtir post">
