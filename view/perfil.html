@@ -9,53 +9,188 @@
 </head>
 <body>
 
+<!-- ====================== TOPO ====================== -->
 <div id="topbar">  
-    <a href="index.html"><img id="logo" class="logo" src="img/logo.png"></a>
+    <a href="index.html">
+        <img id="logo" class="logo" src="img/logo.png" alt="logo">
+    </a>
 
     <div id="icones-pequenos"> 
+        <!-- limpar perfilAberto ao abrir seu próprio perfil -->
         <a href="perfil.html" onclick="localStorage.removeItem('perfilAberto')">
-            <img id="perfil" class="icon" src="img/perfil.png">
+            <img id="perfil" class="icon" src="img/perfil.png" alt="perfil">
         </a>
         <a href="messages.html">
-            <img id="message" class="icon" src="img/message.png">
+            <img id="message" class="icon" src="img/message.png" alt="mensagens">
         </a>
     </div>
 </div>
 
-<div id="dados-container">
+<!-- ====================== CONTAINER PRINCIPAL ====================== -->
+<div id="dados-container" style="max-width:720px;margin:20px auto;">
 
-    <div id="perfil-view" style="display:none">
+    <!-- =========================================================== -->
+    <!-- VISUALIZAÇÃO DO PERFIL (VOCÊ OU OUTRA PESSOA)               -->
+    <!-- =========================================================== -->
+    <div id="perfil-view" style="display:none;background:#ffffff;border:1px solid #d1bef0;border-radius:12px;padding:20px;">
+        
+        <h1 id="titulo-perfil" style="color:#6c41af;">Perfil</h1>
 
-        <h1 id="titulo-perfil">Perfil</h1>
+        <!-- ======== BOTÃO DE POST (somente SEU perfil) ======== -->
+        <div id="post-toolbar" style="margin:6px 0 16px 0; display:none; align-items:center;">
+            <button id="btn-novo-post" type="button" 
+                    title="Criar post" 
+                    style="width:42px;height:42px;border:none;border-radius:50%;
+                           background:#6c41af;color:#fff;font-size:26px;line-height:42px;
+                           cursor:pointer;box-shadow:0 3px 8px rgba(108,65,175,.35)">+</button>
 
-        <div id="post-toolbar" style="display:none;">
-            <button id="btn-novo-post">+</button>
-            <small>Compartilhe um post com a comunidade</small>
+            <small style="margin-left:8px;color:#6c41af;">
+                Compartilhe um post com a comunidade
+            </small>
         </div>
 
-        <form id="form-novo-post" style="display:none;">
-            <textarea id="texto-post"></textarea>
-            <input id="imagem-post" type="file" accept="image/*">
-            <button type="submit">Publicar</button>
-            <button type="button" onclick="document.getElementById('form-novo-post').style.display='none'">Cancelar</button>
+        <!-- ======== FORM DE NOVO POST ======== -->
+        <form id="form-novo-post" 
+              style="display:none;background:#f8f3ff;border:1px dashed #d1bef0;border-radius:10px;padding:12px;margin-bottom:16px;">
+
+            <label for="texto-post" style="display:block;margin:6px 0 4px;color:#6c41af;">Mensagem</label>
+            <textarea id="texto-post" rows="4" placeholder="Escreva algo..." 
+                      style="width:100%;padding:10px;border:1px solid #d1bef0;border-radius:8px;font-family:inherit;resize:vertical;"></textarea>
+
+            <label for="imagem-post" style="display:block;margin:10px 0 6px;color:#6c41af;">Imagem (opcional)</label>
+            <input id="imagem-post" type="file" accept="image/*" style="margin-bottom:10px;">
+
+            <div style="display:flex;gap:10px;">
+                <button type="submit"
+                        style="padding:10px 16px;border:none;border-radius:8px;background:#6c41af;color:#fff;cursor:pointer;">
+                    Publicar
+                </button>
+
+                <button type="button" onclick="document.getElementById('form-novo-post').style.display='none'"
+                        style="padding:10px 16px;border:1px solid #d1bef0;border-radius:8px;background:#fff;color:#6c41af;cursor:pointer;">
+                    Cancelar
+                </button>
+            </div>
         </form>
 
-        <div style="display:flex;gap:14px;">
-            <img id="avatar-view" style="width:110px;height:110px;border-radius:50%;display:none;">
-            <div id="sem-foto" style="display:none;">(sem foto)</div>
+        <!-- ======== FOTO DO PERFIL ======== -->
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
+            <img id="avatar-view" 
+                 style="width:110px;height:110px;border-radius:50%;object-fit:cover;border:2px solid #d1bef0;display:none;">
+            <div id="sem-foto" style="color:#6c41af;display:none;">(sem foto)</div>
         </div>
 
-        <ul id="lista-dados"></ul>
+        <!-- ======== DADOS DO PERFIL ======== -->
+        <ul id="lista-dados" style="line-height:1.9;"></ul>
 
-        <button id="btn-editar">Editar</button>
-        <button id="btn-logout">Sair</button>
+        <!-- ======== SEÇÃO "MEUS POSTS" (somente SEU perfil) ======== -->
+        <div id="secao-meus-posts" style="display:none;">
+            <hr style="margin:25px 0;">
+            <h2 style="color:#6c41af;">Meus posts</h2>
+            <div id="meus-posts" style="display:flex;flex-direction:column;gap:20px;margin-top:15px;"></div>
+        </div>
+
+        <div style="display:flex;gap:10px;margin-top:12px;">
+            <button id="btn-editar" type="button">Editar</button>
+            <button id="btn-logout" type="button">Sair</button>
+        </div>
     </div>
 
-    <form id="form-cadastro" style="display:none;"></form>
-    <form id="form-edicao" style="display:none;"></form>
+    <!-- =========================================================== -->
+    <!-- FORMULÁRIO DE CADASTRO (feito pela sua amiga)               -->
+    <!-- =========================================================== -->
+    <form id="form-cadastro" style="display:none;background:#ffffff;border:1px solid #d1bef0;border-radius:12px;padding:20px;">
+        <h1>Cadastrar</h1>
+
+        <label><strong>Você é:</strong></label>
+        <div style="margin-bottom:16px;">
+            <label><input type="radio" name="tipoUsuario" value="PF" checked> Pessoa Física</label>
+            <label style="margin-left:14px;"><input type="radio" name="tipoUsuario" value="PJ"> Empresa</label>
+        </div>
+
+        <div id="campos-pf">
+            <label>Nome:</label><input class="campo-info" id="nome">
+            <label>CPF:</label><input class="campo-info" id="cpf">
+            <label>E-mail:</label><input class="campo-info" id="email" type="email">
+            <label>CEP:</label><input class="campo-info" id="cep">
+            <label>Endereço:</label><input class="campo-info" id="end">
+            <label>Complemento:</label><input class="campo-info" id="comp">
+            <label>Profissão:</label><input class="campo-info" id="profissao">
+            <label>Faculdade:</label><input class="campo-info" id="faculdade">
+            <label>Skills:</label><input class="campo-info" id="skills">
+            <label>Interesses:</label><input class="campo-info" id="interesses">
+            <label>Trabalhos prévios:</label><input class="campo-info" id="trab">
+        </div>
+
+        <div id="campos-pj" style="display:none;">
+            <label>Razão Social:</label><input class="campo-info" id="razaoSocial">
+            <label>CNPJ:</label><input class="campo-info" id="cnpj">
+            <label>E-mail comercial:</label><input class="campo-info" id="emailEmpresa" type="email">
+            <label>Porte:</label><input class="campo-info" id="porte">
+            <label>Segmento:</label><input class="campo-info" id="segmento">
+            <label>Descrição:</label><input class="campo-info" id="descricaoEmpresa">
+        </div>
+
+        <label>Foto / Logo:</label>
+        <input class="campo-info" id="avatar" type="file" accept="image/*" required>
+
+        <label>Senha:</label>
+        <input class="campo-info" id="senha" type="password" required>
+
+        <label>Confirmar senha:</label>
+        <input class="campo-info" id="confirmar-senha" type="password" required>
+
+        <button type="submit" style="margin-top:14px;">Enviar</button>
+    </form>
+
+    <!-- =========================================================== -->
+    <!-- FORMULÁRIO DE EDIÇÃO                                        -->
+    <!-- =========================================================== -->
+    <form id="form-edicao" style="display:none;background:#ffffff;border:1px solid #d1bef0;border-radius:12px;padding:20px;">
+        <h1>Editar perfil</h1>
+
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
+            <img id="avatar-preview" 
+                 style="width:90px;height:90px;border-radius:50%;object-fit:cover;border:2px solid #d1bef0;display:none;">
+
+            <div>
+                <label>Trocar foto:</label>
+                <input id="avatar-editar" type="file" accept="image/*">
+            </div>
+        </div>
+
+        <div id="editar-pf">
+            <label>Nome:</label><input class="campo-info" id="nome-editar">
+            <label>CPF:</label><input class="campo-info" id="cpf-editar">
+            <label>E-mail:</label><input class="campo-info" id="email-editar">
+            <label>CEP:</label><input class="campo-info" id="cep-editar">
+            <label>Endereço:</label><input class="campo-info" id="end-editar">
+            <label>Complemento:</label><input class="campo-info" id="comp-editar">
+            <label>Profissão:</label><input class="campo-info" id="profissao-editar">
+            <label>Faculdade:</label><input class="campo-info" id="faculdade-editar">
+            <label>Skills:</label><input class="campo-info" id="skills-editar">
+            <label>Interesses:</label><input class="campo-info" id="interesses-editar">
+            <label>Trabalhos prévios:</label><input class="campo-info" id="trab-editar">
+        </div>
+
+        <div id="editar-pj" style="display:none;">
+            <label>Razão Social:</label><input class="campo-info" id="razaoSocial-editar">
+            <label>CNPJ:</label><input class="campo-info" id="cnpj-editar">
+            <label>E-mail comercial:</label><input class="campo-info" id="emailEmpresa-editar">
+            <label>Porte:</label><input class="campo-info" id="porte-editar">
+            <label>Segmento:</label><input class="campo-info" id="segmento-editar">
+            <label>Descrição:</label><input class="campo-info" id="descricaoEmpresa-editar">
+        </div>
+
+        <div style="display:flex;gap:10px;margin-top:14px;">
+            <button type="submit">Salvar</button>
+            <button id="btn-cancelar-edicao" type="button">Cancelar</button>
+        </div>
+    </form>
 
 </div>
 
+<!-- ====================== SCRIPTS ====================== -->
 <script src="../controller/cadastro.js"></script>
 <script src="../controller/postar.js"></script>
 <script src="../controller/script.js"></script>
@@ -69,4 +204,3 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
-
