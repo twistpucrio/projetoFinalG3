@@ -1,5 +1,4 @@
-/* controller/postar.js */
-"use strict";
+ "use strict";
 
 /* ========= Utils ========= */
 const $ = (sel, root = document) => root.querySelector(sel);

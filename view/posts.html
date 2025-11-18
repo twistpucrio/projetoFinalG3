@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+ 
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -31,29 +32,60 @@
         <div id="paginas" class="secundaria">
             <a class="post_secundario" href="review.html">REVIEW</a>
         </div>
- 
     </div>
 
-    <!-- FEED DINÂMICO (posts criados pelos usuários) -->
-    <div id="feed-posts"></div>
+    <!-- =========================
+         FEED DOS POST DOS USUÁRIOS
+    ========================== -->
+    <h2 style="color:#6c41af;margin-top:30px;margin-left:12px;">
+        Postagens da comunidade
+    </h2>
 
-    <!-- CONTEÚDO FIXO QUE VOCÊ JÁ TINHA -->
-   
+    <div id="feed-posts" style="padding:12px;"></div>
+
+    <!-- =========================
+         POSTS DO posts.json (ORIGINAIS)
+    ========================== -->
     
-    <!-- container onde os posts aparecem -->
     <div id="posts-container"></div>
 
  
     <br/><br/><br/><br/>
 
-
-
-    <!-- apenas o JS -->
+    <!-- Scripts originais -->
     <script src="../controller/posts.js"></script>
     <script src="../controller/postar.js"></script>
     <script src="../controller/script.js"></script>
     <script src="../controller/fotoPerfil.js"></script>
 
+    <!-- ==========================================
+         SCRIPT PARA CARREGAR POSTS DOS USUÁRIOS
+         (SEM ALTERAR DESIGN ORIGINAL)
+    =========================================== -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const feed = document.getElementById("feed-posts");
+            const posts = JSON.parse(localStorage.getItem("postsUsuario") || "[]");
+
+            if (posts.length === 0) {
+                feed.innerHTML = "<p style='color:#777;margin:12px;'>Nenhum post da comunidade ainda.</p>";
+                return;
+            }
+
+            // Exibir mais novos primeiro
+            posts.slice().reverse().forEach(post => {
+                const div = document.createElement("div");
+                div.classList.add("post"); // usa seu CSS original
+
+                div.innerHTML = `
+                    <p class="legenda_post">${post.texto}</p>
+                    ${post.img ? `<img class="post-img" src="${post.img}">` : ""}
+                `;
+
+                feed.appendChild(div);
+            });
+        });
+    </script>
+
 </body>
 </html>
--+

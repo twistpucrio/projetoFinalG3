@@ -1,178 +1,257 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="estilo.css">
-     <link rel="stylesheet" href="perfis.css">
+    <link rel="stylesheet" href="perfis.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil</title>
 </head>
 <body>
+
     <div id="topbar">  
         <a href="index.html"><img id="logo" class="logo" src="img/logo.png" alt="logo"></a>
+
         <div id="icones-pequenos"> 
-            <a href="perfil.html"> <img id="perfil" class="icon" src="img/perfil.png" alt="perfil"/> </a>
-            <a href="messages.html"><img id="message" class="icon" src="img/message.png" alt="mensagens"/></a>
+            <a href="perfil.html"><img id="perfil" class="icon" src="img/perfil.png"></a>
+            <a href="messages.html"><img id="message" class="icon" src="img/message.png"></a>
         </div>
     </div>
 
     <div id="dados-container" style="max-width:720px;margin:20px auto;">
-        <!-- VISUALIZAÇÃO DO PERFIL -->
-        <div id="perfil-view" style="display:none;background:#ffffff;border:1px solid #d1bef0;border-radius:12px;padding:20px;">
-            <h1 style="margin-top:0;">Meu perfil</h1>
 
-            <!-- Toolbar de post (+) -->
-            <div id="post-toolbar" style="display:none; margin:6px 0 16px 0; background:none;">
-              <button id="btn-novo-post" type="button" 
-                      title="Criar post" 
-                      style="width:42px;height:42px;border:none;border-radius:50%;
-                             background:#6c41af;color:#fff;font-size:26px;line-height:42px;
-                             cursor:pointer;box-shadow:0 3px 8px rgba(108,65,175,.35)">+</button>
-              <small style="margin-left:8px;color:#6c41af;background:none;">Compartilhe um post com a comunidade</small>
+        <!-- ===================================================================================== -->
+        <!-- VISUALIZAÇÃO DO PERFIL -->
+        <!-- ===================================================================================== -->
+
+        <div id="perfil-view" style="display:none;background:#ffffff;border:1px solid #d1bef0;border-radius:12px;padding:20px;">
+            
+            <h1>Meu perfil</h1>
+
+            <!-- BOTÃO DE NOVO POST -->
+            <div id="post-toolbar" style="margin:6px 0 16px 0; display:flex; align-items:center;">
+                <button id="btn-novo-post" type="button" 
+                        title="Criar post" 
+                        style="width:42px;height:42px;border:none;border-radius:50%;
+                               background:#6c41af;color:#fff;font-size:26px;line-height:42px;
+                               cursor:pointer;box-shadow:0 3px 8px rgba(108,65,175,.35)">+</button>
+
+                <small style="margin-left:8px;color:#6c41af;">
+                    Compartilhe um post com a comunidade
+                </small>
             </div>
 
-            <!-- Form de novo post (texto + imagem) -->
-            <form id="form-novo-post" style="display:none;background:#f8f3ff;border:1px dashed #d1bef0;border-radius:10px;padding:12px;margin-bottom:16px;">
-              <label for="texto-post" style="display:block;margin:6px 0 4px;background:none;color:#6c41af;">Mensagem</label>
-              <textarea id="texto-post" rows="4" placeholder="Escreva algo..." 
-                        style="width:100%;padding:10px;border:1px solid #d1bef0;border-radius:8px;
-                               font-family:inherit;resize:vertical;"></textarea>
+            <!-- FORM NOVO POST -->
+            <form id="form-novo-post" 
+                  style="display:none;background:#f8f3ff;border:1px dashed #d1bef0;border-radius:10px;padding:12px;margin-bottom:16px;">
 
-              <label for="imagem-post" style="display:block;margin:10px 0 6px;background:none;color:#6c41af;">Imagem do post</label>
-              <input id="imagem-post" type="file" accept="image/*" 
-                     style="display:block;margin-bottom:10px;">
+                <label for="texto-post" style="display:block;margin:6px 0 4px;color:#6c41af;">Mensagem</label>
+                <textarea id="texto-post" rows="4" placeholder="Escreva algo..." 
+                style="width:100%;padding:10px;border:1px solid #d1bef0;border-radius:8px;font-family:inherit;resize:vertical;"></textarea>
 
-              <div style="display:flex;gap:10px;background:none;">
-                <button type="submit" 
+                <label for="imagem-post" style="display:block;margin:10px 0 6px;color:#6c41af;">Imagem (opcional)</label>
+                <input id="imagem-post" type="file" accept="image/*" style="margin-bottom:10px;">
+
+                <div style="display:flex;gap:10px;">
+                    <button type="submit"
                         style="padding:10px 16px;border:none;border-radius:8px;background:#6c41af;color:#fff;cursor:pointer;">
-                  Publicar
-                </button>
-                <button type="button" onclick="document.getElementById('form-novo-post').style.display='none'"
+                        Publicar
+                    </button>
+
+                    <button type="button" onclick="document.getElementById('form-novo-post').style.display='none'"
                         style="padding:10px 16px;border:1px solid #d1bef0;border-radius:8px;background:#fff;color:#6c41af;cursor:pointer;">
-                  Cancelar
-                </button>
-              </div>
+                        Cancelar
+                    </button>
+                </div>
             </form>
 
-            <!-- Foto -->
+            <!-- FOTO / AVATAR -->
             <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
-                <img id="avatar-view" alt="Foto do perfil" style="width:110px;height:110px;border-radius:50%;object-fit:cover;border:2px solid #d1bef0;display:none;">
+                <img id="avatar-view" 
+                     style="width:110px;height:110px;border-radius:50%;object-fit:cover;border:2px solid #d1bef0;display:none;">
                 <div id="sem-foto" style="color:#6c41af;display:none;">(sem foto)</div>
             </div>
 
+            <!-- DADOS DO PERFIL -->
             <ul id="lista-dados" style="line-height:1.9;"></ul>
+
+            <!-- SEÇÃO MEUS POSTS -->
+            <hr style="margin:25px 0;">
+            <h2 style="color:#6c41af;">Meus posts</h2>
+
+            <div id="meus-posts" style="display:flex;flex-direction:column;gap:20px;margin-top:15px;">
+                <!-- Posts aparecem aqui -->
+            </div>
+
             <div style="display:flex;gap:10px;margin-top:12px;">
-              <button id="btn-editar" type="button">Editar</button>
-              <button id="btn-logout" type="button">Sair (logout)</button>
+                <button id="btn-editar" type="button">Editar</button>
+                <button id="btn-logout" type="button">Sair</button>
             </div>
         </div>
 
-        <!-- FORMULÁRIO DE CADASTRO (igual ao seu) -->
-        <form class="form-cadastro" id="form-cadastro" style="display:none;background:#ffffff;border:1px solid #d1bef0;border-radius:12px;padding:20px;">
+
+        <!-- ===================================================================================== -->
+        <!-- FORMULÁRIO DE CADASTRO -->
+        <!-- ===================================================================================== -->
+        <form id="form-cadastro" style="display:none;background:#ffffff;border:1px solid #d1bef0;border-radius:12px;padding:20px;">
+
             <h1>Cadastro</h1>
 
-            <label  for="nome">Nome completo:</label>
-            <input class="campo-info" type="text" id="nome" name="nome" placeholder="Digite aqui" required>
+            <label><strong>Você é:</strong></label>
+            <div style="margin-bottom:16px;">
+                <label><input type="radio" name="tipoUsuario" value="PF" checked> Pessoa Física</label>
+                <label style="margin-left:14px;"><input type="radio" name="tipoUsuario" value="PJ"> Empresa</label>
+            </div>
 
-            <label for="cpf">CPF:</label>
-            <input class="campo-info" type="text" id="cpf" name="cpf" placeholder="Digite aqui" required>
+            <!-- PF -->
+            <div id="campos-pf">
+                <label>Nome:</label><input class="campo-info" id="nome" name="nome">
+                <label>CPF:</label><input class="campo-info" id="cpf" name="cpf">
+                <label>E-mail:</label><input class="campo-info" id="email" name="email" type="email">
+                <label>CEP:</label><input class="campo-info" id="cep" name="cep">
+                <label>Endereço:</label><input class="campo-info" id="end" name="end">
+                <label>Complemento:</label><input class="campo-info" id="comp" name="comp">
+                <label>Profissão:</label><input class="campo-info" id="profissao" name="profissao">
+                <label>Faculdade:</label><input class="campo-info" id="faculdade" name="faculdade">
+                <label>Skills:</label><input class="campo-info" id="skills" name="skills">
+                <label>Interesses:</label><input class="campo-info" id="interesses" name="interesses">
+                <label>Trabalhos prévios:</label><input class="campo-info" id="trab" name="trab">
+            </div>
 
-            <label  for="email">E-mail:</label>
-            <input class="campo-info" type="email" id="email" name="email" placeholder="Digite aqui" required>
+            <!-- PJ -->
+            <div id="campos-pj" style="display:none;">
+                <label>Razão Social:</label><input class="campo-info" id="razaoSocial" name="razaoSocial">
+                <label>CNPJ:</label><input class="campo-info" id="cnpj" name="cnpj">
+                <label>E-mail comercial:</label><input class="campo-info" id="emailEmpresa" name="emailEmpresa" type="email">
+                <label>Porte:</label><input class="campo-info" id="porte" name="porte">
+                <label>Segmento:</label><input class="campo-info" id="segmento" name="segmento">
+                <label>Descrição:</label><input class="campo-info" id="descricaoEmpresa" name="descricaoEmpresa">
+            </div>
 
-            <label for="cep">CEP:</label>
-            <input class="campo-info" type="text" id="cep" name="cep" placeholder="*****-***" required>
+            <!-- CAMPOS COMUNS -->
+            <label>Foto / Logo:</label>
+            <input class="campo-info" id="avatar" name="avatar" type="file" accept="image/*" required>
 
-            <label for="end">Endereço:</label>
-            <input class="campo-info" type="text" id="end" name="end" placeholder="Digite aqui" required>
+            <label>Senha:</label>
+            <input class="campo-info" id="senha" name="senha" type="password" required>
 
-            <label for="comp">Complemento:</label>
-            <input class="campo-info" type="text" id="comp" name="comp" placeholder="Digite aqui" required>
+            <label>Confirmar senha:</label>
+            <input class="campo-info" id="confirmar-senha" name="confirmar-senha" type="password" required>
 
-            <label for="profissao">Profissão:</label>
-            <input class="campo-info" type="text" id="profissao" name="profissao" placeholder="Digite aqui" required>
-
-            <label for="faculdade">Faculdade: </label>
-            <input class="campo-info" type="text" id="faculdade" name="faculdade" placeholder="Digite aqui" required>
-
-            <label for="skills">Skills:</label>
-            <input class="campo-info" type="text" id="skills" name="skills" placeholder="Ex.: Python, Excel, SQL" required>
-
-            <label for="interesses">Interesses:</label>
-            <input class="campo-info" type="text" id="interesses" name="interesses" placeholder="Ex.: Finanças, Dados" required>
-
-            <label for="trab">Trabalhos prévios:</label>
-            <input class="campo-info" type="text" id="trab" name="trab" placeholder="Digite aqui" required>
-
-            <label for="avatar">Foto de perfil (obrigatória):</label>
-            <input class="campo-info" type="file" id="avatar" name="avatar" accept="image/*" required>
-
-            <label for="senha">Senha:</label>
-            <input class="campo-info" type="password" id="senha" name="senha" placeholder="Digite aqui" required>
-
-            <label for="confirmar-senha">Confirmar senha:</label>
-            <input class="campo-info" type="password" id="confirmar-senha" name="confirmar-senha" placeholder="Digite aqui" required>
-
-            <button id="enviar-cadastro" type="submit" style="margin-top:14px;">Enviar</button>
+            <button type="submit" style="margin-top:14px;">Enviar</button>
         </form>
 
-        <!-- FORMULÁRIO DE EDIÇÃO (igual ao seu) -->
+
+
+        <!-- ===================================================================================== -->
+        <!-- FORMULÁRIO DE EDIÇÃO -->
+        <!-- ===================================================================================== -->
         <form id="form-edicao" style="display:none;background:#ffffff;border:1px solid #d1bef0;border-radius:12px;padding:20px;">
+
             <h1>Editar perfil</h1>
 
             <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
-              <img id="avatar-preview" alt="Prévia do avatar" style="width:90px;height:90px;border-radius:50%;object-fit:cover;border:2px solid #d1bef0;display:none;">
-              <div style="flex:1">
-                <label for="avatar-editar">Trocar foto (opcional):</label>
-                <input class="campo-info" type="file" id="avatar-editar" name="avatar-editar" accept="image/*">
-                <small style="display:block;color:#6c41af;">Se você não selecionar uma imagem, a foto atual será mantida.</small>
-              </div>
+                <img id="avatar-preview" 
+                     style="width:90px;height:90px;border-radius:50%;object-fit:cover;border:2px solid #d1bef0;display:none;">
+                <div>
+                    <label>Trocar foto:</label>
+                    <input id="avatar-editar" type="file" accept="image/*">
+                </div>
             </div>
 
-            <label for="nome-editar">Nome completo:</label>
-            <input class="campo-info" type="text" id="nome-editar" name="nome" required>
+            <!-- PF -->
+            <div id="editar-pf">
+                <label>Nome:</label><input class="campo-info" id="nome-editar">
+                <label>CPF:</label><input class="campo-info" id="cpf-editar">
+                <label>E-mail:</label><input class="campo-info" id="email-editar">
+                <label>CEP:</label><input class="campo-info" id="cep-editar">
+                <label>Endereço:</label><input class="campo-info" id="end-editar">
+                <label>Complemento:</label><input class="campo-info" id="comp-editar">
+                <label>Profissão:</label><input class="campo-info" id="profissao-editar">
+                <label>Faculdade:</label><input class="campo-info" id="faculdade-editar">
+                <label>Skills:</label><input class="campo-info" id="skills-editar">
+                <label>Interesses:</label><input class="campo-info" id="interesses-editar">
+                <label>Trabalhos prévios:</label><input class="campo-info" id="trab-editar">
+            </div>
 
-            <label for="cpf-editar">CPF:</label>
-            <input class="campo-info" type="text" id="cpf-editar" name="cpf" required>
-
-            <label for="email-editar">E-mail:</label>
-            <input class="campo-info" type="email" id="email-editar" name="email" required>
-
-            <label for="cep-editar">CEP:</label>
-            <input class="campo-info" type="text" id="cep-editar" name="cep" required>
-
-            <label for="end-editar">Endereço:</label>
-            <input class="campo-info" type="text" id="end-editar" name="end" required>
-
-            <label for="comp-editar">Complemento:</label>
-            <input class="campo-info" type="text" id="comp-editar" name="comp" required>
-
-            <label for="profissao-editar">Profissão:</label>
-            <input class="campo-info" type="text" id="profissao-editar" name="profissao" required>
-
-            <label for="faculdade-editar">Faculdade: </label>
-            <input class="campo-info" type="text" id="faculdade-editar" name="faculdade" required>
-
-            <label for="skills-editar">Skills:</label>
-            <input class="campo-info" type="text" id="skills-editar" name="skills" required>
-
-            <label for="interesses-editar">Interesses:</label>
-            <input class="campo-info" type="text" id="interesses-editar" name="interesses" required>
-
-            <label for="trab-editar">Trabalhos prévios:</label>
-            <input class="campo-info" type="text" id="trab-editar" name="trab" required>
+            <!-- PJ -->
+            <div id="editar-pj" style="display:none;">
+                <label>Razão Social:</label><input class="campo-info" id="razaoSocial-editar">
+                <label>CNPJ:</label><input class="campo-info" id="cnpj-editar">
+                <label>E-mail comercial:</label><input class="campo-info" id="emailEmpresa-editar">
+                <label>Porte:</label><input class="campo-info" id="porte-editar">
+                <label>Segmento:</label><input class="campo-info" id="segmento-editar">
+                <label>Descrição:</label><input class="campo-info" id="descricaoEmpresa-editar">
+            </div>
 
             <div style="display:flex;gap:10px;margin-top:14px;">
-              <button id="btn-salvar-edicao" type="submit">Salvar</button>
-              <button id="btn-cancelar-edicao" type="button">Cancelar</button>
+                <button type="submit">Salvar</button>
+                <button id="btn-cancelar-edicao" type="button">Cancelar</button>
             </div>
+
         </form>
+
     </div>
 
     <script src="../controller/cadastro.js"></script>
     <script src="../controller/postar.js"></script>
-    <script src="../controller/script.js"></script>
-    <script src="../controller/fotoPerfil.js"></script>
+
+    <!-- MOSTRAR/ESCONDER PF e PJ -->
+    <script>
+        const pf = document.querySelector("input[value='PF']");
+        const pj = document.querySelector("input[value='PJ']");
+        const blocoPF = document.getElementById("campos-pf");
+        const blocoPJ = document.getElementById("campos-pj");
+
+        function atualizar() {
+            blocoPF.style.display = pf.checked ? "block" : "none";
+            blocoPJ.style.display = pj.checked ? "block" : "none";
+        }
+
+        pf.addEventListener("change", atualizar);
+        pj.addEventListener("change", atualizar);
+        atualizar();
+    </script>
+
+    <!-- CARREGAR POSTS DO USUÁRIO NO PERFIL (com imagens centralizadas) -->
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const usuarioAtual = JSON.parse(localStorage.getItem("usuarioAtual"));
+        const meusPostsDiv = document.getElementById("meus-posts");
+
+        if (!usuarioAtual || !meusPostsDiv) return;
+
+        const todosPosts = JSON.parse(localStorage.getItem("postsUsuario") || "[]");
+
+        const meusPosts = todosPosts.filter(p => p.email === usuarioAtual.email);
+
+        if (meusPosts.length === 0) {
+            meusPostsDiv.innerHTML = "<p style='color:#777'>Você ainda não publicou nada.</p>";
+            return;
+        }
+
+        meusPosts.forEach(post => {
+            const postDiv = document.createElement("div");
+            postDiv.style.border = "1px solid #d1bef0";
+            postDiv.style.padding = "12px";
+            postDiv.style.borderRadius = "10px";
+            postDiv.style.background = "#faf7ff";
+
+            postDiv.innerHTML = `
+                <p style="margin-bottom:8px;">${post.texto}</p>
+                ${post.img ? `
+                    <div style="display:flex;justify-content:center;margin-top:10px;">
+                        <img src="${post.img}" 
+                             style="max-width:70%;border-radius:10px;display:block;">
+                    </div>
+                ` : ""}
+                <small style="color:#6c41af;">Postado por você</small>
+            `;
+
+            meusPostsDiv.appendChild(postDiv);
+        });
+    });
+    </script>
 
 </body>
 </html>
