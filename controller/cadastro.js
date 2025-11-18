@@ -89,7 +89,6 @@
 
   const formCadastro = $$("#form-cadastro");
   const formEdicao = $$("#form-edicao");
-  const inputAvatarCadastro = $$("#avatar");
   const inputAvatarEditar = $$("#avatar-editar");
   const avatarPreview = $$("#avatar-preview");
 
@@ -99,75 +98,93 @@
 
   // ===== Render Perfil =====
   function renderPerfil(u) {
-    if (!perfilView) return;
+    if (!perfilView || !u) return;
+
     hide(formCadastro);
     hide(formEdicao);
     show(perfilView);
 
-    if (u?.avatar) {
-      avatarView.src = u.avatar;
-      show(avatarView);
-      hide(semFoto);
+    if (u.avatar) {
+      if (avatarView) {
+        avatarView.src = u.avatar;
+        show(avatarView);
+      }
+      if (semFoto) hide(semFoto);
     } else {
-      hide(avatarView);
-      show(semFoto);
+      if (avatarView) hide(avatarView);
+      if (semFoto) show(semFoto);
     }
 
-    if (u.tipoUsuario === "PF") {
+    if (!listaDados) return;
+
+    const tipo = u.tipoUsuario === "PJ" ? "PJ" : "PF";
+
+    if (tipo === "PF") {
       listaDados.innerHTML = `
-        <li><strong>Nome:</strong> ${u.nome}</li>
-        <li><strong>Email:</strong> ${u.email}</li>
-        <li><strong>Profissão:</strong> ${u.profissao}</li>
-        <li><strong>Faculdade:</strong> ${u.faculdade}</li>
-        <li><strong>Skills:</strong> ${u.skills}</li>
-        <li><strong>Interesses:</strong> ${u.interesses}</li>
-        <li><strong>Trabalhos prévios:</strong> ${u.trab}</li>
+        <li><strong>Nome:</strong> ${u.nome || ""}</li>
+        <li><strong>Email:</strong> ${u.email || ""}</li>
+        <li><strong>Profissão:</strong> ${u.profissao || ""}</li>
+        <li><strong>Faculdade:</strong> ${u.faculdade || ""}</li>
+        <li><strong>Skills:</strong> ${u.skills || ""}</li>
+        <li><strong>Interesses:</strong> ${u.interesses || ""}</li>
+        <li><strong>Trabalhos prévios:</strong> ${u.trab || ""}</li>
       `;
     } else {
       listaDados.innerHTML = `
-        <li><strong>Razão Social:</strong> ${u.razaoSocial}</li>
-        <li><strong>CNPJ:</strong> ${u.cnpj}</li>
-        <li><strong>Email comercial:</strong> ${u.email}</li>
-        <li><strong>Porte:</strong> ${u.porte}</li>
-        <li><strong>Segmento:</strong> ${u.segmento}</li>
-        <li><strong>Descrição:</strong> ${u.descricaoEmpresa}</li>
+        <li><strong>Razão Social:</strong> ${u.razaoSocial || ""}</li>
+        <li><strong>CNPJ:</strong> ${u.cnpj || ""}</li>
+        <li><strong>Email comercial:</strong> ${u.email || ""}</li>
+        <li><strong>Porte:</strong> ${u.porte || ""}</li>
+        <li><strong>Segmento:</strong> ${u.segmento || ""}</li>
+        <li><strong>Descrição:</strong> ${u.descricaoEmpresa || ""}</li>
       `;
     }
   }
 
   // ===== Preencher formulário de edição =====
   function preencherFormEdicao(u) {
-    if (!formEdicao) return;
+    if (!formEdicao || !u) return;
 
-    // Se for PF
-    if (u.tipoUsuario === "PF") {
-      $$("#editar-pf").style.display = "block";
-      $$("#editar-pj").style.display = "none";
+    const tipo = u.tipoUsuario === "PJ" ? "PJ" : "PF";
 
-      document.getElementById("nome-editar").value = u.nome;
-      document.getElementById("cpf-editar").value = u.cpf;
-      document.getElementById("email-editar").value = u.email;
-      document.getElementById("cep-editar").value = u.cep;
-      document.getElementById("end-editar").value = u.end;
-      document.getElementById("comp-editar").value = u.comp;
-      document.getElementById("profissao-editar").value = u.profissao;
-      document.getElementById("faculdade-editar").value = u.faculdade;
-      document.getElementById("skills-editar").value = u.skills;
-      document.getElementById("interesses-editar").value = u.interesses;
-      document.getElementById("trab-editar").value = u.trab;
-    }
+    const editarPF = $$("#editar-pf");
+    const editarPJ = $$("#editar-pj");
 
-    // Se for PJ
-    if (u.tipoUsuario === "PJ") {
-      $$("#editar-pf").style.display = "none";
-      $$("#editar-pj").style.display = "block";
+    if (tipo === "PF") {
+      if (editarPF) editarPF.style.display = "block";
+      if (editarPJ) editarPJ.style.display = "none";
 
-      document.getElementById("razaoSocial-editar").value = u.razaoSocial;
-      document.getElementById("cnpj-editar").value = u.cnpj;
-      document.getElementById("emailEmpresa-editar").value = u.email;
-      document.getElementById("porte-editar").value = u.porte;
-      document.getElementById("segmento-editar").value = u.segmento;
-      document.getElementById("descricaoEmpresa-editar").value = u.descricaoEmpresa;
+      const set = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.value = val || "";
+      };
+
+      set("nome-editar", u.nome);
+      set("cpf-editar", u.cpf);
+      set("email-editar", u.email);
+      set("cep-editar", u.cep);
+      set("end-editar", u.end);
+      set("comp-editar", u.comp);
+      set("profissao-editar", u.profissao);
+      set("faculdade-editar", u.faculdade);
+      set("skills-editar", u.skills);
+      set("interesses-editar", u.interesses);
+      set("trab-editar", u.trab);
+    } else {
+      if (editarPF) editarPF.style.display = "none";
+      if (editarPJ) editarPJ.style.display = "block";
+
+      const set = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.value = val || "";
+      };
+
+      set("razaoSocial-editar", u.razaoSocial);
+      set("cnpj-editar", u.cnpj);
+      set("emailEmpresa-editar", u.email);
+      set("porte-editar", u.porte);
+      set("segmento-editar", u.segmento);
+      set("descricaoEmpresa-editar", u.descricaoEmpresa);
     }
 
     if (avatarPreview) {
@@ -181,18 +198,22 @@
   }
 
   // ===== Guarda de rota =====
-  if (isPerfil) {
-    if (!usuario && !querCadastro) {
-      location.href = "login.html";
-    } else if (usuario) {
-      renderPerfil(usuario);
-    } else if (querCadastro) {
-      hide(perfilView);
-      hide(formEdicao);
-      show(formCadastro);
-    }
-  }
+if (isPerfil) {
+  if (querCadastro) {
+    // se quiser, pode limpar o usuário logado ao criar nova conta:
+    // clearUsuarioAtual();
 
+    hide(perfilView);
+    hide(formEdicao);
+    show(formCadastro);
+  } else if (!usuario) {
+    // sem usuário e sem pedir cadastro -> vai pro login
+    location.href = "login.html";
+  } else {
+    // perfil normal de quem está logado
+    renderPerfil(usuario);
+  }
+}
   // ===== Logout =====
   if (btnLogout) {
     btnLogout.addEventListener("click", () => {
@@ -204,18 +225,20 @@
   // ===== Editar =====
   if (btnEditar) {
     btnEditar.addEventListener("click", () => {
-      if (!getUsuarioAtual()) return;
+      const u = getUsuarioAtual();
+      if (!u) return;
       hide(perfilView);
       hide(formCadastro);
       show(formEdicao);
-      preencherFormEdicao(getUsuarioAtual());
+      preencherFormEdicao(u);
     });
   }
 
   // ===== Cancelar edição =====
   if (btnCancelarEdicao) {
     btnCancelarEdicao.addEventListener("click", () => {
-      renderPerfil(getUsuarioAtual());
+      const u = getUsuarioAtual();
+      if (u) renderPerfil(u);
     });
   }
 
@@ -227,6 +250,8 @@
       let u = getUsuarioAtual();
       if (!u) return;
 
+      const tipo = u.tipoUsuario === "PJ" ? "PJ" : "PF";
+
       const file = inputAvatarEditar?.files?.[0];
       if (file instanceof File && file.size > 0) {
         u.avatar = await comprimirImagem(file);
@@ -234,7 +259,7 @@
 
       const getVal = (id) => document.getElementById(id)?.value || "";
 
-      if (u.tipoUsuario === "PF") {
+      if (tipo === "PF") {
         u.nome = getVal("nome-editar");
         u.cpf = getVal("cpf-editar");
         u.email = getVal("email-editar");
@@ -273,7 +298,7 @@
       try {
         const fd = new FormData(formCadastro);
 
-        const tipo = fd.get("tipoUsuario");
+        const tipo = fd.get("tipoUsuario") === "PJ" ? "PJ" : "PF";
         const fileAvatar = fd.get("avatar");
 
         if (!(fileAvatar instanceof File) || fileAvatar.size === 0) {
@@ -281,8 +306,8 @@
           return;
         }
 
-        const senha = fd.get("senha");
-        const confirmar = fd.get("confirmar-senha");
+        const senha = fd.get("senha") || "";
+        const confirmar = fd.get("confirmar-senha") || "";
 
         if (senha !== confirmar) {
           alert("As senhas não coincidem!");
@@ -291,7 +316,15 @@
 
         const usuarios = getUsuarios();
 
-        const email = tipo === "PF" ? fd.get("email") : fd.get("emailEmpresa");
+        const email =
+          tipo === "PF"
+            ? (fd.get("email") || "").trim()
+            : (fd.get("emailEmpresa") || "").trim();
+
+        if (!email) {
+          alert("Informe um e-mail válido.");
+          return;
+        }
 
         if (usuarios.some((u) => u.email === email)) {
           alert("Este e-mail já está cadastrado!");
@@ -300,34 +333,30 @@
 
         const avatarDataURL = await comprimirImagem(fileAvatar);
 
-        let user = { tipoUsuario: tipo, avatar: avatarDataURL };
+        let user = { tipoUsuario: tipo, avatar: avatarDataURL, email, senha };
 
         if (tipo === "PF") {
           user = {
             ...user,
-            nome: fd.get("nome"),
-            cpf: fd.get("cpf"),
-            email: fd.get("email"),
-            cep: fd.get("cep"),
-            end: fd.get("end"),
-            comp: fd.get("comp"),
-            profissao: fd.get("profissao"),
-            faculdade: fd.get("faculdade"),
-            skills: fd.get("skills"),
-            interesses: fd.get("interesses"),
-            trab: fd.get("trab"),
-            senha: senha
+            nome: (fd.get("nome") || "").trim(),
+            cpf: (fd.get("cpf") || "").trim(),
+            cep: (fd.get("cep") || "").trim(),
+            end: (fd.get("end") || "").trim(),
+            comp: (fd.get("comp") || "").trim(),
+            profissao: (fd.get("profissao") || "").trim(),
+            faculdade: (fd.get("faculdade") || "").trim(),
+            skills: (fd.get("skills") || "").trim(),
+            interesses: (fd.get("interesses") || "").trim(),
+            trab: (fd.get("trab") || "").trim()
           };
         } else {
           user = {
             ...user,
-            razaoSocial: fd.get("razaoSocial"),
-            cnpj: fd.get("cnpj"),
-            email: fd.get("emailEmpresa"),
-            porte: fd.get("porte"),
-            segmento: fd.get("segmento"),
-            descricaoEmpresa: fd.get("descricaoEmpresa"),
-            senha: senha
+            razaoSocial: (fd.get("razaoSocial") || "").trim(),
+            cnpj: (fd.get("cnpj") || "").trim(),
+            porte: (fd.get("porte") || "").trim(),
+            segmento: (fd.get("segmento") || "").trim(),
+            descricaoEmpresa: (fd.get("descricaoEmpresa") || "").trim()
           };
         }
 
@@ -336,9 +365,9 @@
         setUsuarioAtual(user);
 
         location.href = "perfil.html";
-
       } catch (err) {
         console.error("Erro no cadastro PF/PJ:", err);
+        alert("Ocorreu um erro ao cadastrar. Tente novamente.");
       }
     });
   }
@@ -349,10 +378,21 @@
     formLogin.addEventListener("submit", (e) => {
       e.preventDefault();
       const fd = new FormData(formLogin);
-      const { email, senha } = Object.fromEntries(fd.entries());
+      const { email = "", senha = "" } = Object.fromEntries(fd.entries());
 
       const usuarios = getUsuarios();
-      const u = usuarios.find((x) => x.email === email && x.senha === senha);
+      let u = usuarios.find((x) => x.email === email && x.senha === senha);
+
+      // compatibilidade com usuários antigos sem tipoUsuario
+      if (u && !u.tipoUsuario) {
+        u.tipoUsuario = "PF";
+        setUsuarioAtual(u);
+        const idx = usuarios.findIndex((x) => x.email === u.email);
+        if (idx !== -1) {
+          usuarios[idx] = u;
+          setUsuarios(usuarios);
+        }
+      }
 
       if (u) {
         setUsuarioAtual(u);
