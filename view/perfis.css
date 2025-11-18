@@ -47,7 +47,7 @@ body{
 
 /* Barra “crie um post” (+) como chip */
 #post-toolbar{
-  display:flex !important;
+  display:flex ;
   align-items:center;
   gap:12px;
   margin: 6px 0 18px 0 !important;
