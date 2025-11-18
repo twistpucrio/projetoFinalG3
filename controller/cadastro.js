@@ -1,12 +1,7 @@
  /* ../controller/cadastro.js */
 "use strict";
 
-/**
- * Tudo dentro de um IIFE para evitar variáveis globais e não colidir com postar.js.
- * Mantém o mesmo fluxo de telas (perfil/login/cadastro) e redirecionamentos que você já usa.
- */
 (() => {
-  // ===== Utils locais (sem poluir o global) =====
   const $$ = (sel, root = document) => root.querySelector(sel);
   const show = (el) => { if (el) el.style.display = "block"; };
   const hide = (el) => { if (el) el.style.display = "none"; };
@@ -23,7 +18,7 @@
   const url = new URL(location.href);
   const querCadastro = url.searchParams.get("cadastro") === "1";
 
-  // ===== Helpers de imagem (compacta para DataURL) =====
+  // ===== Helpers de imagem =====
   const lerArquivoComoDataURL = (file) =>
     new Promise((resolve, reject) => {
       const r = new FileReader();
@@ -75,12 +70,11 @@
     return last;
   }
 
-  // ===== Header / atalhos (mesmo comportamento do seu arquivo original) =====
+  // ===== Header =====
   const usuario = getUsuarioAtual();
   const bemVindo = $$("#bem-vindo");
   if (usuario?.nome && bemVindo) {
-    const primeiro = usuario.nome.split(" ")[0];
-    bemVindo.textContent = `Olá, ${primeiro}!`;
+    bemVindo.textContent = `Olá, ${usuario.nome.split(" ")[0]}!`;
   }
   const perfilImg = document.getElementById("perfil");
   if (perfilImg?.parentElement) {
@@ -94,17 +88,16 @@
   const semFoto = $$("#sem-foto");
 
   const formCadastro = $$("#form-cadastro");
-  const inputAvatarCadastro = $$("#avatar");
-
   const formEdicao = $$("#form-edicao");
-  const btnEditar = $$("#btn-editar");
-  const btnLogout = $$("#btn-logout");
-  const btnCancelarEdicao = $$("#btn-cancelar-edicao");
+  const inputAvatarCadastro = $$("#avatar");
   const inputAvatarEditar = $$("#avatar-editar");
   const avatarPreview = $$("#avatar-preview");
 
-  const HIDDEN_KEYS_IN_VIEW = new Set(["cpf", "cep", "end", "comp"]);
+  const btnEditar = $$("#btn-editar");
+  const btnLogout = $$("#btn-logout");
+  const btnCancelarEdicao = $$("#btn-cancelar-edicao");
 
+  // ===== Render Perfil =====
   function renderPerfil(u) {
     if (!perfilView) return;
     hide(formCadastro);
@@ -112,54 +105,73 @@
     show(perfilView);
 
     if (u?.avatar) {
-      if (avatarView) { avatarView.src = u.avatar; show(avatarView); }
+      avatarView.src = u.avatar;
+      show(avatarView);
       hide(semFoto);
     } else {
-      if (avatarView) hide(avatarView);
+      hide(avatarView);
       show(semFoto);
     }
 
-    if (listaDados) {
-      const labels = {
-        nome: "Nome completo",
-        email: "E-mail",
-        profissao: "Profissão",
-        faculdade: "Faculdade",
-        skills: "Skills",
-        interesses: "Interesses",
-        trab: "Trabalhos prévios"
-      };
-      const ordem = ["nome","email","profissao","faculdade","skills","interesses","trab"];
-      listaDados.innerHTML = ordem
-        .filter((k) => !HIDDEN_KEYS_IN_VIEW.has(k))
-        .filter((k) => u?.[k] !== undefined && u[k] !== "")
-        .map((k) => `<li><strong>${labels[k]}:</strong> ${u[k]}</li>`)
-        .join("");
+    if (u.tipoUsuario === "PF") {
+      listaDados.innerHTML = `
+        <li><strong>Nome:</strong> ${u.nome}</li>
+        <li><strong>Email:</strong> ${u.email}</li>
+        <li><strong>Profissão:</strong> ${u.profissao}</li>
+        <li><strong>Faculdade:</strong> ${u.faculdade}</li>
+        <li><strong>Skills:</strong> ${u.skills}</li>
+        <li><strong>Interesses:</strong> ${u.interesses}</li>
+        <li><strong>Trabalhos prévios:</strong> ${u.trab}</li>
+      `;
+    } else {
+      listaDados.innerHTML = `
+        <li><strong>Razão Social:</strong> ${u.razaoSocial}</li>
+        <li><strong>CNPJ:</strong> ${u.cnpj}</li>
+        <li><strong>Email comercial:</strong> ${u.email}</li>
+        <li><strong>Porte:</strong> ${u.porte}</li>
+        <li><strong>Segmento:</strong> ${u.segmento}</li>
+        <li><strong>Descrição:</strong> ${u.descricaoEmpresa}</li>
+      `;
     }
   }
 
+  // ===== Preencher formulário de edição =====
   function preencherFormEdicao(u) {
     if (!formEdicao) return;
-    const m = {
-      "#nome-editar": u?.nome || "",
-      "#cpf-editar": u?.cpf || "",
-      "#email-editar": u?.email || "",
-      "#cep-editar": u?.cep || "",
-      "#end-editar": u?.end || "",
-      "#comp-editar": u?.comp || "",
-      "#profissao-editar": u?.profissao || "",
-      "#faculdade-editar": u?.faculdade || "",
-      "#skills-editar": u?.skills || "",
-      "#interesses-editar": u?.interesses || "",
-      "#trab-editar": u?.trab || ""
-    };
-    Object.entries(m).forEach(([sel, val]) => {
-      const el = document.querySelector(sel);
-      if (el) el.value = val;
-    });
+
+    // Se for PF
+    if (u.tipoUsuario === "PF") {
+      $$("#editar-pf").style.display = "block";
+      $$("#editar-pj").style.display = "none";
+
+      document.getElementById("nome-editar").value = u.nome;
+      document.getElementById("cpf-editar").value = u.cpf;
+      document.getElementById("email-editar").value = u.email;
+      document.getElementById("cep-editar").value = u.cep;
+      document.getElementById("end-editar").value = u.end;
+      document.getElementById("comp-editar").value = u.comp;
+      document.getElementById("profissao-editar").value = u.profissao;
+      document.getElementById("faculdade-editar").value = u.faculdade;
+      document.getElementById("skills-editar").value = u.skills;
+      document.getElementById("interesses-editar").value = u.interesses;
+      document.getElementById("trab-editar").value = u.trab;
+    }
+
+    // Se for PJ
+    if (u.tipoUsuario === "PJ") {
+      $$("#editar-pf").style.display = "none";
+      $$("#editar-pj").style.display = "block";
+
+      document.getElementById("razaoSocial-editar").value = u.razaoSocial;
+      document.getElementById("cnpj-editar").value = u.cnpj;
+      document.getElementById("emailEmpresa-editar").value = u.email;
+      document.getElementById("porte-editar").value = u.porte;
+      document.getElementById("segmento-editar").value = u.segmento;
+      document.getElementById("descricaoEmpresa-editar").value = u.descricaoEmpresa;
+    }
 
     if (avatarPreview) {
-      if (u?.avatar) {
+      if (u.avatar) {
         avatarPreview.src = u.avatar;
         show(avatarPreview);
       } else {
@@ -168,14 +180,16 @@
     }
   }
 
-  // ===== Guarda de rota (mesmo fluxo que você já tinha) =====
+  // ===== Guarda de rota =====
   if (isPerfil) {
     if (!usuario && !querCadastro) {
       location.href = "login.html";
     } else if (usuario) {
       renderPerfil(usuario);
     } else if (querCadastro) {
-      hide(perfilView); hide(formEdicao); show(formCadastro);
+      hide(perfilView);
+      hide(formEdicao);
+      show(formCadastro);
     }
   }
 
@@ -183,16 +197,17 @@
   if (btnLogout) {
     btnLogout.addEventListener("click", () => {
       clearUsuarioAtual();
-      sessionStorage.removeItem("usuarioAtual");
       location.href = "index.html";
     });
   }
 
-  // ===== Entrar em edição =====
+  // ===== Editar =====
   if (btnEditar) {
     btnEditar.addEventListener("click", () => {
       if (!getUsuarioAtual()) return;
-      hide(perfilView); hide(formCadastro); show(formEdicao);
+      hide(perfilView);
+      hide(formCadastro);
+      show(formEdicao);
       preencherFormEdicao(getUsuarioAtual());
     });
   }
@@ -200,126 +215,152 @@
   // ===== Cancelar edição =====
   if (btnCancelarEdicao) {
     btnCancelarEdicao.addEventListener("click", () => {
-      const u = getUsuarioAtual();
-      if (u) renderPerfil(u);
-      else { hide(formEdicao); show(formCadastro); }
+      renderPerfil(getUsuarioAtual());
     });
   }
 
-  // ===== Salvar edição (AGORA IMPLEMENTADO) =====
+  // ===== Salvar edição =====
   if (formEdicao) {
     formEdicao.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      let u = getUsuarioAtual() || {};
+      let u = getUsuarioAtual();
       if (!u) return;
 
-      // campos de texto
-      const getVal = (id) => (document.getElementById(id)?.value || "");
-      u = {
-        ...u,
-        nome: getVal("nome-editar"),
-        cpf: getVal("cpf-editar"),
-        email: getVal("email-editar"),
-        cep: getVal("cep-editar"),
-        end: getVal("end-editar"),
-        comp: getVal("comp-editar"),
-        profissao: getVal("profissao-editar"),
-        faculdade: getVal("faculdade-editar"),
-        skills: getVal("skills-editar"),
-        interesses: getVal("interesses-editar"),
-        trab: getVal("trab-editar"),
-      };
-
-      // foto opcional
-      const file = inputAvatarEditar?.files?.[0] || null;
+      const file = inputAvatarEditar?.files?.[0];
       if (file instanceof File && file.size > 0) {
         u.avatar = await comprimirImagem(file);
       }
 
-      // persiste no atual
+      const getVal = (id) => document.getElementById(id)?.value || "";
+
+      if (u.tipoUsuario === "PF") {
+        u.nome = getVal("nome-editar");
+        u.cpf = getVal("cpf-editar");
+        u.email = getVal("email-editar");
+        u.cep = getVal("cep-editar");
+        u.end = getVal("end-editar");
+        u.comp = getVal("comp-editar");
+        u.profissao = getVal("profissao-editar");
+        u.faculdade = getVal("faculdade-editar");
+        u.skills = getVal("skills-editar");
+        u.interesses = getVal("interesses-editar");
+        u.trab = getVal("trab-editar");
+      } else {
+        u.razaoSocial = getVal("razaoSocial-editar");
+        u.cnpj = getVal("cnpj-editar");
+        u.email = getVal("emailEmpresa-editar");
+        u.porte = getVal("porte-editar");
+        u.segmento = getVal("segmento-editar");
+        u.descricaoEmpresa = getVal("descricaoEmpresa-editar");
+      }
+
       setUsuarioAtual(u);
 
-      // persiste na lista (chave = email)
       const usuarios = getUsuarios();
       const idx = usuarios.findIndex((x) => x.email === u.email);
       if (idx !== -1) usuarios[idx] = u;
       setUsuarios(usuarios);
 
-      // volta para a view
       renderPerfil(u);
     });
   }
 
-  // ===== Cadastro (AGORA salvando avatar como DataURL) =====
+  // ===== Cadastro PF/PJ =====
   if (formCadastro) {
     formCadastro.addEventListener("submit", async (e) => {
       e.preventDefault();
       try {
         const fd = new FormData(formCadastro);
-        const dados = Object.fromEntries(fd.entries());
+
+        const tipo = fd.get("tipoUsuario");
         const fileAvatar = fd.get("avatar");
 
         if (!(fileAvatar instanceof File) || fileAvatar.size === 0) {
-          alert("Selecione uma foto de perfil válida.");
+          alert("Selecione uma imagem válida!");
+          return;
+        }
+
+        const senha = fd.get("senha");
+        const confirmar = fd.get("confirmar-senha");
+
+        if (senha !== confirmar) {
+          alert("As senhas não coincidem!");
           return;
         }
 
         const usuarios = getUsuarios();
-        if (usuarios.some((u) => u.email === dados.email)) {
-          alert("Usuário já existe!");
+
+        const email = tipo === "PF" ? fd.get("email") : fd.get("emailEmpresa");
+
+        if (usuarios.some((u) => u.email === email)) {
+          alert("Este e-mail já está cadastrado!");
           return;
         }
 
-        // transforma a foto em DataURL compactado
         const avatarDataURL = await comprimirImagem(fileAvatar);
 
-        // monta o usuário final (substitui o File pelo DataURL)
-        const user = {
-          nome: dados.nome || "",
-          cpf: dados.cpf || "",
-          email: dados.email || "",
-          cep: dados.cep || "",
-          end: dados.end || "",
-          comp: dados.comp || "",
-          profissao: dados.profissao || "",
-          faculdade: dados.faculdade || "",
-          skills: dados.skills || "",
-          interesses: dados.interesses || "",
-          trab: dados.trab || "",
-          senha: dados.senha || "",
-          avatar: avatarDataURL,
-        };
+        let user = { tipoUsuario: tipo, avatar: avatarDataURL };
+
+        if (tipo === "PF") {
+          user = {
+            ...user,
+            nome: fd.get("nome"),
+            cpf: fd.get("cpf"),
+            email: fd.get("email"),
+            cep: fd.get("cep"),
+            end: fd.get("end"),
+            comp: fd.get("comp"),
+            profissao: fd.get("profissao"),
+            faculdade: fd.get("faculdade"),
+            skills: fd.get("skills"),
+            interesses: fd.get("interesses"),
+            trab: fd.get("trab"),
+            senha: senha
+          };
+        } else {
+          user = {
+            ...user,
+            razaoSocial: fd.get("razaoSocial"),
+            cnpj: fd.get("cnpj"),
+            email: fd.get("emailEmpresa"),
+            porte: fd.get("porte"),
+            segmento: fd.get("segmento"),
+            descricaoEmpresa: fd.get("descricaoEmpresa"),
+            senha: senha
+          };
+        }
 
         usuarios.push(user);
         setUsuarios(usuarios);
         setUsuarioAtual(user);
-        sessionStorage.setItem("usuarioAtual", JSON.stringify(user));
 
         location.href = "perfil.html";
+
       } catch (err) {
-        console.error("Erro no cadastro:", err);
+        console.error("Erro no cadastro PF/PJ:", err);
       }
     });
   }
 
-  // ===== Login (inalterado no seu fluxo) =====
+  // ===== Login =====
   const formLogin = document.querySelector(".form-login");
   if (formLogin) {
     formLogin.addEventListener("submit", (e) => {
       e.preventDefault();
       const fd = new FormData(formLogin);
-      const { email = "", senha = "" } = Object.fromEntries(fd.entries());
+      const { email, senha } = Object.fromEntries(fd.entries());
 
       const usuarios = getUsuarios();
       const u = usuarios.find((x) => x.email === email && x.senha === senha);
+
       if (u) {
         setUsuarioAtual(u);
-        sessionStorage.setItem("usuarioAtual", JSON.stringify(u));
         location.href = "perfil.html";
       } else {
         alert("Email ou senha incorretos!");
       }
     });
   }
+
 })();
