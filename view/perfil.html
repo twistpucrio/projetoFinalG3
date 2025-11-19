@@ -1,9 +1,10 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="estilo.css">
-     <link rel="stylesheet" href="perfis.css">
+    <link rel="stylesheet" href="perfis.css">
+    <link rel="stylesheet" href="posts.css"> <!-- IMPORTANTE: permite usar o mesmo CSS dos posts -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil</title>
 </head>
@@ -17,32 +18,31 @@
     </div>
 
     <div id="dados-container" style="max-width:720px;margin:20px auto;">
+
         <!-- VISUALIZAÇÃO DO PERFIL -->
         <div id="perfil-view" style="display:none;background:#ffffff;border:1px solid #d1bef0;border-radius:12px;padding:20px;">
             <h1 style="margin-top:0;">Meu perfil</h1>
 
-            <!-- Toolbar de post (+) -->
-            <div id="post-toolbar" style="display:none; margin:6px 0 16px 0; background:none;">
-              <button id="btn-novo-post" type="button" 
-                      title="Criar post" 
-                      style="width:42px;height:42px;border:none;border-radius:50%;
-                             background:#6c41af;color:#fff;font-size:26px;line-height:42px;
-                             cursor:pointer;box-shadow:0 3px 8px rgba(108,65,175,.35)">+</button>
-              <small style="margin-left:8px;color:#6c41af;background:none;">Compartilhe um post com a comunidade</small>
+            <!-- Toolbar de post -->
+            <div id="post-toolbar" style="display:none; margin:6px 0 16px 0;">
+                <button id="btn-novo-post" type="button" 
+                        title="Criar post" 
+                        style="width:42px;height:42px;border:none;border-radius:50%;
+                               background:#6c41af;color:#fff;font-size:26px;line-height:42px;
+                               cursor:pointer;box-shadow:0 3px 8px rgba(108,65,175,.35)">+</button>
+                <small style="margin-left:8px;color:#6c41af;">Compartilhe um post com a comunidade</small>
             </div>
 
-            <!-- Form de novo post (texto + imagem) -->
+            <!-- Form de novo post -->
             <form id="form-novo-post" style="display:none;background:#f8f3ff;border:1px dashed #d1bef0;border-radius:10px;padding:12px;margin-bottom:16px;">
-              <label for="texto-post" style="display:block;margin:6px 0 4px;background:none;color:#6c41af;">Mensagem</label>
+              <label for="texto-post" style="color:#6c41af;">Mensagem</label>
               <textarea id="texto-post" rows="4" placeholder="Escreva algo..." 
-                        style="width:100%;padding:10px;border:1px solid #d1bef0;border-radius:8px;
-                               font-family:inherit;resize:vertical;"></textarea>
+                        style="width:100%;padding:10px;border:1px solid #d1bef0;border-radius:8px;"></textarea>
 
-              <label for="imagem-post" style="display:block;margin:10px 0 6px;background:none;color:#6c41af;">Imagem do post</label>
-              <input id="imagem-post" type="file" accept="image/*" 
-                     style="display:block;margin-bottom:10px;">
+              <label for="imagem-post" style="color:#6c41af;">Imagem do post</label>
+              <input id="imagem-post" type="file" accept="image/*">
 
-              <div style="display:flex;gap:10px;background:none;">
+              <div style="display:flex;gap:10px;">
                 <button type="submit" 
                         style="padding:10px 16px;border:none;border-radius:8px;background:#6c41af;color:#fff;cursor:pointer;">
                   Publicar
@@ -61,112 +61,122 @@
             </div>
 
             <ul id="lista-dados" style="line-height:1.9;"></ul>
+
             <div style="display:flex;gap:10px;margin-top:12px;">
               <button id="btn-editar" type="button">Editar</button>
               <button id="btn-logout" type="button">Sair (logout)</button>
             </div>
+
+            <!-- NOVO BLOCO: FEED COM MEUS POSTS -->
+            <div id="meus-posts-container" style="margin-top:32px;">
+                <h2 style="color:#6c41af;margin-bottom:10px;">Meus Posts</h2>
+                <div id="feed-posts-perfil"></div>
+            </div>
+
         </div>
 
-        <!-- FORMULÁRIO DE CADASTRO (igual ao seu) -->
-        <form class="form-cadastro" id="form-cadastro" style="display:none;background:#ffffff;border:1px solid #d1bef0;border-radius:12px;padding:20px;">
+        <!-- FORMULARIO CADASTRO -->
+        <form class="form-cadastro" id="form-cadastro" style="display:none;background:#fff;border:1px solid #d1bef0;border-radius:12px;padding:20px;">
+
             <h1>Cadastro</h1>
 
-            <label  for="nome">Nome completo:</label>
-            <input class="campo-info" type="text" id="nome" name="nome" placeholder="Digite aqui" required>
+            <label for="nome">Nome completo:</label>
+            <input class="campo-info" type="text" id="nome" required>
 
             <label for="cpf">CPF:</label>
-            <input class="campo-info" type="text" id="cpf" name="cpf" placeholder="Digite aqui" required>
+            <input class="campo-info" type="text" id="cpf" required>
 
-            <label  for="email">E-mail:</label>
-            <input class="campo-info" type="email" id="email" name="email" placeholder="Digite aqui" required>
+            <label for="email">E-mail:</label>
+            <input class="campo-info" type="email" id="email" required>
 
             <label for="cep">CEP:</label>
-            <input class="campo-info" type="text" id="cep" name="cep" placeholder="*****-***" required>
+            <input class="campo-info" type="text" id="cep" required>
 
             <label for="end">Endereço:</label>
-            <input class="campo-info" type="text" id="end" name="end" placeholder="Digite aqui" required>
+            <input class="campo-info" type="text" id="end" required>
 
             <label for="comp">Complemento:</label>
-            <input class="campo-info" type="text" id="comp" name="comp" placeholder="Digite aqui" required>
+            <input class="campo-info" type="text" id="comp" required>
 
             <label for="profissao">Profissão:</label>
-            <input class="campo-info" type="text" id="profissao" name="profissao" placeholder="Digite aqui" required>
+            <input class="campo-info" type="text" id="profissao" required>
 
-            <label for="faculdade">Faculdade: </label>
-            <input class="campo-info" type="text" id="faculdade" name="faculdade" placeholder="Digite aqui" required>
+            <label for="faculdade">Faculdade:</label>
+            <input class="campo-info" type="text" id="faculdade" required>
 
             <label for="skills">Skills:</label>
-            <input class="campo-info" type="text" id="skills" name="skills" placeholder="Ex.: Python, Excel, SQL" required>
+            <input class="campo-info" type="text" id="skills" required>
 
             <label for="interesses">Interesses:</label>
-            <input class="campo-info" type="text" id="interesses" name="interesses" placeholder="Ex.: Finanças, Dados" required>
+            <input class="campo-info" type="text" id="interesses" required>
 
             <label for="trab">Trabalhos prévios:</label>
-            <input class="campo-info" type="text" id="trab" name="trab" placeholder="Digite aqui" required>
+            <input class="campo-info" type="text" id="trab" required>
 
-            <label for="avatar">Foto de perfil (obrigatória):</label>
-            <input class="campo-info" type="file" id="avatar" name="avatar" accept="image/*" required>
+            <label for="avatar">Foto de perfil:</label>
+            <input class="campo-info" type="file" id="avatar" accept="image/*" required>
 
             <label for="senha">Senha:</label>
-            <input class="campo-info" type="password" id="senha" name="senha" placeholder="Digite aqui" required>
+            <input class="campo-info" type="password" id="senha" required>
 
             <label for="confirmar-senha">Confirmar senha:</label>
-            <input class="campo-info" type="password" id="confirmar-senha" name="confirmar-senha" placeholder="Digite aqui" required>
+            <input class="campo-info" type="password" id="confirmar-senha" required>
 
             <button id="enviar-cadastro" type="submit" style="margin-top:14px;">Enviar</button>
         </form>
 
-        <!-- FORMULÁRIO DE EDIÇÃO (igual ao seu) -->
-        <form id="form-edicao" style="display:none;background:#ffffff;border:1px solid #d1bef0;border-radius:12px;padding:20px;">
+        <!-- FORMULARIO EDICAO -->
+        <form id="form-edicao" style="display:none;background:#fff;border:1px solid #d1bef0;border-radius:12px;padding:20px;">
+
             <h1>Editar perfil</h1>
 
             <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
-              <img id="avatar-preview" alt="Prévia do avatar" style="width:90px;height:90px;border-radius:50%;object-fit:cover;border:2px solid #d1bef0;display:none;">
-              <div style="flex:1">
-                <label for="avatar-editar">Trocar foto (opcional):</label>
-                <input class="campo-info" type="file" id="avatar-editar" name="avatar-editar" accept="image/*">
-                <small style="display:block;color:#6c41af;">Se você não selecionar uma imagem, a foto atual será mantida.</small>
-              </div>
+                <img id="avatar-preview" alt="Prévia" style="width:90px;height:90px;border-radius:50%;object-fit:cover;border:2px solid #d1bef0;display:none;">
+                <div>
+                    <label for="avatar-editar">Nova foto:</label>
+                    <input class="campo-info" type="file" id="avatar-editar" accept="image/*">
+                </div>
             </div>
 
-            <label for="nome-editar">Nome completo:</label>
-            <input class="campo-info" type="text" id="nome-editar" name="nome" required>
+            <label for="nome-editar">Nome:</label>
+            <input class="campo-info" id="nome-editar" required>
 
             <label for="cpf-editar">CPF:</label>
-            <input class="campo-info" type="text" id="cpf-editar" name="cpf" required>
+            <input class="campo-info" id="cpf-editar" required>
 
             <label for="email-editar">E-mail:</label>
-            <input class="campo-info" type="email" id="email-editar" name="email" required>
+            <input class="campo-info" id="email-editar" required>
 
             <label for="cep-editar">CEP:</label>
-            <input class="campo-info" type="text" id="cep-editar" name="cep" required>
+            <input class="campo-info" id="cep-editar" required>
 
             <label for="end-editar">Endereço:</label>
-            <input class="campo-info" type="text" id="end-editar" name="end" required>
+            <input class="campo-info" id="end-editar" required>
 
             <label for="comp-editar">Complemento:</label>
-            <input class="campo-info" type="text" id="comp-editar" name="comp" required>
+            <input class="campo-info" id="comp-editar" required>
 
             <label for="profissao-editar">Profissão:</label>
-            <input class="campo-info" type="text" id="profissao-editar" name="profissao" required>
+            <input class="campo-info" id="profissao-editar" required>
 
-            <label for="faculdade-editar">Faculdade: </label>
-            <input class="campo-info" type="text" id="faculdade-editar" name="faculdade" required>
+            <label for="faculdade-editar">Faculdade:</label>
+            <input class="campo-info" id="faculdade-editar" required>
 
             <label for="skills-editar">Skills:</label>
-            <input class="campo-info" type="text" id="skills-editar" name="skills" required>
+            <input class="campo-info" id="skills-editar" required>
 
             <label for="interesses-editar">Interesses:</label>
-            <input class="campo-info" type="text" id="interesses-editar" name="interesses" required>
+            <input class="campo-info" id="interesses-editar" required>
 
             <label for="trab-editar">Trabalhos prévios:</label>
-            <input class="campo-info" type="text" id="trab-editar" name="trab" required>
+            <input class="campo-info" id="trab-editar" required>
 
             <div style="display:flex;gap:10px;margin-top:14px;">
-              <button id="btn-salvar-edicao" type="submit">Salvar</button>
-              <button id="btn-cancelar-edicao" type="button">Cancelar</button>
+                <button id="btn-salvar-edicao" type="submit">Salvar</button>
+                <button id="btn-cancelar-edicao" type="button">Cancelar</button>
             </div>
         </form>
+
     </div>
 
     <script src="../controller/cadastro.js"></script>
