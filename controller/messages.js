@@ -13,7 +13,7 @@ function getChatKey(email1, email2) {
   return `chat_${emails[0]}_${emails[1]}`;
 }
 
-// ======== 🔴 NOTIFICAÇÕES – CONTAGEM DE NÃO LIDAS ========
+// ======== NOTIFICAÇÕES – CONTAGEM DE NÃO LIDAS ========
 function contarNaoLidas(email1, email2) {
   const key = getChatKey(email1, email2);
   const msgs = JSON.parse(localStorage.getItem(key) || "[]");
