@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -66,8 +66,14 @@
                 <div id="sem-foto" style="color:#6c41af;display:none;">(sem imagem)</div>
             </div>
 
-            <!-- AQUI os dados são montados via JS (PF ou Empresa) -->
-            <ul id="lista-dados" style="line-height:1.9;"></ul>
+            <!-- PF / EMPRESA - SEÇÕES CORRETAS -->
+            <div id="dados-pf" style="display:none;">
+                <ul id="lista-dados-pf" style="line-height:1.9;"></ul>
+            </div>
+
+            <div id="dados-empresa" style="display:none;">
+                <ul id="lista-dados-empresa" style="line-height:1.9;"></ul>
+            </div>
 
             <div style="display:flex;gap:10px;margin-top:12px;">
                 <button id="btn-editar">Editar</button>
@@ -187,7 +193,6 @@
           let mudou = false;
 
           usuarios.forEach((u) => {
-            // corrige tipo
             if (!u.tipo) {
               if (u.nomeEmpresa || u.cnpj || u.logoEmpresa) {
                 u.tipo = "empresa";
@@ -197,7 +202,6 @@
               mudou = true;
             }
 
-            // garante exibicaoNome / exibicaoFoto
             if (!u.exibicaoNome) {
               if (u.tipo === "empresa") {
                 u.exibicaoNome = u.nomeEmpresa || u.nome || "";
@@ -221,7 +225,6 @@
             localStorage.setItem("usuarios", JSON.stringify(usuarios));
           }
 
-          // também atualiza usuarioAtual se existir
           const atual = JSON.parse(localStorage.getItem("usuarioAtual") || "null");
           if (atual && atual.email) {
             const corrigido = usuarios.find((x) => x.email === atual.email) || atual;

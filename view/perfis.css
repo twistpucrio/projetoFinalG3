@@ -248,3 +248,93 @@ a:focus-visible, button:focus-visible, .campo-info:focus-visible, textarea:focus
 
 /* ====== Pequenos ajustes utilitários ====== */
 small, label{ background:none }
+
+
+/* === Aplicar o estilo bonito existente ao PF/Empresa === */
+#lista-dados-pf,
+#lista-dados-empresa {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  display: grid;
+  grid-template-columns: repeat(2, minmax(260px, 1fr));
+  gap: 22px;
+}
+
+/* Os cards (“pills”) dos dados */
+#lista-dados-pf li,
+#lista-dados-empresa li {
+  background: var(--lavender);
+  border: 2px solid #efccff;
+  border-radius: var(--radius-pill);
+  padding: 18px 22px;
+  box-shadow: var(--pill-shadow);
+  line-height: 1.35;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#lista-dados-pf li strong,
+#lista-dados-empresa li strong {
+  display: block;
+  font-weight: 800;
+  color: var(--purple);
+  margin-bottom: 4px;
+}
+/* === Logo da empresa com o mesmo estilo do avatar === */
+#logo-empresa-view {
+  width: 104px !important;
+  height: 104px !important;
+  border-radius: 50% !important;    /* antes não tinha */
+  object-fit: cover !important;     /* encaixa certinho */
+  border: 4px solid #fff !important;
+  box-shadow: var(--pill-shadow);
+  background: #fff;
+  display: block !important;
+  margin: 8px 0 14px 8px;
+}
+/* === Posts exibidos no perfil === */
+#feed-posts-perfil .user-post {
+  background: var(--card);
+  border: 3px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 22px;
+  margin-bottom: 22px;
+}
+
+#feed-posts-perfil .user-post__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+#feed-posts-perfil .user-post__avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border);
+}
+
+#feed-posts-perfil .user-post__name {
+  color: var(--text);
+  font: 800 18px/1.2 "Inter", sans-serif;
+}
+
+#feed-posts-perfil .user-post__caption {
+  margin: 12px 0 14px 0;
+  color: var(--text);
+  font-size: 16px;
+}
+
+#feed-posts-perfil .user-post__image {
+  max-width: 60%;
+  border-radius: 12px;
+  display: block;
+  margin: 10px auto;
+}
