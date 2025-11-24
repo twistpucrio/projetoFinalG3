@@ -6,8 +6,6 @@
   const show = (el) => el && (el.style.display = "block");
   const hide = (el) => el && (el.style.display = "none");
 
-  const MAX = 180 * 1024;
-
   const getUsuarios = () =>
     JSON.parse(localStorage.getItem("usuarios") || "[]");
 
@@ -26,7 +24,6 @@
   const url = new URL(location.href);
   const querCadastro = url.searchParams.get("cadastro") === "1";
 
-  /* ==== Utils de imagem (bem simples) ==== */
   const lerFile = (file) =>
     new Promise((res) => {
       const r = new FileReader();
@@ -36,66 +33,70 @@
 
   async function comprimir(file) {
     if (!file) return null;
-    const base = await lerFile(file);
-    return base; // sem compressão pesada por enquanto
+    return await lerFile(file);
   }
 
-  /* ==== Elementos ==== */
+  // ELEMENTOS
   const perfilView = $("#perfil-view");
   const formCadastro = $("#form-cadastro");
   const formEdicao = $("#form-edicao");
-  const listaDados = $("#lista-dados");
+
   const avatarView = $("#avatar-view");
   const logoView = $("#logo-empresa-view");
   const semFoto = $("#sem-foto");
 
+  const dadosPF = $("#dados-pf");
+  const dadosEmpresa = $("#dados-empresa");
+
+  const listaPF = $("#lista-dados-pf");
+  const listaEmpresa = $("#lista-dados-empresa");
+
   const tipoUserSelect = $("#tipo-user");
-  const camposPF = $("#campos-pf");
-  const camposEmpresa = $("#campos-empresa");
 
   if (tipoUserSelect) {
     tipoUserSelect.addEventListener("change", () => {
       if (tipoUserSelect.value === "empresa") {
-        camposPF.style.display = "none";
-        camposEmpresa.style.display = "block";
+        $("#campos-pf").style.display = "none";
+        $("#campos-empresa").style.display = "block";
       } else {
-        camposPF.style.display = "block";
-        camposEmpresa.style.display = "none";
+        $("#campos-pf").style.display = "block";
+        $("#campos-empresa").style.display = "none";
       }
     });
   }
 
-  /* ==== Renderização do perfil (PF x EMPRESA) ==== */
+  // =============================
+  //       RENDER PERFIL
+  // =============================
   function renderPerfil(u) {
-    if (!u) return;
-
     hide(formCadastro);
     hide(formEdicao);
     show(perfilView);
 
-    // Heurística: detecta empresa mesmo que tipo esteja errado
-    const isEmpresa =
-      u.tipo === "empresa" ||
-      !!u.nomeEmpresa ||
-      !!u.cnpj ||
-      !!u.logoEmpresa;
+    const isEmpresa = u.tipo === "empresa";
+    const isPF = u.tipo === "pf";
 
-    const isPF = !isEmpresa;
-
-    // zera imagens
+    // fotos
     avatarView.style.display = "none";
     logoView.style.display = "none";
     semFoto.style.display = "none";
 
-    if (isPF) {
-      if (u.avatar) {
-        avatarView.src = u.avatar;
-        avatarView.style.display = "block";
-      } else {
-        semFoto.style.display = "block";
-      }
+    if (u.logoEmpresa && isEmpresa) {
+      logoView.src = u.logoEmpresa;
+      logoView.style.display = "block";
+    } else if (u.avatar) {
+      avatarView.src = u.avatar;
+      avatarView.style.display = "block";
+    } else {
+      semFoto.style.display = "block";
+    }
 
-      listaDados.innerHTML = `
+    // PF / EMPRESA
+    dadosPF.style.display = isPF ? "block" : "none";
+    dadosEmpresa.style.display = isEmpresa ? "block" : "none";
+
+    if (isPF) {
+      listaPF.innerHTML = `
         <li><strong>Nome:</strong> ${u.nome || ""}</li>
         <li><strong>E-mail:</strong> ${u.email || ""}</li>
         <li><strong>Profissão:</strong> ${u.profissao || ""}</li>
@@ -104,19 +105,10 @@
         <li><strong>Interesses:</strong> ${u.interesses || ""}</li>
         <li><strong>Trabalhos prévios:</strong> ${u.trab || ""}</li>
       `;
-    } else {
-      if (u.logoEmpresa) {
-        logoView.src = u.logoEmpresa;
-        logoView.style.display = "block";
-      } else if (u.avatar) {
-        // fallback, caso empresa tenha avatar
-        avatarView.src = u.avatar;
-        avatarView.style.display = "block";
-      } else {
-        semFoto.style.display = "block";
-      }
+    }
 
-      listaDados.innerHTML = `
+    if (isEmpresa) {
+      listaEmpresa.innerHTML = `
         <li><strong>Empresa:</strong> ${u.nomeEmpresa || ""}</li>
         <li><strong>E-mail:</strong> ${u.email || ""}</li>
         <li><strong>CNPJ:</strong> ${u.cnpj || ""}</li>
@@ -128,7 +120,9 @@
     }
   }
 
-  /* ==== Inicialização da página de perfil ==== */
+  // =============================
+  //       INICIALIZA PERFIL
+  // =============================
   if (isPerfil) {
     const u = getUsuarioAtual();
     if (!u && !querCadastro) {
@@ -141,7 +135,9 @@
     }
   }
 
-  /* ==== Logout ==== */
+  // =============================
+  //              LOGOUT
+  // =============================
   const btnLogout = $("#btn-logout");
   if (btnLogout) {
     btnLogout.onclick = () => {
@@ -150,14 +146,16 @@
     };
   }
 
-  /* ==== Cadastro (PF / Empresa) ==== */
+  // =============================
+  //            CADASTRO
+  // =============================
   if (formCadastro) {
     formCadastro.onsubmit = async (ev) => {
       ev.preventDefault();
 
-      const tipo = tipoUserSelect.value;
-      const usuarios = getUsuarios();
+      const tipo = $("#tipo-user").value;
 
+      const usuarios = getUsuarios();
       const email = $("#email").value.trim();
       const senha = $("#senha").value;
 
@@ -204,6 +202,4 @@
       location.href = "perfil.html";
     };
   }
-
-  /* ==== (Opcional) edição de perfil pode ser completada depois ==== */
 })();
