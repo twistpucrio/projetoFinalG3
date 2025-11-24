@@ -1,19 +1,21 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="estilo.css">
     <link rel="stylesheet" href="perfis.css">
-    <link rel="stylesheet" href="posts.css"> <!-- IMPORTANTE: permite usar o mesmo CSS dos posts -->
+    <link rel="stylesheet" href="posts.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil</title>
 </head>
+
 <body>
-    <div id="topbar">  
+
+    <div id="topbar">
         <a href="index.html"><img id="logo" class="logo" src="img/logo.png" alt="logo"></a>
-        <div id="icones-pequenos"> 
-            <a href="perfil.html"> <img id="perfil" class="icon" src="img/perfil.png" alt="perfil"/> </a>
-            <a href="messages.html"><img id="message" class="icon" src="img/message.png" alt="mensagens"/></a>
+        <div id="icones-pequenos">
+            <a href="perfil.html"><img id="perfil" class="icon" src="img/perfil.png" alt="perfil"></a>
+            <a href="messages.html"><img id="message" class="icon" src="img/message.png" alt="mensagens"></a>
         </div>
     </div>
 
@@ -23,161 +25,213 @@
         <div id="perfil-view" style="display:none;background:#ffffff;border:1px solid #d1bef0;border-radius:12px;padding:20px;">
             <h1 style="margin-top:0;">Meu perfil</h1>
 
-            <!-- Toolbar de post -->
+            <!-- Botão criar post -->
             <div id="post-toolbar" style="display:none; margin:6px 0 16px 0;">
                 <button id="btn-novo-post" type="button" 
-                        title="Criar post" 
                         style="width:42px;height:42px;border:none;border-radius:50%;
                                background:#6c41af;color:#fff;font-size:26px;line-height:42px;
-                               cursor:pointer;box-shadow:0 3px 8px rgba(108,65,175,.35)">+</button>
+                               cursor:pointer;box-shadow:0 3px 8px rgba(108,65,175,.35)">
+                    +
+                </button>
                 <small style="margin-left:8px;color:#6c41af;">Compartilhe um post com a comunidade</small>
             </div>
 
-            <!-- Form de novo post -->
+            <!-- Form novo post -->
             <form id="form-novo-post" style="display:none;background:#f8f3ff;border:1px dashed #d1bef0;border-radius:10px;padding:12px;margin-bottom:16px;">
-              <label for="texto-post" style="color:#6c41af;">Mensagem</label>
-              <textarea id="texto-post" rows="4" placeholder="Escreva algo..." 
-                        style="width:100%;padding:10px;border:1px solid #d1bef0;border-radius:8px;"></textarea>
+                <label style="color:#6c41af;">Mensagem</label>
+                <textarea id="texto-post" rows="4" placeholder="Escreva algo..."
+                          style="width:100%;padding:10px;border:1px solid #d1bef0;border-radius:8px;"></textarea>
 
-              <label for="imagem-post" style="color:#6c41af;">Imagem do post</label>
-              <input id="imagem-post" type="file" accept="image/*">
+                <label style="color:#6c41af;">Imagem do post</label>
+                <input id="imagem-post" type="file" accept="image/*">
 
-              <div style="display:flex;gap:10px;">
-                <button type="submit" 
-                        style="padding:10px 16px;border:none;border-radius:8px;background:#6c41af;color:#fff;cursor:pointer;">
-                  Publicar
-                </button>
-                <button type="button" onclick="document.getElementById('form-novo-post').style.display='none'"
-                        style="padding:10px 16px;border:1px solid #d1bef0;border-radius:8px;background:#fff;color:#6c41af;cursor:pointer;">
-                  Cancelar
-                </button>
-              </div>
+                <div style="display:flex;gap:10px;margin-top:10px;">
+                    <button type="submit" style="padding:10px 16px;border:none;border-radius:8px;background:#6c41af;color:#fff;">
+                        Publicar
+                    </button>
+                    <button type="button"
+                            onclick="document.getElementById('form-novo-post').style.display='none'"
+                            style="padding:10px 16px;border:1px solid #d1bef0;border-radius:8px;background:#fff;color:#6c41af;">
+                        Cancelar
+                    </button>
+                </div>
             </form>
 
-            <!-- Foto -->
+            <!-- Foto/Logo -->
             <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
-                <img id="avatar-view" alt="Foto do perfil" style="width:110px;height:110px;border-radius:50%;object-fit:cover;border:2px solid #d1bef0;display:none;">
-                <div id="sem-foto" style="color:#6c41af;display:none;">(sem foto)</div>
+                <img id="avatar-view" style="width:110px;height:110px;border-radius:50%;object-fit:cover;
+                     border:2px solid #d1bef0;display:none;">
+                <img id="logo-empresa-view" style="width:110px;height:110px;border-radius:12px;object-fit:cover;
+                     border:2px solid #d1bef0;display:none;">
+                <div id="sem-foto" style="color:#6c41af;display:none;">(sem imagem)</div>
             </div>
 
+            <!-- AQUI os dados são montados via JS (PF ou Empresa) -->
             <ul id="lista-dados" style="line-height:1.9;"></ul>
 
             <div style="display:flex;gap:10px;margin-top:12px;">
-              <button id="btn-editar" type="button">Editar</button>
-              <button id="btn-logout" type="button">Sair (logout)</button>
+                <button id="btn-editar">Editar</button>
+                <button id="btn-logout">Sair</button>
             </div>
 
-            <!-- NOVO BLOCO: FEED COM MEUS POSTS -->
             <div id="meus-posts-container" style="margin-top:32px;">
-                <h2 style="color:#6c41af;margin-bottom:10px;">Meus Posts</h2>
+                <h2 style="color:#6c41af;">Meus Posts</h2>
                 <div id="feed-posts-perfil"></div>
             </div>
-
         </div>
 
-        <!-- FORMULARIO CADASTRO -->
-        <form class="form-cadastro" id="form-cadastro" style="display:none;background:#fff;border:1px solid #d1bef0;border-radius:12px;padding:20px;">
+        <!-- FORM DE CADASTRO -->
+        <form id="form-cadastro" style="display:none;background:#fff;border:1px solid #d1bef0;
+              border-radius:12px;padding:20px;">
 
             <h1>Cadastro</h1>
 
-            <label for="nome">Nome completo:</label>
-            <input class="campo-info" type="text" id="nome" required>
+            <label><strong>Você é:</strong></label>
+            <select id="tipo-user" name="tipo-user" class="campo-info" required>
+                <option value="">Selecione</option>
+                <option value="pf">Pessoa Física</option>
+                <option value="empresa">Empresa</option>
+            </select>
 
-            <label for="cpf">CPF:</label>
-            <input class="campo-info" type="text" id="cpf" required>
+            <!-- PF -->
+            <div id="campos-pf">
+                <label>Nome:</label> <input id="nome" class="campo-info">
+                <label>CPF:</label> <input id="cpf" class="campo-info">
+                <label>CEP:</label> <input id="cep" class="campo-info">
+                <label>Endereço:</label> <input id="end" class="campo-info">
+                <label>Complemento:</label> <input id="comp" class="campo-info">
+                <label>Profissão:</label> <input id="profissao" class="campo-info">
+                <label>Faculdade:</label> <input id="faculdade" class="campo-info">
+                <label>Skills:</label> <input id="skills" class="campo-info">
+                <label>Interesses:</label> <input id="interesses" class="campo-info">
+                <label>Trabalhos:</label> <input id="trab" class="campo-info">
 
-            <label for="email">E-mail:</label>
-            <input class="campo-info" type="email" id="email" required>
+                <label>Foto de perfil:</label>
+                <input type="file" id="avatar" class="campo-info" accept="image/*">
+            </div>
 
-            <label for="cep">CEP:</label>
-            <input class="campo-info" type="text" id="cep" required>
+            <!-- EMPRESA -->
+            <div id="campos-empresa" style="display:none;">
+                <label>Nome da empresa:</label> <input id="nomeEmpresa" class="campo-info">
+                <label>CNPJ:</label> <input id="cnpj" class="campo-info">
+                <label>Endereço comercial:</label> <input id="endComercial" class="campo-info">
+                <label>Área de atuação:</label> <input id="areaAtuacao" class="campo-info">
+                <label>Nº funcionários:</label> <input type="number" id="numFuncionarios" class="campo-info">
+                <label>Descrição:</label> <textarea id="descricaoEmpresa" class="campo-info"></textarea>
 
-            <label for="end">Endereço:</label>
-            <input class="campo-info" type="text" id="end" required>
+                <label>Logo da empresa:</label>
+                <input id="logoEmpresa" type="file" class="campo-info" accept="image/*">
+            </div>
 
-            <label for="comp">Complemento:</label>
-            <input class="campo-info" type="text" id="comp" required>
+            <label>E-mail:</label> <input type="email" id="email" class="campo-info" required>
+            <label>Senha:</label> <input type="password" id="senha" class="campo-info" required>
+            <label>Confirmar senha:</label> <input type="password" id="confirmar-senha" class="campo-info" required>
 
-            <label for="profissao">Profissão:</label>
-            <input class="campo-info" type="text" id="profissao" required>
-
-            <label for="faculdade">Faculdade:</label>
-            <input class="campo-info" type="text" id="faculdade" required>
-
-            <label for="skills">Skills:</label>
-            <input class="campo-info" type="text" id="skills" required>
-
-            <label for="interesses">Interesses:</label>
-            <input class="campo-info" type="text" id="interesses" required>
-
-            <label for="trab">Trabalhos prévios:</label>
-            <input class="campo-info" type="text" id="trab" required>
-
-            <label for="avatar">Foto de perfil:</label>
-            <input class="campo-info" type="file" id="avatar" accept="image/*" required>
-
-            <label for="senha">Senha:</label>
-            <input class="campo-info" type="password" id="senha" required>
-
-            <label for="confirmar-senha">Confirmar senha:</label>
-            <input class="campo-info" type="password" id="confirmar-senha" required>
-
-            <button id="enviar-cadastro" type="submit" style="margin-top:14px;">Enviar</button>
+            <button id="enviar-cadastro" type="submit">Enviar</button>
         </form>
 
-        <!-- FORMULARIO EDICAO -->
-        <form id="form-edicao" style="display:none;background:#fff;border:1px solid #d1bef0;border-radius:12px;padding:20px;">
+        <!-- EDITAR PERFIL -->
+        <form id="form-edicao" style="display:none;background:#fff;border:1px solid #d1bef0;
+              border-radius:12px;padding:20px;">
 
             <h1>Editar perfil</h1>
 
-            <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
-                <img id="avatar-preview" alt="Prévia" style="width:90px;height:90px;border-radius:50%;object-fit:cover;border:2px solid #d1bef0;display:none;">
-                <div>
-                    <label for="avatar-editar">Nova foto:</label>
-                    <input class="campo-info" type="file" id="avatar-editar" accept="image/*">
-                </div>
+            <div style="display:flex;gap:20px;">
+                <img id="avatar-preview" style="width:90px;height:90px;border-radius:50%;object-fit:cover;border:2px solid #d1bef0;display:none;">
+                <img id="logo-preview" style="width:90px;height:90px;border-radius:12px;object-fit:cover;border:2px solid #d1bef0;display:none;">
             </div>
 
-            <label for="nome-editar">Nome:</label>
-            <input class="campo-info" id="nome-editar" required>
+            <!-- EDIT PF -->
+            <div id="edit-pf">
+                <label>Nome:</label> <input id="nome-editar" class="campo-info">
+                <label>CPF:</label> <input id="cpf-editar" class="campo-info">
+                <label>CEP:</label> <input id="cep-editar" class="campo-info">
+                <label>Endereço:</label> <input id="end-editar" class="campo-info">
+                <label>Complemento:</label> <input id="comp-editar" class="campo-info">
+                <label>Profissão:</label> <input id="profissao-editar" class="campo-info">
+                <label>Faculdade:</label> <input id="faculdade-editar" class="campo-info">
+                <label>Skills:</label> <input id="skills-editar" class="campo-info">
+                <label>Interesses:</label> <input id="interesses-editar" class="campo-info">
+                <label>Trabalhos:</label> <input id="trab-editar" class="campo-info">
 
-            <label for="cpf-editar">CPF:</label>
-            <input class="campo-info" id="cpf-editar" required>
+                <label>Foto nova:</label>
+                <input type="file" id="avatar-editar" accept="image/*">
+            </div>
 
-            <label for="email-editar">E-mail:</label>
-            <input class="campo-info" id="email-editar" required>
+            <!-- EDIT EMPRESA -->
+            <div id="edit-empresa" style="display:none;">
+                <label>Nome da empresa:</label> <input id="nomeEmpresa-editar" class="campo-info">
+                <label>CNPJ:</label> <input id="cnpj-editar" class="campo-info">
+                <label>Endereço comercial:</label> <input id="endComercial-editar" class="campo-info">
+                <label>Área de atuação:</label> <input id="areaAtuacao-editar" class="campo-info">
+                <label>Nº funcionários:</label> <input id="numFuncionarios-editar" class="campo-info" type="number">
+                <label>Descrição:</label> <textarea id="descricaoEmpresa-editar" class="campo-info"></textarea>
 
-            <label for="cep-editar">CEP:</label>
-            <input class="campo-info" id="cep-editar" required>
+                <label>Logo nova:</label>
+                <input id="logoEmpresa-editar" type="file" accept="image/*">
+            </div>
 
-            <label for="end-editar">Endereço:</label>
-            <input class="campo-info" id="end-editar" required>
-
-            <label for="comp-editar">Complemento:</label>
-            <input class="campo-info" id="comp-editar" required>
-
-            <label for="profissao-editar">Profissão:</label>
-            <input class="campo-info" id="profissao-editar" required>
-
-            <label for="faculdade-editar">Faculdade:</label>
-            <input class="campo-info" id="faculdade-editar" required>
-
-            <label for="skills-editar">Skills:</label>
-            <input class="campo-info" id="skills-editar" required>
-
-            <label for="interesses-editar">Interesses:</label>
-            <input class="campo-info" id="interesses-editar" required>
-
-            <label for="trab-editar">Trabalhos prévios:</label>
-            <input class="campo-info" id="trab-editar" required>
-
-            <div style="display:flex;gap:10px;margin-top:14px;">
-                <button id="btn-salvar-edicao" type="submit">Salvar</button>
+            <div style="display:flex;gap:10px;margin-top:16px;">
+                <button id="btn-salvar-edicao">Salvar</button>
                 <button id="btn-cancelar-edicao" type="button">Cancelar</button>
             </div>
         </form>
 
     </div>
+
+    <!-- SCRIPT DE MIGRAÇÃO: corrige usuários antigos PF/Empresa no localStorage -->
+    <script>
+      (function () {
+        try {
+          const usuarios = JSON.parse(localStorage.getItem("usuarios") || "[]");
+          let mudou = false;
+
+          usuarios.forEach((u) => {
+            // corrige tipo
+            if (!u.tipo) {
+              if (u.nomeEmpresa || u.cnpj || u.logoEmpresa) {
+                u.tipo = "empresa";
+              } else {
+                u.tipo = "pf";
+              }
+              mudou = true;
+            }
+
+            // garante exibicaoNome / exibicaoFoto
+            if (!u.exibicaoNome) {
+              if (u.tipo === "empresa") {
+                u.exibicaoNome = u.nomeEmpresa || u.nome || "";
+              } else {
+                u.exibicaoNome = u.nome || "";
+              }
+              mudou = true;
+            }
+
+            if (!u.exibicaoFoto) {
+              if (u.tipo === "empresa") {
+                u.exibicaoFoto = u.logoEmpresa || u.avatar || "";
+              } else {
+                u.exibicaoFoto = u.avatar || "";
+              }
+              mudou = true;
+            }
+          });
+
+          if (mudou) {
+            localStorage.setItem("usuarios", JSON.stringify(usuarios));
+          }
+
+          // também atualiza usuarioAtual se existir
+          const atual = JSON.parse(localStorage.getItem("usuarioAtual") || "null");
+          if (atual && atual.email) {
+            const corrigido = usuarios.find((x) => x.email === atual.email) || atual;
+            localStorage.setItem("usuarioAtual", JSON.stringify(corrigido));
+          }
+        } catch (e) {
+          console.error("Erro na migração de usuários PF/Empresa:", e);
+        }
+      })();
+    </script>
 
     <script src="../controller/cadastro.js"></script>
     <script src="../controller/postar.js"></script>

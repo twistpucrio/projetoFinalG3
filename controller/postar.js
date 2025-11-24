@@ -1,140 +1,125 @@
  /* controller/postar.js */
 "use strict";
 
-/* ========= Utils ========= */
+/* Utils */
 const $ = (sel, root = document) => root.querySelector(sel);
-const $$ = (sel, root = document) => root.querySelectorAll(sel);
-const show = (el) => el && (el.style.display = "block");
 const hide = (el) => el && (el.style.display = "none");
+const show = (el) => el && (el.style.display = "block");
 
-const getUsuarioAtual = () => {
-  try { return JSON.parse(localStorage.getItem("usuarioAtual") || "null"); }
-  catch { return null; }
-};
+const getUsuarioAtual = () =>
+  JSON.parse(localStorage.getItem("usuarioAtual") || "null");
 
-const getPosts = () => {
-  try { return JSON.parse(localStorage.getItem("posts") || "[]"); }
-  catch { return []; }
-};
+const getPosts = () =>
+  JSON.parse(localStorage.getItem("posts") || "[]");
 
-const setPosts = (arr) => localStorage.setItem("posts", JSON.stringify(arr));
+const setPosts = (arr) =>
+  localStorage.setItem("posts", JSON.stringify(arr));
 
-
-/* ========= Comentários ========= */
 function renderComentariosHTML(lista) {
   if (!lista || !lista.length)
     return `<p class="sem-comentarios">Nenhum comentário ainda</p>`;
-
   return lista
     .map(
       (c) => `
-      <div class="comentario">
-        <strong>${c.autorNome || "Usuário"}:</strong>
-        <span>${c.texto}</span>
-      </div>
-    `
+    <div class="comentario">
+      <strong>${c.autorNome}:</strong> ${c.texto}
+    </div>`
     )
     .join("");
 }
 
-
-/* ========= RENDER FEED (GERAL OU PERFIL) ========= */
-/* isPerfil = true → remove likes e comentários */
+/* ---- render feed ---- */
 function renderFeed(feed, filterEmail = null, isPerfil = false) {
-  const userAtual = getUsuarioAtual();
+  const user = getUsuarioAtual();
   let posts = getPosts();
 
-  if (filterEmail) posts = posts.filter((p) => p.autorEmail === filterEmail);
+  if (filterEmail) {
+    posts = posts.filter((p) => p.autorEmail === filterEmail);
+  }
 
   feed.innerHTML = "";
 
   if (!posts.length) {
-    feed.innerHTML = `<div class="post"><p class="legenda_post">Nenhum post ainda.</p></div>`;
+    feed.innerHTML = `<p>Nenhum post ainda.</p>`;
     return;
   }
 
-  for (const p of posts) {
-    const liked = p.likedBy?.includes(userAtual?.email);
+  posts.forEach((p) => {
+    const liked = p.likedBy?.includes(user?.email);
 
-    const postEl = document.createElement("article");
-    postEl.className = "user-post";
-    postEl.dataset.id = p.id;
+    const card = document.createElement("article");
+    card.className = "user-post";
+    card.dataset.id = p.id;
 
-    /* 🔥 SE FOR PERFIL, remove botões de ação */
-    const secoesAcoes = isPerfil
+    /* esconder ações no perfil */
+    const acoes = isPerfil
       ? ""
       : `
-      <div class="post-acoes">
-        <button class="btn-like ${liked ? "liked" : ""}">
-          ❤️ <span class="like-count">${p.likes || 0}</span>
-        </button>
-        <button class="btn-toggle-comments">
-          💬 Comentários (${p.comentarios?.length || 0})
-        </button>
-      </div>
-
-      <section class="comentarios" style="display:none;">
-        <div class="comentarios-list">
-          ${renderComentariosHTML(p.comentarios || [])}
+        <div class="post-acoes">
+            <button class="btn-like ${liked ? "liked" : ""}">
+              ❤️ <span class="like-count">${p.likes}</span>
+            </button>
+            <button class="btn-toggle-comments">
+              💬 Comentários (${p.comentarios.length})
+            </button>
         </div>
 
-        <div class="novo-comentario">
-          <input type="text" class="input-comentario" placeholder="Escreva um comentário...">
-          <button class="btn-comentar">Enviar</button>
-        </div>
-      </section>
-    `;
+        <section class="comentarios" style="display:none;">
+          <div class="comentarios-list">
+            ${renderComentariosHTML(p.comentarios)}
+          </div>
+          <div class="novo-comentario">
+            <input type="text" class="input-comentario" placeholder="Comente...">
+            <button class="btn-comentar">Enviar</button>
+          </div>
+        </section>
+      `;
 
-    postEl.innerHTML = `
+    card.innerHTML = `
       <header class="user-post__header">
-        <img class="user-post__avatar" src="${p.autorAvatar || ""}" alt="avatar">
-        <div class="user-post__meta">
-          <h2 class="user-post__name">${p.autorNome || "Usuário"}</h2>
-          <small class="user-post__date">${new Date(p.criadoEm).toLocaleString()}</small>
+        <img class="user-post__avatar" src="${p.autorAvatar}" />
+        <div>
+          <h2>${p.autorNome}</h2>
+          <small>${new Date(p.criadoEm).toLocaleString()}</small>
         </div>
       </header>
 
-      <p class="user-post__caption">${(p.texto || "").replace(/\n/g, "<br>")}</p>
+      <p>${(p.texto || "").replace(/\n/g, "<br>")}</p>
 
       ${
         p.imagem
-          ? `<img class="user-post__image" src="${p.imagem}" alt="imagem do post">`
+          ? `<img class="user-post__image" src="${p.imagem}" />`
           : ""
       }
 
-      ${secoesAcoes}
+      ${acoes}
     `;
 
-    feed.appendChild(postEl);
-  }
+    feed.appendChild(card);
+  });
 
-  /* Só ativa eventos se NÃO for perfil */
   if (!isPerfil) attachEvents(feed);
 }
 
-
-/* ========= Eventos (Curtir + Comentários) ========= */
+/* ---- ações (curtir/comentar) ---- */
 function attachEvents(root) {
-  const posts = getPosts();
+  const user = getUsuarioAtual();
+  let posts = getPosts();
 
-  root.querySelectorAll(".user-post").forEach((postEl) => {
-    const id = postEl.dataset.id;
+  root.querySelectorAll(".user-post").forEach((el) => {
+    const id = el.dataset.id;
     const post = posts.find((p) => p.id == id);
 
     if (!post) return;
 
-    const btnLike = postEl.querySelector(".btn-like");
-    const commentBtn = postEl.querySelector(".btn-toggle-comments");
-    const commentSection = postEl.querySelector(".comentarios");
-    const commentInput = postEl.querySelector(".input-comentario");
-    const commentSend = postEl.querySelector(".btn-comentar");
+    const btnLike = el.querySelector(".btn-like");
+    const btnToggle = el.querySelector(".btn-toggle-comments");
+    const section = el.querySelector(".comentarios");
+    const send = el.querySelector(".btn-comentar");
+    const input = el.querySelector(".input-comentario");
 
-    /* Curtir */
     if (btnLike) {
       btnLike.onclick = () => {
-        const user = getUsuarioAtual();
-        if (!user) return;
-
         if (!post.likedBy) post.likedBy = [];
 
         if (post.likedBy.includes(user.email)) {
@@ -146,114 +131,102 @@ function attachEvents(root) {
         }
 
         setPosts(posts);
-
-        renderFeed($("#feed-posts")); // feed geral
-        const fp = $("#feed-posts-perfil");
-        if (fp && user) renderFeed(fp, user.email, true);
+        renderFeed($("#feed-posts"));
       };
     }
 
-    /* Mostrar comentários */
-    if (commentBtn) {
-      commentBtn.onclick = () => {
-        commentSection.style.display =
-          commentSection.style.display === "none" ? "block" : "none";
+    if (btnToggle) {
+      btnToggle.onclick = () => {
+        section.style.display =
+          section.style.display === "none" ? "block" : "none";
       };
     }
 
-    /* Enviar comentário */
-    if (commentSend) {
-      commentSend.onclick = () => {
-        const texto = commentInput.value.trim();
-        if (!texto) return;
+    if (send) {
+      send.onclick = () => {
+        const txt = input.value.trim();
+        if (!txt) return;
 
-        const user = getUsuarioAtual();
         if (!post.comentarios) post.comentarios = [];
 
         post.comentarios.push({
+          autorNome: user.exibicaoNome,
           autorEmail: user.email,
-          autorNome: user.nome,
-          texto,
+          texto: txt
         });
 
-        commentInput.value = "";
+        input.value = "";
         setPosts(posts);
-
         renderFeed($("#feed-posts"));
-        const fp = $("#feed-posts-perfil");
-        if (fp && user) renderFeed(fp, user.email, true);
       };
     }
   });
 }
 
-
-/* ========= Criar Novo Post ========= */
+/* ---- criar novo post ---- */
 function setupNovoPost() {
-  const user = getUsuarioAtual();
-  if (!user) return;
-
   const btn = $("#btn-novo-post");
   const form = $("#form-novo-post");
 
   if (btn) btn.onclick = () => show(form);
 
-  if (!form) return;
+  if (form) {
+    form.onsubmit = async (ev) => {
+      ev.preventDefault();
 
-  form.onsubmit = async (ev) => {
-    ev.preventDefault();
+      const user = getUsuarioAtual();
+      let txt = $("#texto-post").value.trim();
+      let file = $("#imagem-post").files[0];
 
-    const texto = $("#texto-post").value.trim();
-    const arq = $("#imagem-post").files[0];
-
-    let base64 = "";
-    if (arq) {
-      base64 = await new Promise((res) => {
-        const r = new FileReader();
+      let base64 = "";
+      if (file) base64 = await new Promise((res) => {
+        let r = new FileReader();
         r.onload = () => res(r.result);
-        r.readAsDataURL(arq);
+        r.readAsDataURL(file);
       });
-    }
 
-    const posts = getPosts();
+      let posts = getPosts();
 
-    posts.unshift({
-      id: Date.now(),
-      texto,
-      imagem: base64 || null,
-      autorEmail: user.email,
-      autorNome: user.nome,
-      autorAvatar: user.avatar,
-      criadoEm: new Date().toISOString(),
-      likes: 0,
-      likedBy: [],
-      comentarios: [],
-    });
+      posts.unshift({
+        id: Date.now(),
+        texto: txt,
+        imagem: base64,
+        autorNome: user.exibicaoNome,
+        autorAvatar: user.exibicaoFoto,
+        autorEmail: user.email,
+        criadoEm: new Date().toISOString(),
+        likes: 0,
+        likedBy: [],
+        comentarios: []
+      });
 
-    setPosts(posts);
+      setPosts(posts);
 
-    $("#texto-post").value = "";
-    $("#imagem-post").value = "";
-    hide(form);
+      $("#texto-post").value = "";
+      $("#imagem-post").value = "";
 
-    renderFeed($("#feed-posts"));
+      hide(form);
 
-    const fp = $("#feed-posts-perfil");
-    if (fp) renderFeed(fp, user.email, true);
-  };
+      renderFeed($("#feed-posts"));
+
+      const fp = $("#feed-posts-perfil");
+      if (fp) renderFeed(fp, user.email, true);
+    };
+  }
 }
 
-
-/* ========= Init ========= */
+/* ---- init ---- */
 function init() {
   setupNovoPost();
 
-  const feedGeral = $("#feed-posts");
-  if (feedGeral) renderFeed(feedGeral);
+  const feed = $("#feed-posts");
+  if (feed) renderFeed(feed);
 
   const user = getUsuarioAtual();
-  const feedPerfil = $("#feed-posts-perfil");
-  if (feedPerfil && user) renderFeed(feedPerfil, user.email, true);
+  const perfilFeed = $("#feed-posts-perfil");
+  if (perfilFeed && user) {
+    renderFeed(perfilFeed, user.email, true);
+  }
 }
 
 document.addEventListener("DOMContentLoaded", init);
