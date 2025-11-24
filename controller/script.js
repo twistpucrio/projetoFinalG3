@@ -57,3 +57,29 @@ document.addEventListener("click", (e) => {
     denyAndRedirect();
   }
 });
+// ====================== LOGIN ===========================
+document.addEventListener("DOMContentLoaded", () => {
+
+    const formLogin = document.querySelector(".form-login");
+    if (!formLogin) return;
+
+    formLogin.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const email = document.querySelector("#email").value.trim();
+        const senha = document.querySelector("#senha").value.trim();
+
+        const usuarios = JSON.parse(localStorage.getItem("usuarios") || "[]");
+
+        const usuario = usuarios.find(u => u.email === email && u.senha === senha);
+
+        if (!usuario) {
+            alert("E-mail ou senha incorretos.");
+            return;
+        }
+
+        // Salva usuarioAtual e redireciona
+        localStorage.setItem("usuarioAtual", JSON.stringify(usuario));
+        window.location.href = "perfil.html";
+    });
+});
