@@ -213,3 +213,19 @@ div.detail{
   opacity: 1;
   transform: translate(-50%, -50%) scale(1);
 }
+
+
+.card h3{
+  background-color: white;
+}
+
+.heart{
+  background-color: white;
+}
+.like-count{
+  background-color: white;
+}
+
+.dlg-body label{
+  background-color: #FDF1FF;
+}
