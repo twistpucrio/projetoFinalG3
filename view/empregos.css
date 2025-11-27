@@ -175,8 +175,11 @@ div.detail{
   to {opacity: 1; transform: scale(1);}
 }
 
-
-
+#btn-candidatar{
+  background-color: #FDF1FF;
+  border-radius: 5em;
+  height: 2.5em;
+}
 
 /* Animação do botão enviar */
 .btn-sucesso {
