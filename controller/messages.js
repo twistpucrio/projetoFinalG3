@@ -7,6 +7,8 @@ const messagesDiv = document.getElementById("messages");
 const input = document.getElementById("message-input");
 const sendBtn = document.getElementById("send-button");
 
+setElementVisibility(document.getElementById('chat-window'), false);
+
 // ======== FUNÇÃO DA CHAVE DO CHAT ========
 function getChatKey(email1, email2) {
   const emails = [email1, email2].sort();
@@ -114,9 +116,16 @@ let usuarioSelecionado = null;
 
 userList.addEventListener("click", (e) => {
   const item = e.target.closest(".user-item");
-  if (!item || item.dataset.email === usuarioAtual.email) return;
+  if (!item || item.dataset.email === usuarioAtual.email) {
+    document.getElementById('chat-window').classList.remove("display-none");
+    return
+  };
 
   usuarioSelecionado = item.dataset.email;
+
+  // Passa a mostrar a janela do chat se houver um usuário selecionado
+  setElementVisibility(document.getElementById('chat-window'), true);
+
   document.getElementById("chat-header").textContent = `Chat com ${item.textContent}`;
 
   carregarMensagens(usuarioSelecionado);
@@ -146,3 +155,22 @@ input.addEventListener("keydown", (e) => {
     sendBtn.click();    // dispara o mesmo evento do botão
   }
 });
+
+/** 
+ * Ajusta a visibilidada de um elemento adicionando ou removendo a classe que seta o atributo 'display' para 'None'
+ * @param {HTMLElement} elemento elemento que vamos alterar a visibilidade. Se for nulo nada é feito 
+ * @param {boolean} deveSerVisivel Boleano que indica se o elemento deve ser visível (removeremos a classe) ou não (adicionamos a classe)
+ */
+function setElementVisibility(elemento, deveSerVisivel) {
+  const visibilityClass = "display-none";
+  if (!elemento || !elemento.classList) {
+    return;
+  }
+
+  if (deveSerVisivel) {
+    elemento.classList.remove(visibilityClass);
+  } else if (!elemento.classList.contains(visibilityClass)) {
+    // Evita adicionar a classe em duplicidade
+    elemento.classList.add(visibilityClass);
+  }
+}
