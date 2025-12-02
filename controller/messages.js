@@ -1,176 +1,233 @@
-// ======== PEGAR DADOS ========
+// ================== CARREGAR DADOS ==================
 const usuarios = JSON.parse(localStorage.getItem("usuarios") || "[]");
 const usuarioAtual = JSON.parse(localStorage.getItem("usuarioAtual") || "null");
 
+// Elementos que podem existir ou não dependendo da página
 const userList = document.getElementById("user-list");
 const messagesDiv = document.getElementById("messages");
 const input = document.getElementById("message-input");
 const sendBtn = document.getElementById("send-button");
+const badgeGlobal = document.getElementById("unread-badge");
 
+// Preserva funcionalidade da branch main
 setElementVisibility(document.getElementById('chat-window'), false);
 
-// ======== FUNÇÃO DA CHAVE DO CHAT ========
+
+// ================== FUNÇÃO CHAVE DO CHAT ==================
 function getChatKey(email1, email2) {
-  const emails = [email1, email2].sort();
-  return `chat_${emails[0]}_${emails[1]}`;
+    const emails = [email1, email2].sort();
+    return `chat_${emails[0]}_${emails[1]}`;
 }
 
-// ======== NOTIFICAÇÕES – CONTAGEM DE NÃO LIDAS ========
+
+// ================== CONTAR NÃO LIDAS ENTRE DUAS PESSOAS ==================
 function contarNaoLidas(email1, email2) {
-  const key = getChatKey(email1, email2);
-  const msgs = JSON.parse(localStorage.getItem(key) || "[]");
+    const key = getChatKey(email1, email2);
+    const msgs = JSON.parse(localStorage.getItem(key) || "[]");
 
-  return msgs.filter(msg =>
-    msg.remetente === email2 && msg.lida !== true
-  ).length;
+    return msgs.filter(msg =>
+        msg.remetente === email2 && msg.lida !== true
+    ).length;
 }
 
+
+// ================== CONTAR TODAS AS NÃO LIDAS (BADGE GLOBAL) ==================
+function contarTotalNaoLidas() {
+    if (!usuarioAtual) return 0;
+
+    let total = 0;
+
+    usuarios.forEach(u => {
+        if (u.email !== usuarioAtual.email) {
+            total += contarNaoLidas(usuarioAtual.email, u.email);
+        }
+    });
+
+    return total;
+}
+
+
+// ================== ATUALIZAR BADGE GLOBAL ==================
+function atualizarBadgeGlobal() {
+    if (!badgeGlobal) return;
+
+    const total = contarTotalNaoLidas();
+
+    if (total <= 0) {
+        badgeGlobal.style.display = "none";
+    } else {
+        badgeGlobal.style.display = "block";
+        badgeGlobal.textContent = total > 99 ? "99+" : total;
+    }
+}
+
+atualizarBadgeGlobal();
+
+
+// ================== MARCAR COMO LIDAS ==================
 function marcarComoLidas(email1, email2) {
-  const key = getChatKey(email1, email2);
-  const msgs = JSON.parse(localStorage.getItem(key) || "[]");
+    const key = getChatKey(email1, email2);
+    const msgs = JSON.parse(localStorage.getItem(key) || "[]");
 
-  msgs.forEach(m => {
-    if (m.remetente === email2) m.lida = true;
-  });
+    msgs.forEach(m => {
+        if (m.remetente === email2) m.lida = true;
+    });
 
-  localStorage.setItem(key, JSON.stringify(msgs));
+    localStorage.setItem(key, JSON.stringify(msgs));
 }
 
-// ======== LISTA DE USUÁRIOS + BADGES ========
+
+// ================== LISTA DE USUÁRIOS ==================
 function atualizarListaUsuarios() {
-  if (!userList) return;
+    if (!userList) {
+        atualizarBadgeGlobal();
+        return;
+    }
 
-  const outrosUsuarios = usuarios.filter(u => u.email !== usuarioAtual?.email);
+    const outrosUsuarios = usuarios.filter(u => u.email !== usuarioAtual?.email);
 
-  userList.innerHTML = outrosUsuarios
-    .map(u => {
-      const avatarSrc = u.avatar || 'img/perfil-padrao.png';
+    userList.innerHTML = outrosUsuarios
+        .map(u => {
+            const avatarSrc = u.avatar || 'img/perfil-padrao.png';
+            const naoLidas = contarNaoLidas(usuarioAtual.email, u.email);
 
-      const naoLidas = contarNaoLidas(usuarioAtual.email, u.email);
-      const badge = naoLidas > 0 ? `<span class="badge">${naoLidas}</span>` : "";
+            const badge = naoLidas > 0
+                ? `<span class="badge">${naoLidas}</span>`
+                : "";
 
-      return `
-        <div class="user-item" data-email="${u.email}">
-          <img src="${avatarSrc}" class="user-avatar">
-          <span class="user-name">${u.nome}</span>
-          ${badge}
-        </div>
-      `;
-    })
-    .join("");
+            return `
+                <div class="user-item" data-email="${u.email}">
+                    <img src="${avatarSrc}" class="user-avatar">
+                    <span class="user-name">${u.nome}</span>
+                    ${badge}
+                </div>
+            `;
+        })
+        .join("");
+
+    atualizarBadgeGlobal();
 }
 
 atualizarListaUsuarios();
 
-// ======== CARREGAR MENSAGENS ========
+
+// ================== CARREGAR MENSAGENS ==================
 function carregarMensagens(comEmail) {
-  const key = getChatKey(usuarioAtual.email, comEmail);
-  const msgs = JSON.parse(localStorage.getItem(key) || "[]");
+    if (!messagesDiv) return;
 
-  messagesDiv.innerHTML = msgs.map(m => {
-    const ehRemetenteAtual = m.remetente === usuarioAtual.email;
-    const usuarioMsg = ehRemetenteAtual ? usuarioAtual : usuarios.find(u => u.email === m.remetente);
-    const avatarSrc = usuarioMsg?.avatar || 'img/perfil-padrao.png';
+    const key = getChatKey(usuarioAtual.email, comEmail);
+    const msgs = JSON.parse(localStorage.getItem(key) || "[]");
 
-    const hora = new Date(m.data || Date.now());
-    const horaFormatada = hora.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    messagesDiv.innerHTML = msgs.map(m => {
+        const ehRemetenteAtual = m.remetente === usuarioAtual.email;
+        const usuarioMsg = ehRemetenteAtual
+            ? usuarioAtual
+            : usuarios.find(u => u.email === m.remetente);
 
-    return `
-      <div class="message ${ehRemetenteAtual ? 'sent' : 'received'}">
-        <img src="${avatarSrc}" class="avatar">
-        <div class="message-content">
-          <p>${m.texto}</p>
-          <span class="timestamp">${horaFormatada}</span>
-        </div>
-      </div>
-    `;
-  }).join("");
+        const avatarSrc = usuarioMsg?.avatar || 'img/perfil-padrao.png';
+        const hora = new Date(m.data || Date.now());
+        const formatada = hora.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-  // Ao abrir a conversa → zera notificações
-  marcarComoLidas(usuarioAtual.email, comEmail);
-  atualizarListaUsuarios();
+        return `
+            <div class="message ${ehRemetenteAtual ? 'sent' : 'received'}">
+                <img src="${avatarSrc}" class="avatar">
+                <div class="message-content">
+                    <p>${m.texto}</p>
+                    <span class="timestamp">${formatada}</span>
+                </div>
+            </div>
+        `;
+    }).join("");
 
-  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    marcarComoLidas(usuarioAtual.email, comEmail);
+
+    atualizarListaUsuarios();
+    atualizarBadgeGlobal();
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
 
 
-// ======== ENVIAR MENSAGEM ========
+// ================== ENVIAR MENSAGEM ==================
 function enviarMensagem(comEmail, texto) {
-  const key = getChatKey(usuarioAtual.email, comEmail);
-  const msgs = JSON.parse(localStorage.getItem(key) || "[]");
-  
-  msgs.push({ 
-    remetente: usuarioAtual.email, 
-    nome: usuarioAtual.nome, 
-    texto,
-    data: Date.now(),
-    lida: false
-  });
-  
-  localStorage.setItem(key, JSON.stringify(msgs));
+    const key = getChatKey(usuarioAtual.email, comEmail);
+    const msgs = JSON.parse(localStorage.getItem(key) || "[]");
+
+    msgs.push({
+        remetente: usuarioAtual.email,
+        nome: usuarioAtual.nome,
+        texto,
+        data: Date.now(),
+        lida: false
+    });
+
+    localStorage.setItem(key, JSON.stringify(msgs));
+    atualizarBadgeGlobal();
 }
 
 
-// ======== EVENTOS ========
+
+// ================== EVENTOS ==================
 let usuarioSelecionado = null;
 
-userList.addEventListener("click", (e) => {
-  const item = e.target.closest(".user-item");
-  if (!item || item.dataset.email === usuarioAtual.email) {
-    document.getElementById('chat-window').classList.remove("display-none");
-    return
-  };
+if (userList) {
+    userList.addEventListener("click", (e) => {
+        const item = e.target.closest(".user-item");
 
-  usuarioSelecionado = item.dataset.email;
+        // Clique em área vazia → apenas mostrar janela (branch main)
+        if (!item || item.dataset.email === usuarioAtual.email) {
+            setElementVisibility(document.getElementById('chat-window'), true);
+            return;
+        }
 
-  // Passa a mostrar a janela do chat se houver um usuário selecionado
-  setElementVisibility(document.getElementById('chat-window'), true);
+        usuarioSelecionado = item.dataset.email;
 
-  document.getElementById("chat-header").textContent = `Chat com ${item.textContent}`;
+        // Mostrar janela do chat (branch main)
+        setElementVisibility(document.getElementById('chat-window'), true);
 
-  carregarMensagens(usuarioSelecionado);
-});
+        document.getElementById("chat-header").textContent =
+            `Chat com ${item.textContent}`;
 
-sendBtn.addEventListener("click", () => {
-  if (!usuarioSelecionado) return alert("Selecione alguém para conversar!");
-  const texto = input.value.trim();
-  if (!texto) return;
+        carregarMensagens(usuarioSelecionado);
+    });
+}
 
-  enviarMensagem(usuarioSelecionado, texto);
-  input.value = "";
-  carregarMensagens(usuarioSelecionado);
-});
+if (sendBtn && input) {
+    sendBtn.addEventListener("click", () => {
+        if (!usuarioSelecionado) return alert("Selecione alguém para conversar!");
+        const texto = input.value.trim();
+        if (!texto) return;
 
-// Atualiza quando outra aba envia mensagem
+        enviarMensagem(usuarioSelecionado, texto);
+        input.value = "";
+        carregarMensagens(usuarioSelecionado);
+    });
+
+    input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            sendBtn.click();
+        }
+    });
+}
+
+
+// ================== ATUALIZAÇÃO ENTRE ABAS ==================
 window.addEventListener("storage", () => {
-  atualizarListaUsuarios();
+    atualizarListaUsuarios();
+    atualizarBadgeGlobal();
 
-  if (usuarioSelecionado) carregarMensagens(usuarioSelecionado);
+    if (usuarioSelecionado) carregarMensagens(usuarioSelecionado);
 });
 
-// Enviar mensagem ao apertar ENTER
-input.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") {
-    e.preventDefault(); // impede quebra de linha
-    sendBtn.click();    // dispara o mesmo evento do botão
-  }
-});
 
-/** 
- * Ajusta a visibilidada de um elemento adicionando ou removendo a classe que seta o atributo 'display' para 'None'
- * @param {HTMLElement} elemento elemento que vamos alterar a visibilidade. Se for nulo nada é feito 
- * @param {boolean} deveSerVisivel Boleano que indica se o elemento deve ser visível (removeremos a classe) ou não (adicionamos a classe)
- */
+// ================== SET VISIBILITY ==================
 function setElementVisibility(elemento, deveSerVisivel) {
-  const visibilityClass = "display-none";
-  if (!elemento || !elemento.classList) {
-    return;
-  }
+    const visibilityClass = "display-none";
+    if (!elemento || !elemento.classList) return;
 
-  if (deveSerVisivel) {
-    elemento.classList.remove(visibilityClass);
-  } else if (!elemento.classList.contains(visibilityClass)) {
-    // Evita adicionar a classe em duplicidade
-    elemento.classList.add(visibilityClass);
-  }
+    if (deveSerVisivel) {
+        elemento.classList.remove(visibilityClass);
+    } else if (!elemento.classList.contains(visibilityClass)) {
+        elemento.classList.add(visibilityClass);
+    }
 }
