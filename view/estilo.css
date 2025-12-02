@@ -6,6 +6,10 @@ img.icon {
 }
 
 
+.display-none {
+  display: none !important;
+}
+
 #logo {
   height: 150px;
   width: 150px;

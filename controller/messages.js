@@ -9,6 +9,9 @@ const input = document.getElementById("message-input");
 const sendBtn = document.getElementById("send-button");
 const badgeGlobal = document.getElementById("unread-badge");
 
+// Preserva funcionalidade da branch main
+setElementVisibility(document.getElementById('chat-window'), false);
+
 
 // ================== FUNÇÃO CHAVE DO CHAT ==================
 function getChatKey(email1, email2) {
@@ -46,7 +49,7 @@ function contarTotalNaoLidas() {
 
 // ================== ATUALIZAR BADGE GLOBAL ==================
 function atualizarBadgeGlobal() {
-    if (!badgeGlobal) return; // ← permite rodar em qualquer página
+    if (!badgeGlobal) return;
 
     const total = contarTotalNaoLidas();
 
@@ -74,7 +77,7 @@ function marcarComoLidas(email1, email2) {
 }
 
 
-// ================== LISTA DE USUÁRIOS (APENAS SE EXISTIR) ==================
+// ================== LISTA DE USUÁRIOS ==================
 function atualizarListaUsuarios() {
     if (!userList) {
         atualizarBadgeGlobal();
@@ -110,7 +113,7 @@ atualizarListaUsuarios();
 
 // ================== CARREGAR MENSAGENS ==================
 function carregarMensagens(comEmail) {
-    if (!messagesDiv) return; // ← se não estiver na página de mensagens, ignora
+    if (!messagesDiv) return;
 
     const key = getChatKey(usuarioAtual.email, comEmail);
     const msgs = JSON.parse(localStorage.getItem(key) || "[]");
@@ -136,7 +139,6 @@ function carregarMensagens(comEmail) {
         `;
     }).join("");
 
-    // Ao abrir o chat → marcar como lidas
     marcarComoLidas(usuarioAtual.email, comEmail);
 
     atualizarListaUsuarios();
@@ -159,20 +161,29 @@ function enviarMensagem(comEmail, texto) {
     });
 
     localStorage.setItem(key, JSON.stringify(msgs));
-
     atualizarBadgeGlobal();
 }
 
 
-// ================== EVENTOS (APENAS SE ELEMENTOS EXISTIREM) ==================
+
+// ================== EVENTOS ==================
 let usuarioSelecionado = null;
 
 if (userList) {
     userList.addEventListener("click", (e) => {
         const item = e.target.closest(".user-item");
-        if (!item || item.dataset.email === usuarioAtual.email) return;
+
+        // Clique em área vazia → apenas mostrar janela (branch main)
+        if (!item || item.dataset.email === usuarioAtual.email) {
+            setElementVisibility(document.getElementById('chat-window'), true);
+            return;
+        }
 
         usuarioSelecionado = item.dataset.email;
+
+        // Mostrar janela do chat (branch main)
+        setElementVisibility(document.getElementById('chat-window'), true);
+
         document.getElementById("chat-header").textContent =
             `Chat com ${item.textContent}`;
 
@@ -200,12 +211,23 @@ if (sendBtn && input) {
 }
 
 
-// ================== ATUALIZAÇÃO EM TEMPO REAL ENTRE ABAS ==================
+// ================== ATUALIZAÇÃO ENTRE ABAS ==================
 window.addEventListener("storage", () => {
     atualizarListaUsuarios();
     atualizarBadgeGlobal();
 
-    if (usuarioSelecionado) {
-        carregarMensagens(usuarioSelecionado);
-    }
+    if (usuarioSelecionado) carregarMensagens(usuarioSelecionado);
 });
+
+
+// ================== SET VISIBILITY ==================
+function setElementVisibility(elemento, deveSerVisivel) {
+    const visibilityClass = "display-none";
+    if (!elemento || !elemento.classList) return;
+
+    if (deveSerVisivel) {
+        elemento.classList.remove(visibilityClass);
+    } else if (!elemento.classList.contains(visibilityClass)) {
+        elemento.classList.add(visibilityClass);
+    }
+}
