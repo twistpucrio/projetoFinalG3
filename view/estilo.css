@@ -774,3 +774,12 @@ img.post {
   margin: 0 auto;
   text-decoration: none;
 }
+
+.timestamp{
+  background-color: white;
+}
+
+.message.sent .timestamp{
+  background:#9d71ff;
+  color: white;
+}
