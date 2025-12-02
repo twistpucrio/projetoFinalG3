@@ -31,12 +31,11 @@ img.icon {
   text-align: center;
   margin-left: 9%;
   margin-bottom: 100px;
+  background-color: #FDF1FF;
 }
 
 
-*{
-   background-color: #FDF1FF; 
-}
+ 
 #search-container {
   text-align: center;
   margin-bottom: 100px;
@@ -116,6 +115,7 @@ div.atual{
 div.caixas{
     align-items: center;
     margin-left: 26%;
+    background-color: #FDF1FF;
 }
 a.post_atual {
     text-decoration: none;
@@ -212,7 +212,9 @@ div.caixa1:hover{
     cursor:pointer;
 }
 
-
+*{
+  background-color: #FDF1FF;
+}
 
 .caixas_home {
   display: flex;
@@ -223,7 +225,8 @@ div.caixa1:hover{
   flex-wrap: nowrap;         
   width: 100%;                
   max-width: 1200px;
- transition: transform 0.3s ease, box-shadow 0.3s ease;       
+ transition: transform 0.3s ease, box-shadow 0.3s ease;  
+ background-color: #FDF1FF;     
 }
 
 .caixa1:hover {
@@ -757,4 +760,13 @@ img.post {
   border-radius: 12px;
   margin-left: auto;
   display: inline-block;
+}
+
+.pg1{
+  background-color:  #b592ee;
+  color: #FDF1FF;
+  text-align: center;
+  align-items: center;
+  margin: 0 auto;
+  text-decoration: none;
 }
