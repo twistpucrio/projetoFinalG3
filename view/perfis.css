@@ -20,6 +20,7 @@ body{
   background: var(--bg);
   color:#2a2440;
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  background-color: #FDF1FF;
 } 
 
 /* Topbar leve e “clean” */
@@ -30,12 +31,14 @@ body{
   max-width: 980px !important;
   margin: 28px auto !important;
   padding: 0 14px;
+  background-color: #FDF1FF;
 }
 
 #perfil-view{
   background: transparent !important;
   border: 0 !important;
   padding: 0 !important;
+  background-color: #FDF1FF; 
 }
 
 /* Título */
@@ -52,6 +55,7 @@ body{
   gap:12px;
   margin: 6px 0 18px 0 !important;
   background: transparent !important;
+  
 }
 #btn-novo-post{
   width:48px;height:48px;
@@ -338,4 +342,7 @@ small, label{ background:none }
   border-radius: 12px;
   display: block;
   margin: 10px auto;
+}
+.pp{
+  background-color: #FDF1FF;
 }
