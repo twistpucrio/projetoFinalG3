@@ -56,7 +56,22 @@
     <a href="index.html"><img id="logo" class="logo" src="img/logo.png" alt="logo"></a>
     <div id="icones-pequenos"> 
       <a href="perfil.html"><img id="perfil" class="icon" src="img/perfil.png" alt="perfil"/></a>
-      <a href="messages.html"><img id="message" class="icon" src="img/message.png" alt="cart"/></a>
+      <a href="messages.html" id="message-wrapper" style="position: relative;">
+      <img id="message" class="icon" src="img/message.png" alt="mensagens"/>
+      <span id="unread-badge" 
+            style="
+              position: absolute;
+              top: 7px;
+              right: 7px;
+              background: red;
+              color: white;
+              padding: 2px 5px;
+              font-size: 11px;
+              border-radius: 50%;
+              display: none;
+            ">
+          </span>
+      </a>
     </div>
   </div>
 
@@ -442,5 +457,6 @@
 
   <script src="../controller/script.js"></script>
   <script src="../controller/fotoPerfil.js"></script>
+  <script src="../controller/messages.js"></script>
 </body>
 </html>
