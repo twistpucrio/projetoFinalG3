@@ -57,6 +57,31 @@ body{
   background: transparent !important;
   
 }
+
+.pg1{
+  font-family: 'Segoe UI', 'sans-serif';
+  background-color:  #b592ee;
+  color: #FDF1FF;
+  text-align: center;
+  align-items: center;
+  margin: 0 auto;
+  text-decoration: none;
+}
+
+#paginas{
+    font-size: 25px;
+    border-radius: 10px;
+    border: #b592ee solid 5px;
+    display: inline-block;
+    align-items: center;
+    text-align: center;
+    height:50px;
+    width:250px;
+    text-decoration: none;
+    margin:20px;
+    padding:5px;
+}
+
 #btn-novo-post{
   width:48px;height:48px;
   border:none;
